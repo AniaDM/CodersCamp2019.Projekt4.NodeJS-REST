@@ -1,4 +1,4 @@
-import {CommandResult} from "../sharedkernel/application/CommandResult";
+/*import {CommandResult} from "../sharedkernel/application/CommandResult";
 import {EmailSender} from "../emailmessage/EmailSender";
 
 
@@ -12,4 +12,4 @@ emailSender.execute(command:{
 })
 
 }
-//
+//*/

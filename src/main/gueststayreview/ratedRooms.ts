@@ -1,4 +1,4 @@
-import {RoomOfferRepository} from "./RoomOfferRepository";
+/*import {RoomOfferRepository} from "./RoomOfferRepository";
 import {RoomOffer} from "./RoomOffer";
 
 export class RoomSearcher {
@@ -17,7 +17,7 @@ export class RoomSearcher {
         offers.filter(filter.averageRating == 0 || filter.averageRating == undefined || filter.averageRating == null );
     }
 
-   
+
 
 }
 
@@ -28,4 +28,4 @@ export interface OfferFilter {
     minAverageRating?: number,
     location?: string,
     averageRating?:number
-}
+}*/
