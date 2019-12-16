@@ -1,9 +1,7 @@
 import {CommandResult} from "../sharedkernel/application/CommandResult";
-import {SendEmailCommand} from "./emailmessage/SendEmailCommand";
+import {EmailSender} from "../emailmessage/EmailSender";
 
-export interface EmailSender{
-    execute(command: SendEmailCommand): Promise<CommandResult>
-}
+
 
 function sendforReview(emailSender:EmailSender){
 
