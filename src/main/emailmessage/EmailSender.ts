@@ -1,5 +1,6 @@
 import {CommandResult} from "../sharedkernel/application/CommandResult";
 import { SendEmailCommand } from "./SendEmailCommand";
+import { string } from "joi";
 
 export interface EmailSender {
 
@@ -13,17 +14,17 @@ class MailGunEmailSender implements EmailSender {
   execute( command: SendEmailCommand: Promise<CommandResult>) {
     
     var transporter = nodemailer.createTransport({
-      service: 'gmail',
+      service:  'gmail',
        auth: {
-        user: 'bozikiart@gmail.com',
-        pass: 'string' }
+        user:  'CodersCamp2020@gmail.com',
+        pass:  'CC2019cc' }
         })
     
     var mailOptions = {
-          from :  'Room Owner <me@CodersCamp.pl>',
-          to : 'boziki@gazeta.pl', 
-          subject : 'Hello - re-email', 
-          text: 'text text text' 
+          from : string,
+          to : string, 
+          subject : string, 
+          text: string 
     }; 
         
     transporter.sendMail( mailOptions, (error, info) => { 
