@@ -4,6 +4,7 @@ import {RepositoriesRegistry} from "../sharedkernel/infrastructure/dependencyinj
 import config from "config";
 import {UserProfileService} from "../userprofile/application/UserProfileService";
 import * as UserProfileRoutes from "./routes/UserProfileRoutes";
+import * as RoomSearchRoutes from "./routes/RoomSearchRoutes";
 import {RoomSearcher} from "../roomsearch/RoomSearcher";
 import {InMemoryUserProfileRepository} from "../userprofile/infrastructure/inmemory/InMemoryUserProfileRepository";
 import {InMemoryRoomOfferRepository} from "../roomsearch/infrastructure/InMemoryRoomOfferRepository";
@@ -19,7 +20,11 @@ export namespace ExpressServer {
         {
             endpoint: UserProfileRoutes.ROUTE_URL,
             router: UserProfileRoutes.default(userProfileService)
-        } //TODO: RoomSearch routes
+        },
+        {
+            endpoint: RoomSearchRoutes.ROUTE_URL,
+            router: RoomSearchRoutes.default(roomSearcher)
+        }
     ];
 
     export function start(port: number = config.get<number>("express.server.port")) {
