@@ -1,3 +1,4 @@
+require('dotenv').config();
 import {CommandResult} from "../sharedkernel/application/CommandResult";
 import { SendEmailCommand } from "./SendEmailCommand";
 import { string } from "joi";
@@ -16,8 +17,8 @@ class MailGunEmailSender implements EmailSender {
     var transporter = nodemailer.createTransport({
       service:  'gmail',
        auth: {
-        user:  'CodersCamp2020@gmail.com',
-        pass:  'CC2019cc' }
+        user:  process.env.EMAIL,
+        pass:  process.env.PASSWORD}
         })
     
     var mailOptions = {
@@ -45,5 +46,3 @@ class MailGunEmailSender implements EmailSender {
     return Promise.resolve(CommandResult.success);
    }
  }
-
-
