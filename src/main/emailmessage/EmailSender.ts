@@ -12,9 +12,9 @@ const nodemailer = require ('nodemailer')
  
 class MailGunEmailSender implements EmailSender {
 
-  execute( command: SendEmailCommand: Promise<CommandResult>) {
+  execute(command: SendEmailCommand: Promise<CommandResult>) {
     
-    var transporter = nodemailer.createTransport({
+    let transporter = nodemailer.createTransport({
       service:  'gmail',
        auth: {
         user:  process.env.EMAIL,
@@ -22,10 +22,10 @@ class MailGunEmailSender implements EmailSender {
         })
     
     var mailOptions = {
-          from : string,
-          to : string, 
-          subject : string, 
-          text: string 
+          from : process.env.EMAIL,
+          to : SendEmailCommand.recipient, 
+          subject : SendEmailCommand.subject, 
+          text: SendEmailCommand.content 
     }; 
         
     transporter.sendMail( mailOptions, (error, info) => { 
@@ -35,7 +35,6 @@ class MailGunEmailSender implements EmailSender {
           console.log(`Message Sent ${info.response}`); 
         }); 
 }
-
 
  class ConsoleLogEmailSender implements EmailSender{
 
