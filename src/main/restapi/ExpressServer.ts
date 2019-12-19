@@ -3,18 +3,25 @@ import RestApiException from "./exception/RestApiException";
 import {RepositoriesRegistry} from "../sharedkernel/infrastructure/dependencyinjection/RepositoriesRegistry";
 import config from "config";
 import {UserProfileService} from "../userprofile/application/UserProfileService";
+import {UserCredentialsService} from '../authentication/application/UserCredentialsService';
 import * as UserProfileRoutes from "./routes/UserProfileRoutes";
+import * as UserCredentialsRoutes from '../restapi/routes/UserCredentialsRoute';
 
 
 export namespace ExpressServer {
 
     const repositoriesRegistry = RepositoriesRegistry.init();
     const userProfileService = new UserProfileService(repositoriesRegistry.userProfile);
+    const userCredentialsService = new UserCredentialsService(repositoriesRegistry.userCredentials);
 
     const routes: { endpoint: string, router: express.Router }[] = [
         {
             endpoint: UserProfileRoutes.ROUTE_URL,
             router: UserProfileRoutes.default(userProfileService)
+        },
+        {
+            endpoint: UserCredentialsRoutes.ROUTE_URL,
+            router: UserCredentialsRoutes.default(userCredentialsService)
         }
     ];
 

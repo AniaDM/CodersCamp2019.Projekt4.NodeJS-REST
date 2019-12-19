@@ -1,15 +1,17 @@
 import * as express from 'express';
 import RestApiException from "../exception/RestApiException";
-import {NextFunction} from "express";
+import { NextFunction } from "express";
 import RegisterUserRequestBody from "../request/RegisterUserRequestBody";
 import uuid from "uuid";
 import validationMiddleware from "../middleware/ValidationMiddleware";
-import {ErrorCode} from "../../sharedkernel/domain/ErrorCode";
-import {UserProfileService} from "../../userprofile/application/UserProfileService";
-import {isDefined, isNotDefined} from "../../utils";
+import { ErrorCode } from "../../sharedkernel/domain/ErrorCode";
+import { UserProfileService } from "../../userprofile/application/UserProfileService";
+import { UserCredentialsService } from '../../authentication/application/UserCredentialsService';
+import { isDefined, isNotDefined } from "../../utils";
 import UpdateUserProfileRequestBody from "../request/UpdateUserProfileRequestBody";
+import * as bcrypt from 'bcrypt';
 
-export default (userProfileService: UserProfileService) => {
+export default (userProfileService: UserProfileService, userCredentialsService: UserCredentialsService) => {
     const router: express.Router = express.Router();
 
     router.get('/', async (req, res, next) => {
@@ -34,20 +36,48 @@ export default (userProfileService: UserProfileService) => {
     //TODO: Invoke UserCredentialsService and save user data for authorization purposes
     router.post('/', validationMiddleware(RegisterUserRequestBody), async (req, res, next) => {
         const requestBody: RegisterUserRequestBody = req.body;
-        const newUserId = uuid.v4();
-        const result = await userProfileService.registerUserProfile(
-            {
-                _id: newUserId,
-                username: requestBody.username,
-                email: requestBody.email,
-                firstName: requestBody.firstName,
-                lastName: requestBody.lastName
+        if (requestBody.password !== requestBody.repeatedPassword) {
+            next(new RestApiException(400, 'Password must be repeated exactly', ErrorCode.VALIDATION_ERROR))
+        } else {
+            const newUserId = uuid.v4();
+            const result = await userProfileService.registerUserProfile(
+                {
+                    _id: newUserId,
+                    username: requestBody.username,
+                    email: requestBody.email,
+                    firstName: requestBody.firstName,
+                    lastName: requestBody.lastName
+                }
+            );
+            let hashed=false;
+            bcrypt.hash(requestBody.password, 10,async (error,hash) => {
+                if (error) {
+                    next(new RestApiException(500, ErrorCode.UNKNOWN, ErrorCode.VALIDATION_ERROR));
+                } else {
+                    const credentialsResult = await userCredentialsService.createCredentials(
+                        {
+                            _id: newUserId,
+                            username: requestBody.username,
+                            password: hash
+                        }
+                    );
+
+                    credentialsResult.process(()=>hashed=true, failure=>hashed=false);
+                }
+            });
+            if (hashed){
+                const tokenData=userCredentialsService.createToken({_id: newUserId,username: requestBody.username,password:''});
+                result.process(
+                () => {
+                    res.setHeader('Set-Cookie',[`Authorization=${tokenData.token};HttpOnly;Max-Age=${tokenData.expiresIn}`]);
+                    res.status(201).send({ id: newUserId })
+                },
+                failure => next(new RestApiException(400, failure.reason, ErrorCode.USER_ALREADY_EXISTS))
+            );} else {
+                next(new RestApiException(500, ErrorCode.UNKNOWN, ErrorCode.VALIDATION_ERROR));
             }
-        );
-        result.process(
-            () => res.status(201).send({id: newUserId}),
-            failure => next(new RestApiException(400, failure.reason, ErrorCode.USER_ALREADY_EXISTS))
-        );
+
+        }
     });
 
     router.put('/:id', validationMiddleware(UpdateUserProfileRequestBody), async (req, res, next) => {
