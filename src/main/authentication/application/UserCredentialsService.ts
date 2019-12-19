@@ -5,13 +5,13 @@ import {isDefined} from "../../utils";
 import {UserCredentials} from '../domain/UserCredentials';
 import {TokenData} from '../infrastructure/TokenData';
 import {DataStoredInToken} from '../infrastructure/DataStoredInToken';
-
+import config from 'config';
 import jwt from 'jsonwebtoken';
 
 
 
 export class  UserCredentialsService {
-    SECRET_KEY="secret_key";
+    
     constructor(private userCredentialsRepository:UserCredentialsRepository){};
 
 
@@ -33,7 +33,7 @@ export class  UserCredentialsService {
         };
         return {
           expiresIn,
-          token: jwt.sign(dataStoredInToken, this.SECRET_KEY, { expiresIn }),
+          token: jwt.sign(dataStoredInToken, config.get('authentication.jsonWebToken.privateKey'), { expiresIn }),
         };
     }
 

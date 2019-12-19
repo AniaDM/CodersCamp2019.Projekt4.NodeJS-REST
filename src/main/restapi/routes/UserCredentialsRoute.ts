@@ -9,7 +9,7 @@ import bcrypt from 'bcrypt';
 export default (userCredentialsService: UserCredentialsService) => {
     const router: express.Router = express.Router();
 
-    router.post('/', validationMiddleware(UserCredentialsRequestBody), async (req, res, next) => {
+    router.post('/login', validationMiddleware(UserCredentialsRequestBody), async (req, res, next) => {
         const requestBody: UserCredentialsRequestBody = req.body;
         const result = await userCredentialsService.findUserCredentialsByUsername(requestBody.username);
         if(result){
