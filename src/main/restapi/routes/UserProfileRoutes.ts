@@ -12,7 +12,7 @@ import { isDefined, isNotDefined } from "../../utils";
 import UpdateUserProfileRequestBody from "../request/UpdateUserProfileRequestBody";
 import * as bcrypt from 'bcrypt';
 
-export default (userProfileService: UserProfileService,userCredentialsService: UserCredentialsService ) => {
+export default (userProfileService: UserProfileService) => {
     const router: express.Router = express.Router();
     router.get('/', async (req, res, next) => {
         const username = req.query.username;
