@@ -36,5 +36,8 @@ export class  UserCredentialsService {
           token: jwt.sign(dataStoredInToken, config.get('authentication.jsonWebToken.privateKey'), { expiresIn }),
         };
     }
+    verificationToken(token:string):DataStoredInToken{
+        return jwt.verify(token,config.get('authentication.jsonWebToken.privateKey')) as DataStoredInToken;
+    }
 
 }
