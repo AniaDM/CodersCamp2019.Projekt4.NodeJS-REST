@@ -7,12 +7,11 @@ import validationMiddleware from "../middleware/ValidationMiddleware";
 import { ErrorCode } from "../../sharedkernel/domain/ErrorCode";
 import { UserProfileService } from "../../userprofile/application/UserProfileService";
 import { UserCredentialsService } from '../../authentication/application/UserCredentialsService';
-import {UserCredentialsRepository} from '../../authentication/domain/UserCredentialsRepository';
 import { isDefined, isNotDefined } from "../../utils";
 import UpdateUserProfileRequestBody from "../request/UpdateUserProfileRequestBody";
 import * as bcrypt from 'bcrypt';
 
-export default (userProfileService: UserProfileService) => {
+export default (userProfileService: UserProfileService,userCredentialsService: UserCredentialsService  ) => {
     const router: express.Router = express.Router();
     router.get('/', async (req, res, next) => {
         const username = req.query.username;

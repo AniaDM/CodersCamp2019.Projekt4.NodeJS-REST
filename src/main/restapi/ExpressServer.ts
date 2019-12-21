@@ -6,7 +6,8 @@ import {UserProfileService} from "../userprofile/application/UserProfileService"
 import {UserCredentialsService} from '../authentication/application/UserCredentialsService';
 import * as UserProfileRoutes from "./routes/UserProfileRoutes";
 import * as UserCredentialsRoutes from '../restapi/routes/UserCredentialsRoute';
-
+import RequestWithUser from '../authentication/infrastructure/RequestWithUser';
+import { ErrorCode } from "../sharedkernel/domain/ErrorCode";
 
 export namespace ExpressServer {
 
@@ -17,7 +18,7 @@ export namespace ExpressServer {
     const routes: { endpoint: string, router: express.Router }[] = [
         {
             endpoint: UserProfileRoutes.ROUTE_URL,
-            router: UserProfileRoutes.default(userProfileService)
+            router: UserProfileRoutes.default(userProfileService,userCredentialsService)
         },
         {
             endpoint: UserCredentialsRoutes.ROUTE_URL,
@@ -57,5 +58,24 @@ export namespace ExpressServer {
                 })
         }
     }
+    export async function currenUserMiddleware(req:RequestWithUser, res:Response, next:NextFunction) {
+        const cookies = req.cookies;
+        if (cookies && cookies.Authorization) {
+            try {
+                const id = userCredentialsService.verificationToken(cookies.Authorization)._id;
+                const user = await userCredentialsService.findUserCredentialsById(id);
+                if (user) {
+                    req.user = user;
+                    next();
+                } else {
+                    next(new RestApiException(400, 'Invalid token!', ErrorCode.WRONG_AUTHENTICATION_TOKEN_EXCEPTION));
+                }
+            } catch{
+                next(new RestApiException(400, 'Invalid token!', ErrorCode.WRONG_AUTHENTICATION_TOKEN_EXCEPTION));
+            }
+        } else{
+            next(new RestApiException(500, 'No token', ErrorCode.VALIDATION_ERROR));
+        }   
+    } 
 
 }

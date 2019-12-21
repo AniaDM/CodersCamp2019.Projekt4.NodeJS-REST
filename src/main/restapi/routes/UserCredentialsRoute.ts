@@ -29,6 +29,11 @@ export default (userCredentialsService: UserCredentialsService) => {
             next(new RestApiException(404, `User profile not found!`, ErrorCode.USER_PROFILE_NOT_FOUND));
         }
      })    
-     return router; 
-}
+     
+     router.post('/logout', validationMiddleware(UserCredentialsRequestBody), async (req, res, next) => {
+         res.setHeader('Set-Cookie',['Authorization=;Max-age=0']);
+         res.send(200)});
+    
+    return router;
+     }  
 export const ROUTE_URL = '/user-auth';
