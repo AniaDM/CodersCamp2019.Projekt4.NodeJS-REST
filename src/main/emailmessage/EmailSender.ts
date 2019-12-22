@@ -21,7 +21,7 @@ class MailGunEmailSender implements EmailSender {
         pass:  process.env.PASSWORD}
         })
     
-    var mailOptions = {
+    let mailOptions = {
           from : process.env.EMAIL,
           to : SendEmailCommand.recipient, 
           subject : SendEmailCommand.subject, 
