@@ -4,14 +4,15 @@ import { NextFunction } from "express";
 import RegisterUserRequestBody from "../request/RegisterUserRequestBody";
 import uuid from "uuid";
 import validationMiddleware from "../middleware/ValidationMiddleware";
+import { currentUserMiddleware } from "../middleware/CurrentUserMiddleware";
 import { ErrorCode } from "../../sharedkernel/domain/ErrorCode";
 import { UserProfileService } from "../../userprofile/application/UserProfileService";
-import { UserCredentialsService } from '../../authentication/application/UserCredentialsService';
 import { isDefined, isNotDefined } from "../../utils";
 import UpdateUserProfileRequestBody from "../request/UpdateUserProfileRequestBody";
 import * as bcrypt from 'bcrypt';
+import { ExpressServer } from '../../restapi/ExpressServer';
 
-export default (userProfileService: UserProfileService,userCredentialsService: UserCredentialsService  ) => {
+export default (userProfileService: UserProfileService) => {
     const router: express.Router = express.Router();
     router.get('/', async (req, res, next) => {
         const username = req.query.username;
@@ -26,7 +27,7 @@ export default (userProfileService: UserProfileService,userCredentialsService: U
         const id = req.params.id;
         const foundUser = await userProfileService.findUserProfileById(id);
         if (isDefined(foundUser)) {
-            res.send(foundUser)
+            res.send(foundUser);
         } else {
             next(new RestApiException(404, `User profile for id: ${id} not found!`, ErrorCode.USER_PROFILE_NOT_FOUND))
         }
@@ -48,12 +49,11 @@ export default (userProfileService: UserProfileService,userCredentialsService: U
                     lastName: requestBody.lastName
                 }
             );
-            let hashed=false;
-            bcrypt.hash(requestBody.password, 10,async (error,hash) => {
+            bcrypt.hash(requestBody.password, 10, async (error, hash) => {
                 if (error) {
                     next(new RestApiException(500, ErrorCode.UNKNOWN, ErrorCode.VALIDATION_ERROR));
                 } else {
-                    const credentialsResult = await userCredentialsService.createCredentials(
+                    const credentialsResult = await ExpressServer.userCredentialsService.createCredentials(
                         {
                             _id: newUserId,
                             username: requestBody.username,
@@ -61,21 +61,20 @@ export default (userProfileService: UserProfileService,userCredentialsService: U
                         }
                     );
 
-                    credentialsResult.process(()=>hashed=true, failure=>hashed=false);
+                    credentialsResult.process(() => {
+                        const tokenData = ExpressServer.userCredentialsService.createToken({ _id: newUserId, username: requestBody.username, password: '' });
+                        result.process(
+                            () => {
+                                res.setHeader('x-auth-token', tokenData);
+                                res.status(201).send({ id: newUserId })
+                            },
+                            failure => next(new RestApiException(400, failure.reason, ErrorCode.USER_ALREADY_EXISTS))
+                        );
+                    },
+                        failure => next(new RestApiException(500, ErrorCode.UNKNOWN, ErrorCode.VALIDATION_ERROR))
+                    )
                 }
             });
-            if (hashed){
-                const tokenData=userCredentialsService.createToken({_id: newUserId,username: requestBody.username,password:''});
-                result.process(
-                () => {
-                    res.setHeader('Set-Cookie',[`Authorization=${tokenData.token};HttpOnly;Max-Age=${tokenData.expiresIn}`]);
-                    res.status(201).send({ id: newUserId })
-                },
-                failure => next(new RestApiException(400, failure.reason, ErrorCode.USER_ALREADY_EXISTS))
-            );} else {
-                next(new RestApiException(500, ErrorCode.UNKNOWN, ErrorCode.VALIDATION_ERROR));
-            }
-
         }
     });
 
