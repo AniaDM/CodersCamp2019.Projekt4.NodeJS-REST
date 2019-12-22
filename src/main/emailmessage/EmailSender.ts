@@ -10,16 +10,17 @@ export interface EmailSender {
 
 const nodemailer = require('nodemailer')
 
-class MailGunEmailSender implements EmailSender {
+class nodemailerEmailSender implements EmailSender {
 
   execute(command: SendEmailCommand): Promise < CommandResult >    {
+
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
         user: process.env.EMAIL,
         pass: process.env.PASSWORD
       }
-    })
+    });
 
     const mailOptions = {
       from: process.env.EMAIL,
