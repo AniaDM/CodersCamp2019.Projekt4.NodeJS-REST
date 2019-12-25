@@ -1,6 +1,7 @@
 import { UpdateOffer } from './UpdateOffer';
-import { addReview } from './addReview.ts';
 import { OfferRepository } from './OfferRepository';
+import  {CommandResult} from "../sharedkernel/application/CommandResult";
+import {isDefined} from "../utils";
 
 export class addOpinion {
     constructor(private offerRepository: OfferRepository) {}
@@ -28,7 +29,7 @@ export class addOpinion {
       } else {
         return Promise.reject(
           CommandResult.failureDueTo(
-            `Offer with id: ${command._offerId} not found!`
+            `Offer with id: ${command._offerId} cannot be rated or is not found`
           )
         );
       }

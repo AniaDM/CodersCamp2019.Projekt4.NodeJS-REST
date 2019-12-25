@@ -38,6 +38,7 @@
     "moment": "^2.24.0",
     "mongodb-memory-server": "^6.0.2",
     "mongoose": "^5.7.13",
+    "setstate": "^1.0.2",
     "uuid": "^3.3.3"
   },
   "devDependencies": {

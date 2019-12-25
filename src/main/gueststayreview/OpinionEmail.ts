@@ -10,7 +10,7 @@ export interface EmailSender{
 
 function sendforReview(emailSender: EmailSender){
 
-emailSender.execute( command:{
+emailSender.execute(command:{
     recipient:`${recipient}`,
     subject:'express you opinion',
     content:`please express you opinion and click below ${}`

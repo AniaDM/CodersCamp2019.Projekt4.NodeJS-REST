@@ -1,4 +1,4 @@
-import React {Component} from 'react';
+// import React {Component} from 'react';
 import axios from 'axios';
 
 class UserImg{
@@ -22,15 +22,15 @@ state ={
       }
 
 
-render(){
-    return(
-        <div className="UserImg">
-        <input type="file" onChange={this.fileSelectedHandler}/>
-        <button onClick={this.fileUploadHandler}>Upload</button>
+// render(){
+//     return(
+//         <div className="UserImg">
+//         <input type="file" onChange={this.fileSelectedHandler}/>
+//         <button onClick={this.fileUploadHandler}>Upload</button>
 
-        </div>
-    );
-    }
+//         </div>
+//     );
+//     }
 }
 
 export default App;
