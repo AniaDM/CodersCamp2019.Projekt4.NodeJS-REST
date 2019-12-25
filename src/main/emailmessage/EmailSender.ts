@@ -10,9 +10,9 @@ export interface EmailSender {
 
 const nodemailer = require('nodemailer')
 
-class nodemailerEmailSender implements EmailSender {
+class NodemailerEmailSender implements EmailSender {
 
-  execute(command: SendEmailCommand): Promise < CommandResult >    {
+  execute(command: SendEmailCommand): Promise < CommandResult > {
 
     const transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -31,9 +31,9 @@ class nodemailerEmailSender implements EmailSender {
 
     transporter.sendMail(mailOptions, (error: any, info: any) => {
       if (error) {
-        return console.log(`error: ${error}`);
+        return Promise.reject(CommandResult.error);
       }
-      console.log(`Message Sent ${info.response}`);
+        return Promise.resolve(CommandResult.success);
     });
   }
 
