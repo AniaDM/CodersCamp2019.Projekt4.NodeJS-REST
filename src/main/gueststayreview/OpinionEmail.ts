@@ -1,15 +1,19 @@
-/*import {CommandResult} from "../sharedkernel/application/CommandResult";
-import {EmailSender} from "../emailmessage/EmailSender";
 
 
+import { SendEmailCommand } from "../emailmessage/SendEmailCommand";
+import { CommandResult } from "../sharedkernel/application/CommandResult";
 
-function sendforReview(emailSender:EmailSender){
+export interface EmailSender{
+    execute(command:SendEmailCommand):Promise<CommandResult>;
+}
 
-emailSender.execute(command:{
+
+function sendforReview(emailSender: EmailSender){
+
+emailSender.execute( command:{
     recipient:`${recipient}`,
     subject:'express you opinion',
     content:`please express you opinion and click below ${}`
 })
 
 }
-//*/
