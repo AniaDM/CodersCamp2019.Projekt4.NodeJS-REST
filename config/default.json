@@ -20,5 +20,15 @@
       "debug": true
     }
   },
+  "emailsender": {
+    "mode": "gmail",
+    "gmail": {
+      "email": "email@gmail.com",
+      "password": "password"
+    },
+    "onlylog": {
+      "text": "Email wasn't sent. Only printed in console."
+    }
+  },
   "json": "test"
 }
