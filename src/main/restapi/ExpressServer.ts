@@ -8,7 +8,6 @@ import * as UserProfileRoutes from "./routes/UserProfileRoutes";
 import * as RoomSearchRoutes from "./routes/RoomSearchRoutes";
 import * as UserCredentialsRoutes from '../restapi/routes/UserCredentialsRoute';
 import {RoomSearcher} from "../roomsearch/RoomSearcher";
-import {InMemoryUserProfileRepository} from "../userprofile/infrastructure/inmemory/InMemoryUserProfileRepository";
 import {InMemoryRoomOfferRepository} from "../roomsearch/infrastructure/InMemoryRoomOfferRepository";
 
 
@@ -27,7 +26,6 @@ export namespace ExpressServer {
         {
             endpoint: UserCredentialsRoutes.ROUTE_URL,
             router: UserCredentialsRoutes.default(userCredentialsService)
-        }
         },
         {
             endpoint: RoomSearchRoutes.ROUTE_URL,
