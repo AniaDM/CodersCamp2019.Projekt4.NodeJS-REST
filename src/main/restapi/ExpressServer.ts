@@ -9,6 +9,13 @@ import * as RoomSearchRoutes from "./routes/RoomSearchRoutes";
 import * as UserCredentialsRoutes from '../restapi/routes/UserCredentialsRoute';
 import {RoomSearcher} from "../roomsearch/RoomSearcher";
 import {InMemoryRoomOfferRepository} from "../roomsearch/infrastructure/InMemoryRoomOfferRepository";
+import {
+    ConsoleLogEmailSender,
+    EmailMode,
+    emailModeFrom,
+    EmailSender,
+    GmailEmailSender
+} from "../emailmessage/EmailSender";
 
 
 export namespace ExpressServer {
@@ -17,6 +24,8 @@ export namespace ExpressServer {
     const userProfileService = new UserProfileService(repositoriesRegistry.userProfile);
     export const userCredentialsService = new UserCredentialsService(repositoriesRegistry.userCredentials);
     const roomSearcher = new RoomSearcher(new InMemoryRoomOfferRepository()); //TODO: Do podmiany na implementacje z bazą danych
+    const emailMode: EmailMode = emailModeFrom(config.get<string>("emailsender.mode"));
+    const emailSender: EmailSender = emailMode === EmailMode.GMAIL ? new GmailEmailSender() : new ConsoleLogEmailSender();
 
     const routes: { endpoint: string, router: express.Router }[] = [
         {
