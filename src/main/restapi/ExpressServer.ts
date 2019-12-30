@@ -5,16 +5,19 @@ import config from "config";
 import { UserProfileService } from "../userprofile/application/UserProfileService";
 import { UserCredentialsService } from '../authentication/application/UserCredentialsService';
 import * as UserProfileRoutes from "./routes/UserProfileRoutes";
+import * as RoomSearchRoutes from "./routes/RoomSearchRoutes";
 import * as UserCredentialsRoutes from '../restapi/routes/UserCredentialsRoute';
 import {RoomSearcher} from "../roomsearch/RoomSearcher";
-import {InMemoryUserProfileRepository} from "../userprofile/infrastructure/inmemory/InMemoryUserProfileRepository";
 import {InMemoryRoomOfferRepository} from "../roomsearch/infrastructure/InMemoryRoomOfferRepository";
 
+
 export namespace ExpressServer {
+
     const repositoriesRegistry = RepositoriesRegistry.init();
     const userProfileService = new UserProfileService(repositoriesRegistry.userProfile);
     export const userCredentialsService = new UserCredentialsService(repositoriesRegistry.userCredentials);
     const roomSearcher = new RoomSearcher(new InMemoryRoomOfferRepository()); //TODO: Do podmiany na implementacje z bazą danych
+
     const routes: { endpoint: string, router: express.Router }[] = [
         {
             endpoint: UserProfileRoutes.ROUTE_URL,
@@ -23,6 +26,10 @@ export namespace ExpressServer {
         {
             endpoint: UserCredentialsRoutes.ROUTE_URL,
             router: UserCredentialsRoutes.default(userCredentialsService)
+        },
+        {
+            endpoint: RoomSearchRoutes.ROUTE_URL,
+            router: RoomSearchRoutes.default(roomSearcher)
         }
     ];
 
@@ -58,6 +65,5 @@ export namespace ExpressServer {
                 })
         }
     }
-
 
 }
