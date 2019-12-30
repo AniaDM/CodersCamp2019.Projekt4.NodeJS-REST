@@ -1,25 +1,29 @@
-import express, {NextFunction, Request, Response} from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import RestApiException from "./exception/RestApiException";
-import {RepositoriesRegistry} from "../sharedkernel/infrastructure/dependencyinjection/RepositoriesRegistry";
+import { RepositoriesRegistry } from "../sharedkernel/infrastructure/dependencyinjection/RepositoriesRegistry";
 import config from "config";
-import {UserProfileService} from "../userprofile/application/UserProfileService";
+import { UserProfileService } from "../userprofile/application/UserProfileService";
+import { UserCredentialsService } from '../authentication/application/UserCredentialsService';
 import * as UserProfileRoutes from "./routes/UserProfileRoutes";
+import * as UserCredentialsRoutes from '../restapi/routes/UserCredentialsRoute';
 import {RoomSearcher} from "../roomsearch/RoomSearcher";
 import {InMemoryUserProfileRepository} from "../userprofile/infrastructure/inmemory/InMemoryUserProfileRepository";
 import {InMemoryRoomOfferRepository} from "../roomsearch/infrastructure/InMemoryRoomOfferRepository";
 
-
 export namespace ExpressServer {
-
     const repositoriesRegistry = RepositoriesRegistry.init();
     const userProfileService = new UserProfileService(repositoriesRegistry.userProfile);
+    export const userCredentialsService = new UserCredentialsService(repositoriesRegistry.userCredentials);
     const roomSearcher = new RoomSearcher(new InMemoryRoomOfferRepository()); //TODO: Do podmiany na implementacje z bazą danych
-
     const routes: { endpoint: string, router: express.Router }[] = [
         {
             endpoint: UserProfileRoutes.ROUTE_URL,
             router: UserProfileRoutes.default(userProfileService)
-        } //TODO: RoomSearch routes
+        },
+        {
+            endpoint: UserCredentialsRoutes.ROUTE_URL,
+            router: UserCredentialsRoutes.default(userCredentialsService)
+        }
     ];
 
     export function start(port: number = config.get<number>("express.server.port")) {
@@ -54,5 +58,6 @@ export namespace ExpressServer {
                 })
         }
     }
+
 
 }
