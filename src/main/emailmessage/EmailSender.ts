@@ -1,48 +1,42 @@
-require('dotenv').config();
-import { CommandResult } from "../sharedkernel/application/CommandResult";
-import { SendEmailCommand } from "./SendEmailCommand";
-import { string } from "joi";
+import {CommandResult} from "../sharedkernel/application/CommandResult";
+import {SendEmailCommand} from "./SendEmailCommand";
+import * as nodemailer from 'nodemailer';
+import {isDefined} from "../utils";
 
 export interface EmailSender {
 
-  execute(command: SendEmailCommand): Promise < CommandResult >
+    execute(command: SendEmailCommand): Promise<CommandResult>
 }
 
-const nodemailer = require('nodemailer')
+export class NodemailerEmailSender implements EmailSender {
 
-class NodemailerEmailSender implements EmailSender {
+    execute(command: SendEmailCommand): Promise<CommandResult> {
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL,
+                pass: process.env.PASSWORD
+            }
+        });
 
-  execute(command: SendEmailCommand): Promise < CommandResult > {
+        const mailOptions = {
+            from: process.env.EMAIL,
+            to: command.recipient,
+            subject: command.subject,
+            text: command.content
+        };
 
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.EMAIL,
-        pass: process.env.PASSWORD
-      }
-    });
-
-    const mailOptions = {
-      from: process.env.EMAIL,
-      to: SendEmailCommand.recipient,
-      subject: SendEmailCommand.subject,
-      text: SendEmailCommand.content
-    };
-
-    transporter.sendMail(mailOptions, (error: any, info: any) => {
-      if (error) {
-        return Promise.reject(CommandResult.error);
-      }
-        return Promise.resolve(CommandResult.success);
-    });
-  }
-
-  class ConsoleLogEmailSender implements EmailSender {
-
-    execute(command: SendEmailCommand): Promise < CommandResult > {
-
-      console.log('Email logged in console', command);
-
-      return Promise.resolve(CommandResult.success);
+        return transporter.sendMail(mailOptions)
+            .then(() => CommandResult.success())
+            .catch((e) => CommandResult.failureDueTo(isDefined(e.message) ? e.message : e));
     }
-  }
+
+}
+
+export class ConsoleLogEmailSender implements EmailSender {
+
+    execute(command: SendEmailCommand): Promise<CommandResult> {
+        console.log('Email logged in console', command);
+        return Promise.resolve(CommandResult.success());
+    }
+}
