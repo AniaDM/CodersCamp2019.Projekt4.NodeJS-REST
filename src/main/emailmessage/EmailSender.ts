@@ -2,6 +2,7 @@ import {CommandResult} from "../sharedkernel/application/CommandResult";
 import {SendEmailCommand} from "./SendEmailCommand";
 import * as nodemailer from 'nodemailer';
 import {isDefined} from "../utils";
+import config from "config";
 
 export interface EmailSender {
 
@@ -14,13 +15,13 @@ export class NodemailerEmailSender implements EmailSender {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: process.env.EMAIL,
-                pass: process.env.PASSWORD
+                user: config.get<string>("emailsender.gmail.user"),
+                pass: config.get<string>("emailsender.gmail.password")
             }
         });
 
         const mailOptions = {
-            from: process.env.EMAIL,
+            from: config.get<string>("emailsender.gmail.user"),
             to: command.recipient,
             subject: command.subject,
             text: command.content
@@ -36,7 +37,7 @@ export class NodemailerEmailSender implements EmailSender {
 export class ConsoleLogEmailSender implements EmailSender {
 
     execute(command: SendEmailCommand): Promise<CommandResult> {
-        console.log('Email logged in console', command);
+        console.log(config.get<string>("emailsender.onlylog.text"), command);
         return Promise.resolve(CommandResult.success());
     }
 }

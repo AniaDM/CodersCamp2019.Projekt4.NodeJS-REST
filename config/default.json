@@ -23,7 +23,7 @@
   "emailsender": {
     "mode": "gmail",
     "gmail": {
-      "email": "CodersCamp2020@gmail.com",
+      "user": "CodersCamp2020@gmail.com",
       "password": "CC2019cc"
     },
     "onlylog": {
