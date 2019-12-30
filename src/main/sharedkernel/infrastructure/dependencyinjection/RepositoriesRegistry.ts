@@ -3,7 +3,10 @@ import {newDatabase} from "../inmemorymongodb/InMemoryMongoDb";
 import mongoose from "mongoose";
 import {InMemoryUserProfileRepository} from "../../../userprofile/infrastructure/inmemory/InMemoryUserProfileRepository";
 import {MongoUserProfileRepository} from "../../../userprofile/infrastructure/mongodb/MongoUserProfileRepository";
+import {InMemoryUserCredentialsRepository} from '../../../authentication/infrastructure/inmemory/InMemoryUserCredentialsRepository';
+import {MongoUserCredentialsRepository} from '../../../authentication/infrastructure/mongodb/MongoCredentialsRepository';
 import {UserProfileRepository} from "../../../userprofile/domain/UserProfileRepository";
+import {UserCredentialsRepository} from "../../../authentication/domain/UserCredentialsRepository"; 
 import config from "config";
 
 
@@ -53,6 +56,10 @@ export class RepositoriesRegistry {
             ? new InMemoryUserProfileRepository()
             : new MongoUserProfileRepository()
     }
-
+    get userCredentials(): UserCredentialsRepository {
+        return this.mode === DatabaseMode.IN_MEMORY_LISTS
+            ? new InMemoryUserCredentialsRepository()
+            : new MongoUserCredentialsRepository()
+    }
 
 }
