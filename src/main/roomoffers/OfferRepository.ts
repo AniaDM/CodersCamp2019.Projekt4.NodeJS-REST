@@ -1,23 +1,34 @@
 export class RoomOffer {
-  constructor(
-    public _offerId: string,
-    public username: string,
-    public isPublic: boolean,
-    public roomLocation: string,
-    public dateCheckIn: string,
-    public dateCheckOut: string,
-    public price: number,
-    public roomPhoto: string,
-    public additionalServices?: Array<string>,
-    public paymentMethod: string,
-    public numberOfGuests: number,
-    public numberOfBeds: number,
-    public numberOfGuestsPerBeds: number
-  ) {}
+    constructor(
+        public _offerId: string,
+        public username: string,
+        public isPublic: boolean,
+        public roomLocation: string,
+        public dateCheckIn: string,
+        public dateCheckOut: string,
+        public price: number,
+        public roomPhoto: string,
+        public additionalServices: string[],
+        public paymentMethod: string,
+        public numberOfGuests: number,
+        public numberOfBeds: number,
+        public numberOfGuestsPerBeds: number,
+        public guestOpinions: GuestOpinion[]
+    ) {
+    }
+}
+
+export class GuestOpinion {
+    constructor(public userId: string,
+                public rate: number,
+                public content?: string) {
+    }
 }
 
 export interface OfferRepository {
-  save(roomOffer: RoomOffer): Promise<RoomOffer>;
+    save(roomOffer: RoomOffer): Promise<RoomOffer>;
 
-  update(roomOffer: RoomOffer): Promise<RoomOffer>;
+    update(roomOffer: RoomOffer): Promise<RoomOffer>;
+
+    findById(offerId: string): Promise<RoomOffer>;
 }
