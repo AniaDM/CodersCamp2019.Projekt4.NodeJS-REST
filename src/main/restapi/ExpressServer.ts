@@ -4,18 +4,22 @@ import {RepositoriesRegistry} from "../sharedkernel/infrastructure/dependencyinj
 import config from "config";
 import {UserProfileService} from "../userprofile/application/UserProfileService";
 import * as UserProfileRoutes from "./routes/UserProfileRoutes";
+import {RoomSearcher} from "../roomsearch/RoomSearcher";
+import {InMemoryUserProfileRepository} from "../userprofile/infrastructure/inmemory/InMemoryUserProfileRepository";
+import {InMemoryRoomOfferRepository} from "../roomsearch/infrastructure/InMemoryRoomOfferRepository";
 
 
 export namespace ExpressServer {
 
     const repositoriesRegistry = RepositoriesRegistry.init();
     const userProfileService = new UserProfileService(repositoriesRegistry.userProfile);
+    const roomSearcher = new RoomSearcher(new InMemoryRoomOfferRepository()); //TODO: Do podmiany na implementacje z bazą danych
 
     const routes: { endpoint: string, router: express.Router }[] = [
         {
             endpoint: UserProfileRoutes.ROUTE_URL,
             router: UserProfileRoutes.default(userProfileService)
-        }
+        } //TODO: RoomSearch routes
     ];
 
     export function start(port: number = config.get<number>("express.server.port")) {
