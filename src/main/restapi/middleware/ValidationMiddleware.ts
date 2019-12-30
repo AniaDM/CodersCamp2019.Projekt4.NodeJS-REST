@@ -1,8 +1,8 @@
-import {plainToClass} from 'class-transformer';
-import {validate, ValidationError} from 'class-validator';
+import { plainToClass } from 'class-transformer';
+import { validate, ValidationError } from 'class-validator';
 import * as express from 'express';
 import RestApiException from "../exception/RestApiException";
-import {ErrorCode} from "../../sharedkernel/domain/ErrorCode";
+import { ErrorCode } from "../../sharedkernel/domain/ErrorCode";
 
 function validationMiddleware<T>(type: any): express.RequestHandler {
     return (req, res, next) => {

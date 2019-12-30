@@ -20,5 +20,15 @@
       "debug": true
     }
   },
+  "emailsender": {
+    "mode": "gmail",
+    "gmail": {
+      "user": "CodersCamp2020@gmail.com",
+      "password": "CC2019cc"
+    },
+    "onlylog": {
+      "text": "Email wasn't sent. Only printed in console."
+    }
+  },
   "json": "test"
 }
