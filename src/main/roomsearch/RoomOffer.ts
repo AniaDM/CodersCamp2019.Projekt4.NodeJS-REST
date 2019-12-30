@@ -3,5 +3,7 @@ export interface RoomOffer {
     roomLocation: string,
     price: number,
     numberOfGuests: number,
-    averageRating: number
+    averageRating: number,
+    title?: string, //TODO: Make title mandatory!
+    description?: string
 }
