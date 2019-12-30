@@ -6,20 +6,13 @@ import {isDefined} from "../../utils";
 export default (roomSearcher: RoomSearcher) => {
     const router: express.Router = express.Router();
 
-    router.get(`/offers`, async (req, res) => {
-        
+    router.get('', async (req, res) => {
         const filter = req.query;
-
         const offers = await roomSearcher.searchOffersBy(filter);
+        res.send(isDefined(offers) ? offers : [])
+    });
 
-        if (isDefined(offers)) {
-            res.send(offers)
-        } else {
-            return []
-        }
-    })
-
-    return router
+    return router;
 }
 
 export const ROUTE_URL = '/offers';
