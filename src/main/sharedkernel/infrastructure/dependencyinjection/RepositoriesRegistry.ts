@@ -6,8 +6,10 @@ import {MongoUserProfileRepository} from "../../../userprofile/infrastructure/mo
 import {InMemoryUserCredentialsRepository} from '../../../authentication/infrastructure/inmemory/InMemoryUserCredentialsRepository';
 import {MongoUserCredentialsRepository} from '../../../authentication/infrastructure/mongodb/MongoCredentialsRepository';
 import {UserProfileRepository} from "../../../userprofile/domain/UserProfileRepository";
-import {UserCredentialsRepository} from "../../../authentication/domain/UserCredentialsRepository"; 
+import {UserCredentialsRepository} from "../../../authentication/domain/UserCredentialsRepository";
 import config from "config";
+import {PhotoRepository} from "../../../photos/domain/PhotoRepository";
+import {MongoPhotoRepository} from "../../../photos/infrastructure/MongoPhotoRepository";
 
 
 export class RepositoriesRegistry {
@@ -15,9 +17,14 @@ export class RepositoriesRegistry {
         this.initializeDb();
     }
 
-    static init(){
+    static init() {
         return this.forMode(databaseModeFrom(config.get<string>("database.mode")));
     }
+
+    static initWith(mode: DatabaseMode) {
+        return this.forMode(mode);
+    }
+
 
     private static forMode(mode: DatabaseMode) {
         return new RepositoriesRegistry(mode);
@@ -56,10 +63,18 @@ export class RepositoriesRegistry {
             ? new InMemoryUserProfileRepository()
             : new MongoUserProfileRepository()
     }
+
     get userCredentials(): UserCredentialsRepository {
         return this.mode === DatabaseMode.IN_MEMORY_LISTS
             ? new InMemoryUserCredentialsRepository()
             : new MongoUserCredentialsRepository()
+    }
+
+    get photos(): PhotoRepository {
+        if (this.mode === DatabaseMode.IN_MEMORY_LISTS) {
+            throw new Error('Not supported mode!')
+        }
+        return new MongoPhotoRepository()
     }
 
 }

@@ -1,8 +1,8 @@
-import {UserProfileService} from "../../main/userprofile/application/UserProfileService";
-import {InMemoryUserProfileRepository} from "../../main/userprofile/infrastructure/inmemory/InMemoryUserProfileRepository";
-import {RegisterUserProfile} from "../../main/userprofile/application/RegisterUserProfile";
-import {UuidGenerator} from "../../main/sharedkernel/infrastructure/UuidGenerator";
-import {CommandResult} from "../../main/sharedkernel/application/CommandResult";
+import {UserProfileService} from "./application/UserProfileService";
+import {InMemoryUserProfileRepository} from "./infrastructure/inmemory/InMemoryUserProfileRepository";
+import {RegisterUserProfile} from "./application/RegisterUserProfile";
+import {UuidGenerator} from "../sharedkernel/infrastructure/UuidGenerator";
+import {CommandResult} from "../sharedkernel/application/CommandResult";
 
 const id = new UuidGenerator().generate();
 

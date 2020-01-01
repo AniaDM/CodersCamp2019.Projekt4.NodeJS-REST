@@ -16,12 +16,14 @@ import {
     EmailSender,
     GmailEmailSender
 } from "../emailmessage/EmailSender";
+import {PhotoStorage} from "../photos/application/PhotoStorage";
 
 
 export namespace ExpressServer {
 
     const repositoriesRegistry = RepositoriesRegistry.init();
-    const userProfileService = new UserProfileService(repositoriesRegistry.userProfile);
+    const photoStorage = new PhotoStorage(repositoriesRegistry.photos);
+    const userProfileService = new UserProfileService(repositoriesRegistry.userProfile, photoStorage);
     export const userCredentialsService = new UserCredentialsService(repositoriesRegistry.userCredentials);
     const roomSearcher = new RoomSearcher(new InMemoryRoomOfferRepository()); //TODO: Do podmiany na implementacje z bazą danych
     const emailMode: EmailMode = emailModeFrom(config.get<string>("emailsender.mode"));
