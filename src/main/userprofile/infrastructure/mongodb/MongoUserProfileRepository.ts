@@ -17,11 +17,12 @@ export class MongoUserProfileRepository implements UserProfileRepository {
     }
 
     save(userProfile: UserProfile): Promise<UserProfile> {
-        const {_id, username, email} = userProfile;
+        const {_id, username, email, photoId} = userProfile;
         return new MongoUser({
-            _id: _id,
+            _id,
             username,
-            email
+            email,
+            photoId
         }).save()
     }
 
@@ -29,7 +30,8 @@ export class MongoUserProfileRepository implements UserProfileRepository {
         return MongoUser.findByIdAndUpdate(userProfile._id, {
             firstName: userProfile.firstName,
             lastName: userProfile.lastName,
-            email: userProfile.email
+            email: userProfile.email,
+            photoId: userProfile.photoId
         }).then()
     }
 
@@ -65,6 +67,11 @@ const userProfileSchema = new mongoose.Schema({
         required: false,
         minlength: 3,
         maxlength: 64,
+        unique: false
+    },
+    photoId: {
+        type: String,
+        required: false,
         unique: false
     }
 });
