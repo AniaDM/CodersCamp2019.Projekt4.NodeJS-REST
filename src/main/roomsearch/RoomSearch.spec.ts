@@ -1,6 +1,6 @@
-import { RoomOffer } from '../../main/roomsearch/RoomOffer'
-import { RoomSearcher, OfferFilter } from '../../main/roomsearch/RoomSearcher'
-import { RoomOfferRepository } from '../../main/roomsearch/RoomOfferRepository';
+import { RoomOffer } from './RoomOffer'
+import { RoomSearcher, OfferFilter } from './RoomSearcher'
+import { RoomOfferRepository } from './RoomOfferRepository';
 
 
 describe('Feature: Room Offer', () => {
