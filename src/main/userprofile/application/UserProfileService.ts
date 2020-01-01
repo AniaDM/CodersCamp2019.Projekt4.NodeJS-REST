@@ -8,7 +8,7 @@ import {PhotoStorage} from "../../photos/application/PhotoStorage";
 
 export class UserProfileService {
 
-    constructor(private userProfileRepository: UserProfileRepository, private photoStorage: PhotoStorage) {
+    constructor(private userProfileRepository: UserProfileRepository, private photoStorage?: PhotoStorage) {
     }
 
     async registerUserProfile(command: RegisterUserProfile): Promise<CommandResult> {
@@ -19,7 +19,7 @@ export class UserProfileService {
     }
 
     private async checkIfPhotoExists(photoId?: string) {
-        if (photoId) {
+        if (this.photoStorage && photoId) {
             await this.photoStorage.retrieve(photoId)
         }
     }

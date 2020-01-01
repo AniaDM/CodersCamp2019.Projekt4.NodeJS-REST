@@ -8,7 +8,7 @@ export class RoomOffer {
     public dateCheckOut: string,
     public price: number,
     public roomPhoto: string,
-    public additionalServices?: Array<string>,
+    public additionalServices: string[],
     public paymentMethod: string,
     public numberOfGuests: number,
     public numberOfBeds: number,
