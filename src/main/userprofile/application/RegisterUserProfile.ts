@@ -3,5 +3,6 @@ export type RegisterUserProfile = {
     username: string,
     email: string
     firstName?: string,
-    lastName?: string
+    lastName?: string,
+    photoId?: string
 }
