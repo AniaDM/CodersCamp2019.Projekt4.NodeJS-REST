@@ -7,7 +7,7 @@ export type AddOffer  = {
     dateCheckOut: string,
     price: number,
     roomPhoto: string,
-    additionalServices?: Array<string>,
+    additionalServices: string[],
     paymentMethod: string,
     numberOfGuests: number,
     numberOfBeds: number,
