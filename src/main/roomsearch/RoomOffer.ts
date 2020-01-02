@@ -1,7 +1,7 @@
 export interface RoomOffer {
-    offerId: string,
+    _id: string,
     roomLocation: string,
     price: number,
-    numberOfGuests: number,
-    averageRating: number
+    numberOfGuests: number//,
+    //averageRating: number//TODO: Implement after opinions!
 }

@@ -8,7 +8,6 @@ import * as UserProfileRoutes from "./routes/UserProfileRoutes";
 import * as RoomSearchRoutes from "./routes/RoomSearchRoutes";
 import * as UserCredentialsRoutes from '../restapi/routes/UserCredentialsRoute';
 import {RoomSearcher} from "../roomsearch/RoomSearcher";
-import {InMemoryRoomOfferRepository} from "../roomsearch/infrastructure/InMemoryRoomOfferRepository";
 import {
     ConsoleLogEmailSender,
     EmailMode,
@@ -18,10 +17,14 @@ import {
 } from "../emailmessage/EmailSender";
 import {PhotoStorage} from "../photos/application/PhotoStorage";
 
+import * as RoomOfferRoutes from './routes/RoomOfferRoutes';
+import {RoomOffersService} from '../roomoffers/RoomOffersService';
+import {InMemoryRoomOfferRepository} from '../roomoffers/infrastructure/InMemoryRoomOfferRepository'
 
 export namespace ExpressServer {
 
     const repositoriesRegistry = RepositoriesRegistry.init();
+    const roomOffersService = new RoomOffersService(repositoriesRegistry.roomOffer);
     const photoStorage = new PhotoStorage(repositoriesRegistry.photos);
     const userProfileService = new UserProfileService(repositoriesRegistry.userProfile, photoStorage);
     export const userCredentialsService = new UserCredentialsService(repositoriesRegistry.userCredentials);
@@ -33,6 +36,10 @@ export namespace ExpressServer {
         {
             endpoint: UserProfileRoutes.ROUTE_URL,
             router: UserProfileRoutes.default(userProfileService)
+        },
+        {
+            endpoint: RoomOfferRoutes.ROUTE_URL,
+            router: RoomOfferRoutes.default(roomOffersService)
         },
         {
             endpoint: UserCredentialsRoutes.ROUTE_URL,

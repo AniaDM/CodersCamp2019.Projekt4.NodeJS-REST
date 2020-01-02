@@ -6,6 +6,12 @@ import {MongoUserProfileRepository} from "../../../userprofile/infrastructure/mo
 import {InMemoryUserCredentialsRepository} from '../../../authentication/infrastructure/inmemory/InMemoryUserCredentialsRepository';
 import {MongoUserCredentialsRepository} from '../../../authentication/infrastructure/mongodb/MongoCredentialsRepository';
 import {UserProfileRepository} from "../../../userprofile/domain/UserProfileRepository";
+
+import {InMemoryRoomOfferRepository} from "../../../roomoffers/infrastructure/InMemoryRoomOfferRepository";
+import {MongoRoomOfferRepository} from "../../../roomoffers/infrastructure/MongoRoomOfferRepository";
+import {RoomOfferRepository} from "../../../roomoffers/RoomOfferRepository";
+
+
 import {UserCredentialsRepository} from "../../../authentication/domain/UserCredentialsRepository";
 import config from "config";
 import {PhotoRepository} from "../../../photos/domain/PhotoRepository";
@@ -77,4 +83,9 @@ export class RepositoriesRegistry {
         return new MongoPhotoRepository()
     }
 
+    get roomOffer(): RoomOfferRepository {
+        return this.mode === DatabaseMode.IN_MEMORY_LISTS
+            ? new InMemoryRoomOfferRepository()
+            : new MongoRoomOfferRepository()
+    }
 }
