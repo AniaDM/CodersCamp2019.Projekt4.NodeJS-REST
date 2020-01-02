@@ -7,6 +7,7 @@ import { UserCredentialsService } from '../authentication/application/UserCreden
 import * as UserProfileRoutes from "./routes/UserProfileRoutes";
 import * as RoomSearchRoutes from "./routes/RoomSearchRoutes";
 import * as UserCredentialsRoutes from '../restapi/routes/UserCredentialsRoute';
+import * as RoomReservationRoutes from './routes/RoomReservationRoutes';
 import {RoomSearcher} from "../roomsearch/RoomSearcher";
 import {InMemoryRoomOfferRepository} from "../roomsearch/infrastructure/InMemoryRoomOfferRepository";
 import {
@@ -16,6 +17,9 @@ import {
     EmailSender,
     GmailEmailSender
 } from "../emailmessage/EmailSender";
+import { RoomReservationService } from '../roomreservation/application/RoomReservationService';
+import { RoomOffersService } from '../roomoffers/RoomOffersService';
+
 
 
 export namespace ExpressServer {
@@ -23,10 +27,11 @@ export namespace ExpressServer {
     const repositoriesRegistry = RepositoriesRegistry.init();
     const userProfileService = new UserProfileService(repositoriesRegistry.userProfile);
     export const userCredentialsService = new UserCredentialsService(repositoriesRegistry.userCredentials);
+    const roomReservationService = new RoomReservationService(repositoriesRegistry.roomReservation)
     const roomSearcher = new RoomSearcher(new InMemoryRoomOfferRepository()); //TODO: Do podmiany na implementacje z bazą danych
     const emailMode: EmailMode = emailModeFrom(config.get<string>("emailsender.mode"));
     const emailSender: EmailSender = emailMode === EmailMode.GMAIL ? new GmailEmailSender() : new ConsoleLogEmailSender();
-
+    export const roomOffersService = new RoomOffersService(repositoriesRegistry.roomOffer);
     const routes: { endpoint: string, router: express.Router }[] = [
         {
             endpoint: UserProfileRoutes.ROUTE_URL,
@@ -39,6 +44,10 @@ export namespace ExpressServer {
         {
             endpoint: RoomSearchRoutes.ROUTE_URL,
             router: RoomSearchRoutes.default(roomSearcher)
+        },
+        {
+            endpoint: RoomReservationRoutes.ROUTE_URL,
+            router: RoomReservationRoutes.default(roomReservationService)
         }
     ];
 

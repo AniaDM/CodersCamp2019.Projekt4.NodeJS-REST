@@ -8,6 +8,9 @@ import {MongoUserCredentialsRepository} from '../../../authentication/infrastruc
 import {UserProfileRepository} from "../../../userprofile/domain/UserProfileRepository";
 import {UserCredentialsRepository} from "../../../authentication/domain/UserCredentialsRepository"; 
 import config from "config";
+import { InMemoryRoomReservationRepository } from "../../../roomreservation/infrastructure/inmemory/inMemoryRoomReservationRepository";
+import { MongoRoomReservationRepository } from "../../../roomreservation/infrastructure/mongodb/MongoRoomReservationRepository";
+import { RoomReservationRepository } from "../../../roomreservation/domain/RoomReservationRepository";
 
 
 export class RepositoriesRegistry {
@@ -61,5 +64,9 @@ export class RepositoriesRegistry {
             ? new InMemoryUserCredentialsRepository()
             : new MongoUserCredentialsRepository()
     }
-
+    get roomReservation(): RoomReservationRepository {
+        return this.mode === DatabaseMode.IN_MEMORY_LISTS
+            ? new InMemoryRoomReservationRepository
+            : new MongoRoomReservationRepository
+    }
 }
