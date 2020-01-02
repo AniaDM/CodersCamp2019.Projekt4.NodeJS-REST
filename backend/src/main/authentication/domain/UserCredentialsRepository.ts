@@ -1,4 +1,4 @@
-import{UserCredentials} from'./UserCredentials';
+import{UserCredentials} from './UserCredentials';
 
 export interface UserCredentialsRepository{
     save(userCredentials: UserCredentials): Promise<UserCredentials>

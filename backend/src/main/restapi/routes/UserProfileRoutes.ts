@@ -10,7 +10,7 @@ import { UserProfileService } from "../../userprofile/application/UserProfileSer
 import { isDefined, isNotDefined } from "../../utils";
 import UpdateUserProfileRequestBody from "../request/UpdateUserProfileRequestBody";
 import * as bcrypt from 'bcrypt';
-import { ExpressServer } from '../../restapi/ExpressServer';
+import { ExpressServer } from '../ExpressServer';
 
 export default (userProfileService: UserProfileService) => {
     const router: express.Router = express.Router();
