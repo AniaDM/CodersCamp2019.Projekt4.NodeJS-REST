@@ -6,7 +6,7 @@ import { UserProfileService } from "../userprofile/application/UserProfileServic
 import { UserCredentialsService } from '../authentication/application/UserCredentialsService';
 import * as UserProfileRoutes from "./routes/UserProfileRoutes";
 import * as RoomSearchRoutes from "./routes/RoomSearchRoutes";
-import * as UserCredentialsRoutes from '../restapi/routes/UserCredentialsRoute';
+import * as UserCredentialsRoutes from './routes/UserCredentialsRoute';
 import {RoomSearcher} from "../roomsearch/RoomSearcher";
 import {
     ConsoleLogEmailSender,

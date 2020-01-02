@@ -1,6 +1,6 @@
 import { Response, NextFunction, Request } from 'express';
 import { ErrorCode } from "../../sharedkernel/domain/ErrorCode";
-import { ExpressServer } from '../../restapi/ExpressServer';
+import { ExpressServer } from '../ExpressServer';
 import RestApiException from "../exception/RestApiException";
 
 
