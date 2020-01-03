@@ -1,0 +1,15 @@
+export type AddRoomOffer  = {
+    _id: string,
+    username: string,
+    isPublic: boolean,
+    roomLocation: string,
+    dateCheckIn: Date,
+    dateCheckOut: Date,
+    price: number,
+    roomPhoto: string,
+    paymentMethod: string,
+    numberOfGuests: number,
+    numberOfBeds: number,
+    numberOfGuestsPerBeds: number,
+    additionalServices?: Array<string>,
+}

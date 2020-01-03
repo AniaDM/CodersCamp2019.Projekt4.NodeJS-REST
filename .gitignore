@@ -62,6 +62,8 @@ typings/
 
 #node
 /node_modules
-package-lock.json
+backend/package-lock.json
 .idea
 dist
+
+**/package-lock.json
