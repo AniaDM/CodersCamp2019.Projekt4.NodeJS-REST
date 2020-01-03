@@ -4,7 +4,7 @@ import { RoomOfferRepository } from './RoomOfferRepository';
 import { AddRoomOffer } from './AddRoomOffer';
 import { UpdateOffer } from './UpdateOffer';
 import { RoomOffer } from './RoomOfferRepository';
-import { PublishRoomOffer } from './PublishRoomOffer';
+import { ChangeRoomOfferPublication } from './ChangeRoomOfferPublication';
 
 export class RoomOffersService {
   constructor(private offerRepository: RoomOfferRepository) {}
@@ -18,7 +18,7 @@ export class RoomOffersService {
       );
   }
 
-  async publishOffer(command: PublishRoomOffer): Promise<CommandResult> {
+  async changeOfferPublication(command: ChangeRoomOfferPublication): Promise<CommandResult> {
     const foundOffer = await this.offerRepository.findById(command._id);
     if (foundOffer) {
       foundOffer.isPublic = true;

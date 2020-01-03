@@ -8,7 +8,7 @@ import * as mongoose from "mongoose";
  */
 export class MongoRoomOfferRepository implements RoomOfferRepository {
 
-    findById(offerId: string): Promise<RoomOffer> | null {
+    findById(offerId: string): Promise<RoomOffer | null>  {
         return MongoRoomOffer.findById(offerId).then()
     }
 

@@ -2,7 +2,7 @@ import * as express from 'express';
 import RestApiException from "../exception/RestApiException";
 import { NextFunction } from "express";
 import RegisterUserRequestBody from "../request/RegisterUserRequestBody";
-import uuid from "uuid";
+import * as uuid from "uuid";
 import validationMiddleware from "../middleware/ValidationMiddleware";
 import { currentUserMiddleware } from "../middleware/CurrentUserMiddleware";
 import { ErrorCode } from "../../sharedkernel/domain/ErrorCode";

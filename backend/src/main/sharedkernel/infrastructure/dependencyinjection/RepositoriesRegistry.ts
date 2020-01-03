@@ -16,6 +16,8 @@ import {UserCredentialsRepository} from "../../../authentication/domain/UserCred
 import config from "config";
 import {PhotoRepository} from "../../../photos/domain/PhotoRepository";
 import {MongoPhotoRepository} from "../../../photos/infrastructure/MongoPhotoRepository";
+import {RoomReviewRepository} from "../../../roomreview/RoomReviewRepository";
+import {MongoRoomReviewRepository} from "../../../roomreview/infrastructure/MongoRoomReviewRepository";
 
 
 export class RepositoriesRegistry {
@@ -81,6 +83,13 @@ export class RepositoriesRegistry {
             throw new Error('Not supported mode!')
         }
         return new MongoPhotoRepository()
+    }
+
+    get roomOfferReviews(): RoomReviewRepository {
+        if (this.mode === DatabaseMode.IN_MEMORY_LISTS) {
+            throw new Error('Not supported mode!')
+        }
+        return new MongoRoomReviewRepository()
     }
 
     get roomOffer(): RoomOfferRepository {
