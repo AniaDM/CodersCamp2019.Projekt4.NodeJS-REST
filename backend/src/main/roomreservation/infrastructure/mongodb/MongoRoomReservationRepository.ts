@@ -4,23 +4,23 @@ import { RoomReservationRepository } from "../../domain/RoomReservationRepositor
 
 export class MongoRoomReservationRepository implements RoomReservationRepository {
 
-    async findById(id: string): Promise<RoomReservation | null> {
-        return MongoUser.findById(id);
+    findById(id: string): Promise<RoomReservation | null> {
+        return MongoRoomReservation.findById(id).then();    
     }
 
     async findByUserId(id: string): Promise<RoomReservation[]> {
-        return MongoUser.find({userId: id}).then()
+        return MongoRoomReservation.find({userId: id}).then()
     }
     async findByOwner(ownerName: string): Promise<RoomReservation[]> {
-        return MongoUser.find({owner: ownerName}).then()
+        return MongoRoomReservation.find({owner: ownerName}).then()
     }
     async findByOfferId(id: string): Promise<RoomReservation[]> {
-        return MongoUser.find({offerId: id}).then()
+        return MongoRoomReservation.find({offerId: id}).then()
     }
 
     save(roomReservation: RoomReservation): Promise<RoomReservation> {
         const {_id, offerId, owner, userId, dateCheckIn, dateCheckOut, paymentMethod, status, numberOfGuests, notice} = roomReservation;
-        return new MongoUser({
+        return new MongoRoomReservation({
             _id: _id,
             offerId,
             owner,
@@ -35,7 +35,7 @@ export class MongoRoomReservationRepository implements RoomReservationRepository
     }
 
     update(roomReservation: RoomReservation): Promise<RoomReservation> {
-        return MongoUser.findByIdAndUpdate(roomReservation._id, {
+        return MongoRoomReservation.findByIdAndUpdate(roomReservation._id, {
             dateCheckIn: roomReservation.dateCheckIn,
             dateCheckOut: roomReservation.dateCheckOut,
             paymentMethod: roomReservation.paymentMethod,
@@ -47,7 +47,7 @@ export class MongoRoomReservationRepository implements RoomReservationRepository
 
 }
 
-type MongoUser = RoomReservation & mongoose.Document
+type MongoRoomReservation = RoomReservation & mongoose.Document
 
 const RoomReservationSchema = new mongoose.Schema({
     _id: String,
@@ -91,5 +91,5 @@ const RoomReservationSchema = new mongoose.Schema({
     }
 });
 
-const MongoUser = mongoose.model<MongoUser>('RoomReservation', RoomReservationSchema);
+const MongoRoomReservation = mongoose.model<MongoRoomReservation>('RoomReservation', RoomReservationSchema);
 

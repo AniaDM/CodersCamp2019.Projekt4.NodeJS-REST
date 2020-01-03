@@ -11,28 +11,25 @@ export class RoomReservationService {
     constructor(private roomReservationRepository: RoomReservationRepository) {
     }
 
-    addRoomReservation(command: CreateRoomReservation): Promise<CommandResult> {
+    async makeRoomReservation(command: CreateRoomReservation): Promise<CommandResult> {
+        const offers = await this.findRoomReservationByOfferId(command.offerId);
+        const dateCheckIn = new Date(command.dateCheckIn);
+        const dateCheckOut = new Date(command.dateCheckOut);
+        const alreadyExists = offers.find(it => {
+            it.status === "approved" &&
+            dateCheckIn <= new Date(it.dateCheckIn) && dateCheckOut > new Date(it.dateCheckIn) ||
+            dateCheckIn > new Date(it.dateCheckIn) && dateCheckIn < new Date(it.dateCheckOut);
+        });
+        if (alreadyExists) {
+            return Promise.reject(CommandResult.failureDueTo('Room is already booked!'));
+        } else {
         return this.roomReservationRepository.save({...command})
             .then(() => CommandResult.success())
             .catch((e) => CommandResult.failureDueTo(isDefined(e.message) ? e.message : e));
-    }
-
-    async updateRoomReservation(command: UpdateRoomReservation): Promise<CommandResult> {
-        const foundReservation = await this.roomReservationRepository.findById(command._id);
-        if (foundReservation) {
-            foundReservation.dateCheckIn = command.dateCheckIn;
-            foundReservation.dateCheckOut = command.dateCheckOut;
-            foundReservation.status = command.status;
-            foundReservation.notice = command.notice;
-            foundReservation.numberOfGuests = command.numberOfGuests;
-            foundReservation.paymentMethod = command.paymentMethod;
-            return this.roomReservationRepository.update(foundReservation)
-                .then(() => CommandResult.success())
-                .catch((e) => CommandResult.failureDueTo(isDefined(e.message) ? e.message : e));
-        } else {
-            return Promise.reject(CommandResult.failureDueTo(`Room reservation with id: ${command._id} not found!`));
         }
     }
+
+   
 
     async updateStatusRoomReservation(command: UpdateStatusRoomReservation): Promise<CommandResult> {
         const foundReservation = await this.roomReservationRepository.findById(command._id);
