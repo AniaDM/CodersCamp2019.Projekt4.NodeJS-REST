@@ -8,10 +8,10 @@
 
     .Frame4{
 position: absolute;
-width: 520px;
-height: 487px;
-left: 461px;
-top: 156px;
+width: 30%;
+height: 60%;
+left: 35%;
+top: 20%;
 z-index: -1;
 background: #FFFFFF;
 border: 1px solid #FFFFFF;
@@ -24,67 +24,66 @@ border-radius: 8px;
        
 position: absolute;
 
-width: 350px;
-height: 50px;
-left: 532px;
-top: 250px;
+width: 20%;
+height: 5%;
+left: 40%;
+top: 29%;
 z-index: 1;
 font-size: 30px;
     }
 
     .UserName{
         color: blueviolet;
-        position: relative;
-        top:230px;
-        left:530px;
+        position: absolute;
+        top:26%;
+        left:40%;
         
 
     }
 
     .Password{
         color: blueviolet;
-        position: relative;
-        top:330px;
-        left:540px;
+        position: absolute;
+        top:38%;
+        left:40%;
     }
 
     .pwinput{
         color: blueviolet;
-        position: relative;
-        top:370px;
-        left:470px;
-        width: 350px;
-        height: 50px;
+        position: absolute;
+        top:41%;
+        left:40%;
+        width: 20%;
+        height: 5%;
         font-size: 30px;
     }
 
     .forgotPW{
         text-decoration: none;
         color: black;
-        position: relative;
-        top:545px;
-        left:225px;
+        position: absolute;
+        top:74%;
+        left:45%;
         font-weight: bold;
     }
 
     .signIn{
     position: absolute;
-    height: 36px;
-    left: 613px;
-    right: 73px;
-    top: 486px;
-    width: 200px;
+    height: 5%;
+    left: 42%;
+    top: 55%;
+    width: 15%;
     background-color: rgb(216, 212, 212);
     box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2), 0px 3px 4px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.14);
         }
 
         .signUp{
             position: absolute;
-            height: 36px;
-            left: 613px;
-            right: 73px;
-            top: 546px;
-            width: 200px;
+            position: absolute;
+            height: 5%;
+            left: 42%;
+            top: 62%;
+            width: 15%;
             background-color: rgb(216, 212, 212);
             box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2), 0px 3px 4px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.14);
                 }
