@@ -3,10 +3,12 @@ import RestApiException from '../exception/RestApiException';
 import { ErrorCode } from '../../sharedkernel/domain/ErrorCode';
 import { isDefined, isNotDefined } from '../../utils';
 import { RoomOffersService } from '../../roomoffers/RoomOffersService';
-import uuid from 'uuid';
+import * as uuid from 'uuid';
 import validationMiddleware from '../middleware/ValidationMiddleware';
 import AddRoomOfferRequestBody from '../request/AddRoomOfferRequestBody';
 import UpdateRoomOfferRequestBody from '../request/UpdateRoomOfferRequestBody';
+import {currentUserMiddleware} from "../middleware/CurrentUserMiddleware";
+import {UserCredentials} from "../../authentication/domain/UserCredentials";
 
 export default (roomOffersService: RoomOffersService) => {
   const router: express.Router = express.Router();
@@ -23,12 +25,13 @@ export default (roomOffersService: RoomOffersService) => {
     res.send(offers);
   });
 
-  router.post('/', validationMiddleware(AddRoomOfferRequestBody), async (req, res, next) => {
+  router.post('/', [validationMiddleware(AddRoomOfferRequestBody), currentUserMiddleware], async (req, res, next) => {
       const requestBody: AddRoomOfferRequestBody = req.body;
+      const currentUser: UserCredentials = req.body.currentUser;
       const id = uuid.v4();
       const result = await roomOffersService.addOffer({
         _id: id,
-        username: requestBody.username,
+        username: currentUser.username,
         isPublic: false,
         roomLocation: requestBody.roomLocation,
         dateCheckIn: new Date(requestBody.dateCheckIn),
@@ -69,11 +72,12 @@ export default (roomOffersService: RoomOffersService) => {
       );
     });
 
-  router.put('/:id/publish', async (req, res, next) => {
+  router.put('/:id/publication', async (req, res, next) => {
     const id = req.params.id;
-    const result = await roomOffersService.publishOffer({
+    const isPublic = req.params.isPublic as unknown as boolean;
+      const result = await roomOffersService.changeOfferPublication({
       _id: id,
-      isPublic: true,
+      isPublic
     });
     result.process(
       () => res.status(200).end(),

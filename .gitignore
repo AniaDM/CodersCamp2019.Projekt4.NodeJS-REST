@@ -65,3 +65,5 @@ typings/
 backend/package-lock.json
 .idea
 dist
+
+**/package-lock.json

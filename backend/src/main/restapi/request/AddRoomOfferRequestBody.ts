@@ -3,10 +3,6 @@ import {IsOptional, IsString, Length, IsDate, IsNumber, IsArray, Min, Max} from 
 export default class AddRoomOfferRequestBody {
 
     @IsString()
-    @Length(4, 64)
-    public username: string;
-
-    @IsString()
     @Length(2, 64)
     public roomLocation: string;
     
@@ -38,8 +34,7 @@ export default class AddRoomOfferRequestBody {
     @IsOptional()
     additionalServices?: Array<string>
 
-    constructor(username: string, roomLocation: string, dateCheckIn: string, dateCheckOut: string, price: number, roomPhoto: string, paymentMethod: string, numberOfGuests: number, numberOfBeds: number, numberOfGuestsPerBeds: number, additionalServices: Array<string>) {
-        this.username = username;
+    constructor(roomLocation: string, dateCheckIn: string, dateCheckOut: string, price: number, roomPhoto: string, paymentMethod: string, numberOfGuests: number, numberOfBeds: number, numberOfGuestsPerBeds: number, additionalServices: Array<string>) {
         this.roomLocation = roomLocation;
         this.dateCheckIn = dateCheckIn;
         this.dateCheckOut = dateCheckOut;

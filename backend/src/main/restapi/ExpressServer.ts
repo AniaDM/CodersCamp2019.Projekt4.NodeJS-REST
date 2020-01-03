@@ -1,7 +1,7 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express, { express, NextFunction, Request, Response } from 'express';
 import RestApiException from "./exception/RestApiException";
 import { RepositoriesRegistry } from "../sharedkernel/infrastructure/dependencyinjection/RepositoriesRegistry";
-import config from "config";
+import * as config from "config";
 import { UserProfileService } from "../userprofile/application/UserProfileService";
 import { UserCredentialsService } from '../authentication/application/UserCredentialsService';
 import * as UserProfileRoutes from "./routes/UserProfileRoutes";
@@ -20,6 +20,8 @@ import {PhotoStorage} from "../photos/application/PhotoStorage";
 import * as RoomOfferRoutes from './routes/RoomOfferRoutes';
 import {RoomOffersService} from '../roomoffers/RoomOffersService';
 import {InMemoryRoomOfferRepository} from '../roomoffers/infrastructure/InMemoryRoomOfferRepository'
+import * as RoomReviewRoutes from "./routes/RoomReviewRoutes";
+import {RoomReviewService} from "../roomreview/RoomReviewService";
 
 export namespace ExpressServer {
 
@@ -31,6 +33,7 @@ export namespace ExpressServer {
     const roomSearcher = new RoomSearcher(new InMemoryRoomOfferRepository()); //TODO: Do podmiany na implementacje z bazą danych
     const emailMode: EmailMode = emailModeFrom(config.get<string>("emailsender.mode"));
     const emailSender: EmailSender = emailMode === EmailMode.GMAIL ? new GmailEmailSender() : new ConsoleLogEmailSender();
+    const roomReviewService = new RoomReviewService(repositoriesRegistry.roomOfferReviews);
 
     const routes: { endpoint: string, router: express.Router }[] = [
         {
@@ -48,6 +51,10 @@ export namespace ExpressServer {
         {
             endpoint: RoomSearchRoutes.ROUTE_URL,
             router: RoomSearchRoutes.default(roomSearcher)
+        },
+        {
+            endpoint: RoomReviewRoutes.ROUTE_URL,
+            router: RoomReviewRoutes.get(roomReviewService)
         }
     ];
 
