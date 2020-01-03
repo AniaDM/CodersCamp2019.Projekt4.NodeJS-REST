@@ -9,7 +9,7 @@ export class RoomReservation {
         public dateCheckOut: string,
         public paymentMethod: string,
         public status: string,
-        public numberOfGuests?: number,
+        public numberOfGuests: number,
         public notice?: string) {
 }
 

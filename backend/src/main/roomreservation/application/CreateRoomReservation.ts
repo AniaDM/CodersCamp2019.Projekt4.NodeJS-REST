@@ -7,6 +7,6 @@ export type CreateRoomReservation  = {
     dateCheckOut: string,
     paymentMethod: string,
     status: string,
-    numberOfGuests?: number,
+    numberOfGuests: number,
     notice?:string
 }

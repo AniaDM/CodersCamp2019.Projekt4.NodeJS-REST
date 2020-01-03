@@ -1,17 +1,14 @@
 import {isDefined} from "../../../utils";
 import * as _ from 'lodash';
-import { RoomReservationRepository } from "../../domain/RoomReservationRepository";
-import { RoomReservation } from "../../domain/RoomReservation";
+import {RoomReservationRepository} from "../../domain/RoomReservationRepository";
+import {RoomReservation} from "../../domain/RoomReservation";
 
 export class InMemoryRoomReservationRepository implements RoomReservationRepository {
 
     private repository: RoomReservation[] = [];
 
-    findByUserId(id: string): Promise<RoomReservation[] | null> {
-        const found = this.repository.find(it => it.userId === id);
-        return isDefined(found)
-            ? Promise.resolve(found)
-            : Promise.resolve(null);
+    findByUserId(id: string): Promise<RoomReservation[]> {
+        return Promise.resolve(this.repository.filter(it => it.userId === id));
     }
 
     findById(id: string): Promise<RoomReservation | null> {
@@ -20,18 +17,15 @@ export class InMemoryRoomReservationRepository implements RoomReservationReposit
             ? Promise.resolve(found)
             : Promise.resolve(null);
     }
-    findByOfferId(id: string): Promise<RoomReservation[] | null> {
-        const found = this.repository.find(it => it.offerId === id);
-        return isDefined(found)
-            ? Promise.resolve(found)
-            : Promise.resolve(null);
+
+    findByOfferId(id: string): Promise<RoomReservation[]> {
+        return Promise.resolve(this.repository.filter(it => it.offerId === id));
     }
-    findByOwner(ownerName: string): Promise<RoomReservation[] | null> {
-        const found = this.repository.find(it => it.owner === ownerName);
-        return isDefined(found)
-            ? Promise.resolve(found)
-            : Promise.resolve(null);
+
+    findByOwner(ownerName: string): Promise<RoomReservation[]> {
+        return Promise.resolve(this.repository.filter(it => it.owner === ownerName));
     }
+
     save(roomReservation: RoomReservation): Promise<RoomReservation> {
         const alreadyExists = this.repository.find(it => it._id);
         if (alreadyExists) {

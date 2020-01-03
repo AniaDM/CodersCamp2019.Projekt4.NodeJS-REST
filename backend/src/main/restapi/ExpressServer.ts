@@ -1,12 +1,11 @@
-import express, { express, NextFunction, Request, Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import RestApiException from "./exception/RestApiException";
 import { RepositoriesRegistry } from "../sharedkernel/infrastructure/dependencyinjection/RepositoriesRegistry";
-import * as config from "config";
+import config from "config";
 import { UserProfileService } from "../userprofile/application/UserProfileService";
 import { UserCredentialsService } from '../authentication/application/UserCredentialsService';
 import * as UserProfileRoutes from "./routes/UserProfileRoutes";
 import * as RoomSearchRoutes from "./routes/RoomSearchRoutes";
-import * as UserCredentialsRoutes from './routes/UserCredentialsRoute';
 import * as UserCredentialsRoutes from '../restapi/routes/UserCredentialsRoute';
 import * as RoomReservationRoutes from './routes/RoomReservationRoutes';
 import {RoomSearcher} from "../roomsearch/RoomSearcher";
@@ -23,23 +22,22 @@ import { RoomOffersService } from '../roomoffers/RoomOffersService';
 import {PhotoStorage} from "../photos/application/PhotoStorage";
 
 import * as RoomOfferRoutes from './routes/RoomOfferRoutes';
-import {RoomOffersService} from '../roomoffers/RoomOffersService';
-import {InMemoryRoomOfferRepository} from '../roomoffers/infrastructure/InMemoryRoomOfferRepository'
 import * as RoomReviewRoutes from "./routes/RoomReviewRoutes";
 import {RoomReviewService} from "../roomreview/RoomReviewService";
+import {RoomOfferRepository} from "../roomoffers/RoomOfferRepository";
 
 export namespace ExpressServer {
 
     const repositoriesRegistry = RepositoriesRegistry.init();
-    const roomOffersService = new RoomOffersService(repositoriesRegistry.roomOffer);
+    const roomOfferRepository : RoomOfferRepository = repositoriesRegistry.roomOffer;
     const photoStorage = new PhotoStorage(repositoriesRegistry.photos);
     const userProfileService = new UserProfileService(repositoriesRegistry.userProfile, photoStorage);
     export const userCredentialsService = new UserCredentialsService(repositoriesRegistry.userCredentials);
-    const roomReservationService = new RoomReservationService(repositoriesRegistry.roomReservation)
-    const roomSearcher = new RoomSearcher(new InMemoryRoomOfferRepository()); //TODO: Do podmiany na implementacje z bazą danych
+    const roomReservationService = new RoomReservationService(repositoriesRegistry.roomReservation);
+    const roomSearcher = new RoomSearcher(repositoriesRegistry.roomOffer);
     const emailMode: EmailMode = emailModeFrom(config.get<string>("emailsender.mode"));
     const emailSender: EmailSender = emailMode === EmailMode.GMAIL ? new GmailEmailSender() : new ConsoleLogEmailSender();
-    export const roomOffersService = new RoomOffersService(repositoriesRegistry.roomOffer);
+    export const roomOffersService = new RoomOffersService(roomOfferRepository);
     const roomReviewService = new RoomReviewService(repositoriesRegistry.roomOfferReviews);
 
     const routes: { endpoint: string, router: express.Router }[] = [
@@ -65,7 +63,7 @@ export namespace ExpressServer {
         },
         {
             endpoint: RoomReservationRoutes.ROUTE_URL,
-            router: RoomReservationRoutes.default(roomReservationService)
+            router: RoomReservationRoutes.default(roomReservationService, roomOfferRepository)
         }
     ];
 

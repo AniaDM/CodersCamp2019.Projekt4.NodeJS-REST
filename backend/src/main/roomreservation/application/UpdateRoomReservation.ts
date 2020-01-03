@@ -3,7 +3,7 @@ export type UpdateRoomReservation  = {
     dateCheckIn: string,
     dateCheckOut: string,
     status: string,
-    paymentMethod?: string,
-    numberOfGuests?: number,
+    paymentMethod: string,
+    numberOfGuests: number,
     notice?:string
 }

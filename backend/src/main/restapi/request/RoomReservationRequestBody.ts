@@ -28,12 +28,14 @@ export default class RoomReservationRequestBody {
     @IsOptional()
     public notice: string;
 
-    constructor(dateCheckIn: string, dateVheckOut: string,  paymentMethod: string, status: string, numberOfGuests: number, notice: string) {
+
+    constructor(offerId: string, dateCheckIn: string, dateCheckOut: string, paymentMethod: string, status: string, numberOfGeusts: number, notice: string) {
+        this.offerId = offerId;
         this.dateCheckIn = dateCheckIn;
-        this.dateCheckOut = dateVheckOut;
-        this.status = status;
+        this.dateCheckOut = dateCheckOut;
         this.paymentMethod = paymentMethod;
-        this.numberOfGeusts = numberOfGuests;
+        this.status = status;
+        this.numberOfGeusts = numberOfGeusts;
         this.notice = notice;
     }
 }

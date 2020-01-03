@@ -6,21 +6,18 @@ import {MongoUserProfileRepository} from "../../../userprofile/infrastructure/mo
 import {InMemoryUserCredentialsRepository} from '../../../authentication/infrastructure/inmemory/InMemoryUserCredentialsRepository';
 import {MongoUserCredentialsRepository} from '../../../authentication/infrastructure/mongodb/MongoCredentialsRepository';
 import {UserProfileRepository} from "../../../userprofile/domain/UserProfileRepository";
-
 import {InMemoryRoomOfferRepository} from "../../../roomoffers/infrastructure/InMemoryRoomOfferRepository";
 import {MongoRoomOfferRepository} from "../../../roomoffers/infrastructure/MongoRoomOfferRepository";
 import {RoomOfferRepository} from "../../../roomoffers/RoomOfferRepository";
-
-
 import {UserCredentialsRepository} from "../../../authentication/domain/UserCredentialsRepository";
 import config from "config";
-import { InMemoryRoomReservationRepository } from "../../../roomreservation/infrastructure/inmemory/inMemoryRoomReservationRepository";
 import { MongoRoomReservationRepository } from "../../../roomreservation/infrastructure/mongodb/MongoRoomReservationRepository";
 import { RoomReservationRepository } from "../../../roomreservation/domain/RoomReservationRepository";
 import {PhotoRepository} from "../../../photos/domain/PhotoRepository";
 import {MongoPhotoRepository} from "../../../photos/infrastructure/MongoPhotoRepository";
 import {RoomReviewRepository} from "../../../roomreview/RoomReviewRepository";
 import {MongoRoomReviewRepository} from "../../../roomreview/infrastructure/MongoRoomReviewRepository";
+import {InMemoryRoomReservationRepository} from "../../../roomreservation/infrastructure/inmemory/InMemoryRoomReservationRepository";
 
 
 export class RepositoriesRegistry {
@@ -100,9 +97,10 @@ export class RepositoriesRegistry {
             ? new InMemoryRoomOfferRepository()
             : new MongoRoomOfferRepository()
     }
+
     get roomReservation(): RoomReservationRepository {
         return this.mode === DatabaseMode.IN_MEMORY_LISTS
-            ? new InMemoryRoomReservationRepository
-            : new MongoRoomReservationRepository
+            ? new InMemoryRoomReservationRepository()
+            : new MongoRoomReservationRepository()
     }
 }

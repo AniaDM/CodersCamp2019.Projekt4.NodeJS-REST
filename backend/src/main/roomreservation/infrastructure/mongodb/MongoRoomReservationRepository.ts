@@ -8,13 +8,13 @@ export class MongoRoomReservationRepository implements RoomReservationRepository
         return MongoUser.findById(id);
     }
 
-    async findByUserId(id: string): Promise<RoomReservation[] | null> {
+    async findByUserId(id: string): Promise<RoomReservation[]> {
         return MongoUser.find({userId: id}).then()
     }
-    async findByOwner(ownerName: string): Promise<RoomReservation[] | null> {
+    async findByOwner(ownerName: string): Promise<RoomReservation[]> {
         return MongoUser.find({owner: ownerName}).then()
     }
-    async findByOfferId(id: string): Promise<RoomReservation[] | null> {
+    async findByOfferId(id: string): Promise<RoomReservation[]> {
         return MongoUser.find({offerId: id}).then()
     }
 

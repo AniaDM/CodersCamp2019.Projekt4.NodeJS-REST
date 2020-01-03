@@ -33,6 +33,7 @@ export class RoomReservationService {
             return Promise.reject(CommandResult.failureDueTo(`Room reservation with id: ${command._id} not found!`));
         }
     }
+
     async updateStatusRoomReservation(command: UpdateStatusRoomReservation): Promise<CommandResult> {
         const foundReservation = await this.roomReservationRepository.findById(command._id);
         if (foundReservation) {
@@ -44,17 +45,20 @@ export class RoomReservationService {
             return Promise.reject(CommandResult.failureDueTo(`Room reservation with id: ${command._id} not found!`));
         }
     }
-    findRoomReservationByUserId(id: string): Promise<RoomReservation[] | null> {
+
+    findRoomReservationByUserId(id: string): Promise<RoomReservation[]> {
         return this.roomReservationRepository.findByUserId(id);
     }
 
     findRoomReservationById(id: string): Promise<RoomReservation | null> {
         return this.roomReservationRepository.findById(id);
     }
-    findRoomReservationByOfferId(id: string): Promise<RoomReservation[] | null> {
+
+    findRoomReservationByOfferId(id: string): Promise<RoomReservation[]> {
         return this.roomReservationRepository.findByOfferId(id);
     }
-    findRoomReservationByOwner(id: string): Promise<RoomReservation[] | null> {
+
+    findRoomReservationByOwner(id: string): Promise<RoomReservation[]> {
         return this.roomReservationRepository.findByOwner(id);
     }
 }
