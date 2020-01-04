@@ -9,7 +9,7 @@ import Place from '@material-ui/icons/Place';
 import PersonIcon from '@material-ui/icons/Person';
 import SendIcon from '@material-ui/icons/Send';
 import DeleteIcon from '@material-ui/icons/Delete';
-/*test*/
+/*test console*/
 class ListOfPreservedRooms extends React.Component {
 
   componentDidMount() {
