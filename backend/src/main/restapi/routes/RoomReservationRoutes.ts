@@ -34,7 +34,7 @@ export default (roomReservationService: RoomReservationService, roomOfferReposit
         const userId = req.body.currentUser.id;
         const reservationId = req.params.id;
         const foundReservation = await roomReservationService.findRoomReservationById(reservationId);
-        if (userId === foundReservation.userId) {
+        if (foundReservation && userId === foundReservation.userId) {
             if (isDefined(foundReservation)) {
                 res.send(foundReservation);
             } else {
@@ -48,7 +48,10 @@ export default (roomReservationService: RoomReservationService, roomOfferReposit
     router.get('/host-reservations/:id', currentUserMiddleware, async (req, res, next) => {
         const reservationId = req.params.id;
         const foundReservation = await roomReservationService.findRoomReservationById(reservationId);
-        const hostname = foundReservation.owner;
+        if(!foundReservation){
+            next(new RestApiException(404, `Reservation for id: ${reservationId} not found!`, ErrorCode.RESERVATION_NOT_FOUND));
+        }
+        const hostname = foundReservation!.owner;
         const username = req.body.currentUser.username;
         if (hostname === username) {
             if (isDefined(foundReservation)) {
@@ -94,9 +97,12 @@ export default (roomReservationService: RoomReservationService, roomOfferReposit
         const requestBody: AcceptRoomReservationRequestBody = req.body;
         const id = req.params.id;
         const offer = await roomOfferRepository.findById(id);
-        const username = offer.username;
+        if(!offer){
+            next(new RestApiException(400, 'Not allowed to change status', ErrorCode.YOU_ARE_NOT_ALLOWED));
+        }
+        const username = offer!.username;
         const reservation = await roomReservationService.findRoomReservationById(id);
-        if (req.body.currentUser.username === username && reservation.status === 'PENDING') {
+        if (reservation && req.body.currentUser.username === username && reservation.status === 'PENDING') {
             const result = await roomReservationService.updateStatusRoomReservation(
                 {
                     _id: id,
