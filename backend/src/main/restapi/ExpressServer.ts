@@ -1,9 +1,9 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express, {NextFunction, Request, Response} from 'express';
 import RestApiException from "./exception/RestApiException";
-import { RepositoriesRegistry } from "../sharedkernel/infrastructure/dependencyinjection/RepositoriesRegistry";
+import {RepositoriesRegistry} from "../sharedkernel/infrastructure/dependencyinjection/RepositoriesRegistry";
 import config from "config";
-import { UserProfileService } from "../userprofile/application/UserProfileService";
-import { UserCredentialsService } from '../authentication/application/UserCredentialsService';
+import {UserProfileService} from "../userprofile/application/UserProfileService";
+import {UserCredentialsService} from '../authentication/application/UserCredentialsService';
 import * as UserProfileRoutes from "./routes/UserProfileRoutes";
 import * as RoomSearchRoutes from "./routes/RoomSearchRoutes";
 import * as UserCredentialsRoutes from '../restapi/routes/UserCredentialsRoute';
@@ -16,8 +16,8 @@ import {
     EmailSender,
     GmailEmailSender
 } from "../emailmessage/EmailSender";
-import { RoomReservationService } from '../roomreservation/application/RoomReservationService';
-import { RoomOffersService } from '../roomoffers/RoomOffersService';
+import {RoomReservationService} from '../roomreservation/application/RoomReservationService';
+import {RoomOffersService} from '../roomoffers/RoomOffersService';
 
 import {PhotoStorage} from "../photos/application/PhotoStorage";
 
@@ -30,7 +30,7 @@ import cors from 'cors';
 export namespace ExpressServer {
 
     const repositoriesRegistry = RepositoriesRegistry.init();
-    const roomOfferRepository : RoomOfferRepository = repositoriesRegistry.roomOffer;
+    const roomOfferRepository: RoomOfferRepository = repositoriesRegistry.roomOffer;
     const photoStorage = new PhotoStorage(repositoriesRegistry.photos);
     const userProfileService = new UserProfileService(repositoriesRegistry.userProfile, photoStorage);
     export const userCredentialsService = new UserCredentialsService(repositoriesRegistry.userCredentials);
