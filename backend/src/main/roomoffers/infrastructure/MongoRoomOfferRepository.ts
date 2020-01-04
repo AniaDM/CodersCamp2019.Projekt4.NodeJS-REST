@@ -8,7 +8,7 @@ import * as mongoose from "mongoose";
  */
 export class MongoRoomOfferRepository implements RoomOfferRepository {
 
-    findById(offerId: string): Promise<RoomOffer | null>  {
+    findById(offerId: string): Promise<RoomOffer>|null  {
         return MongoRoomOffer.findById(offerId).then()
     }
 
@@ -35,6 +35,8 @@ export class MongoRoomOfferRepository implements RoomOfferRepository {
             numberOfBeds: roomOffer.numberOfBeds,
             numberOfGuestsPerBeds: roomOffer.numberOfGuestsPerBeds,
             additionalServices: roomOffer.additionalServices,
+            title: roomOffer.title,
+            description: roomOffer.description
         }).save()
     }
 
@@ -50,6 +52,8 @@ export class MongoRoomOfferRepository implements RoomOfferRepository {
             numberOfBeds: roomOffer.numberOfBeds,
             numberOfGuestsPerBeds: roomOffer.numberOfGuestsPerBeds,
             additionalServices: roomOffer.additionalServices,
+            title: roomOffer.title,
+            description: roomOffer.description
         }).then()
     }
 
@@ -116,6 +120,14 @@ const roomOfferSchema = new mongoose.Schema({
     },
     additionalServices: {
         type: Array,
+        required: false
+    },
+    title: {
+        type: String,
+        required: false
+    },
+    description: {
+        type: String,
         required: false
     }
 });

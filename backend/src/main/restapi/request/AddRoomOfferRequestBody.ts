@@ -7,9 +7,11 @@ export default class AddRoomOfferRequestBody {
     public roomLocation: string;
     
     @IsString()
+    @IsOptional()
     public dateCheckIn: string
 
     @IsString()
+    @IsOptional()
     public dateCheckOut: string
 
     @IsNumber()
@@ -19,6 +21,7 @@ export default class AddRoomOfferRequestBody {
     public roomPhoto: string
 
     @IsString()
+    @IsOptional()
     public paymentMethod: string
 
     @IsNumber()
@@ -28,13 +31,20 @@ export default class AddRoomOfferRequestBody {
     public numberOfBeds: number
 
     @IsNumber()
+    @IsOptional()
     public numberOfGuestsPerBeds: number
 
     @IsArray()
     @IsOptional()
     additionalServices?: Array<string>
 
-    constructor(roomLocation: string, dateCheckIn: string, dateCheckOut: string, price: number, roomPhoto: string, paymentMethod: string, numberOfGuests: number, numberOfBeds: number, numberOfGuestsPerBeds: number, additionalServices: Array<string>) {
+    @IsString()
+    public title: string
+
+    @IsString()
+    public description: string
+
+    constructor(roomLocation: string, dateCheckIn: string, dateCheckOut: string, price: number, roomPhoto: string, paymentMethod: string, numberOfGuests: number, numberOfBeds: number, numberOfGuestsPerBeds: number, additionalServices: Array<string>,title: string, description: string) {
         this.roomLocation = roomLocation;
         this.dateCheckIn = dateCheckIn;
         this.dateCheckOut = dateCheckOut;
@@ -45,5 +55,7 @@ export default class AddRoomOfferRequestBody {
         this.numberOfBeds = numberOfBeds;
         this.numberOfGuestsPerBeds = numberOfGuestsPerBeds;
         this.additionalServices = additionalServices;
+        this.title = title;
+        this.description = description;
     }
 }

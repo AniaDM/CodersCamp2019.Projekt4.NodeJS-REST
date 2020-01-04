@@ -43,7 +43,15 @@ export default class UpdateRoomOfferRequestBody {
     @IsOptional()
     additionalServices?: Array<string>
 
-    constructor(roomLocation: string, dateCheckIn: string, dateCheckOut: string, price: number, roomPhoto: string, paymentMethod: string, numberOfGuests: number, numberOfBeds: number, numberOfGuestsPerBeds: number, additionalServices: Array<string>) {
+    @IsString()
+    @IsOptional()
+    public title: string
+
+    @IsString()
+    @IsOptional()
+    public description: string
+
+    constructor(roomLocation: string, dateCheckIn: string, dateCheckOut: string, price: number, roomPhoto: string, paymentMethod: string, numberOfGuests: number, numberOfBeds: number, numberOfGuestsPerBeds: number, additionalServices: Array<string>, title: string, description: string) {
         this.roomLocation = roomLocation;
         this.dateCheckIn = dateCheckIn;
         this.dateCheckOut = dateCheckOut;
@@ -54,5 +62,7 @@ export default class UpdateRoomOfferRequestBody {
         this.numberOfBeds = numberOfBeds;
         this.numberOfGuestsPerBeds = numberOfGuestsPerBeds;
         this.additionalServices = additionalServices;
+        this.title = title;
+        this.description = description;
     }
 }

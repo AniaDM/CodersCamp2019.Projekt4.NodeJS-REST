@@ -43,10 +43,10 @@ export class RoomOffersService {
       if(foundOffer.roomLocation !== command.roomLocation && command.roomLocation !== undefined) {
         foundOffer.roomLocation = command.roomLocation;
       }
-      if(foundOffer.dateCheckIn !== new Date(command.dateCheckIn) && command.dateCheckIn !== undefined) {
+      if(command.dateCheckIn !== undefined && foundOffer.dateCheckIn !== new Date(command.dateCheckIn)) {
       foundOffer.dateCheckIn = new Date(command.dateCheckIn);
       }
-      if(foundOffer.dateCheckOut !== new Date(command.dateCheckOut) && command.dateCheckOut !== undefined) {
+      if(command.dateCheckOut !== undefined && foundOffer.dateCheckOut !== new Date(command.dateCheckOut)) {
       foundOffer.dateCheckOut = new Date(command.dateCheckOut);
       }
       if(foundOffer.price !== command.price && command.price !== undefined) {
@@ -69,6 +69,12 @@ export class RoomOffersService {
       }
       if(foundOffer.numberOfGuestsPerBeds !== command.numberOfGuestsPerBeds && command.numberOfGuestsPerBeds !== undefined) {
       foundOffer.numberOfGuestsPerBeds = command.numberOfGuestsPerBeds;
+      }
+      if(foundOffer.title !== command.title && command.title !== undefined) {
+        foundOffer.title = command.title;
+      }
+      if(foundOffer.description !== command.description && command.description !== undefined) {
+        foundOffer.description = command.description;
       }
       return this.offerRepository
         .update(foundOffer)

@@ -10,7 +10,7 @@ import {ErrorCode} from "../../sharedkernel/domain/ErrorCode";
 export const get = (roomReviewService: RoomReviewService) => {
     const router: express.Router = express.Router();
 
-    router.post('', [validationMiddleware(AddRoomReviewRequestBody), currentUserMiddleware], async (req, res, next) => {
+    router.post('', [validationMiddleware(AddRoomReviewRequestBody), currentUserMiddleware], async (req: any, res: any, next: any) => {
         const requestBody: AddRoomReviewRequestBody = req.body;
         const currentUser: UserCredentials = req.body.currentUser;
         const result = await roomReviewService.addReview({userId: currentUser._id, ...requestBody});

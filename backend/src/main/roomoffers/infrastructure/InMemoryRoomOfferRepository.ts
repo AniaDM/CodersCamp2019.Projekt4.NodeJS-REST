@@ -18,7 +18,9 @@ export class InMemoryRoomOfferRepository implements RoomOfferRepository {
             paymentMethod: '',
             numberOfGuests: 5,
             numberOfBeds: 5,
-            numberOfGuestsPerBeds: 1
+            numberOfGuestsPerBeds: 1,
+            title: 'Fajne mieszkanko',
+            description: 'Fajne mieszkanko',
         }
     ];
 
