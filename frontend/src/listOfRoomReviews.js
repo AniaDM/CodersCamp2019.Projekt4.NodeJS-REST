@@ -69,7 +69,7 @@ const ListOfRoomReviews = props => {
         <Typography className={classes.content} variant="h5" component="h2">
         Cosy Apartment close to City Center
         </Typography>
-        <Typography className={classes.content, classes.city} variant="h5" component="h2">
+        <Typography className={classes.city} variant="h5" component="h2">
         <Place style={{transform: 'translate(0, 5px)'}} /> Wroclaw
         </Typography>
 
@@ -121,7 +121,7 @@ const ListOfRoomReviews = props => {
 
     </CardContent>
 
-    <Typography className={classes.title, classes.accepted} variant="h5" component="h2">
+    <Typography className={classes.accepted} variant="h5" component="h2">
     ACCEPTED
         </Typography>
       <CardActions>

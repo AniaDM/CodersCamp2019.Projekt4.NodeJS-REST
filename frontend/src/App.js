@@ -1,18 +1,16 @@
 import React from 'react';
-import './App.css';
-import ScrollableTabsButtonForce from './menu';
-// import {RoomReviewRepository} from "../../backend/src/main/roomreview/RoomReviewRepository";
-
+// import AppForm from './Ania';
+import ListOfPreservedRooms from './listOfPreservedRooms';
 
 function App() {
   return (
-    
-    <div className="App">
 
-      <ScrollableTabsButtonForce />
-     
+    <div className="App">
+        <ListOfPreservedRooms />
+        {/* <AppForm /> */}
     </div>
-  );
+ 
+ );
 }
 
 export default App;
