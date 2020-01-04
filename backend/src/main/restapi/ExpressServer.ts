@@ -25,6 +25,7 @@ import * as RoomOfferRoutes from './routes/RoomOfferRoutes';
 import * as RoomReviewRoutes from "./routes/RoomReviewRoutes";
 import {RoomReviewService} from "../roomreview/RoomReviewService";
 import {RoomOfferRepository} from "../roomoffers/RoomOfferRepository";
+import cors from 'cors';
 
 export namespace ExpressServer {
 
@@ -72,6 +73,7 @@ export namespace ExpressServer {
         app.use(express.json());
         routes.forEach(it => app.use(`/api${it.endpoint}`, it.router));
         app.use(errorMiddleware);
+        app.use(cors());
         app.listen(port, () => console.log(`Express server listening on port ${port}`));
         return app;
     }
