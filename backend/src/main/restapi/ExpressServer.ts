@@ -1,4 +1,4 @@
-import express, { express, NextFunction, Request, Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import RestApiException from "./exception/RestApiException";
 import { RepositoriesRegistry } from "../sharedkernel/infrastructure/dependencyinjection/RepositoriesRegistry";
 import * as config from "config";
@@ -22,6 +22,7 @@ import {RoomOffersService} from '../roomoffers/RoomOffersService';
 import {InMemoryRoomOfferRepository} from '../roomoffers/infrastructure/InMemoryRoomOfferRepository'
 import * as RoomReviewRoutes from "./routes/RoomReviewRoutes";
 import {RoomReviewService} from "../roomreview/RoomReviewService";
+import cors from 'cors';
 
 export namespace ExpressServer {
 
@@ -63,6 +64,7 @@ export namespace ExpressServer {
         app.use(express.json());
         routes.forEach(it => app.use(`/api${it.endpoint}`, it.router));
         app.use(errorMiddleware);
+        app.use(cors());
         app.listen(port, () => console.log(`Express server listening on port ${port}`));
         return app;
     }
