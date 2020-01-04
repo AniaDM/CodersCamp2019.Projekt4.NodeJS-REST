@@ -202,8 +202,8 @@ const PriceSlider = () => {
 const Searcher = () => {
 return (
 <div style={{width: '70%', align: 'center'}}>
-    <Grid container justify="space-around">{City()}{MaterialUIPickers}{SelectInput()}</Grid>
-    <Grid container justify="space-between">{PriceSlider()}{SendButton()}</Grid>
+    <Grid container justify="space-around"><City /><SelectInput /></Grid>
+    <Grid container justify="space-between"><PriceSlider /><SendButton /></Grid>
     </div>
 )
 }
