@@ -73,7 +73,7 @@ export namespace ExpressServer {
                 ];
 
                 if (config.get<boolean>("devMode")) {
-                    new DevMode(userProfileService, userCredentialsService, roomOffersService)
+                    new DevMode(userProfileService, userCredentialsService, roomOffersService, roomReservationService)
                         .populateDatabase()
                         .then(() => {
                             console.log("Database populated with fake data!");
