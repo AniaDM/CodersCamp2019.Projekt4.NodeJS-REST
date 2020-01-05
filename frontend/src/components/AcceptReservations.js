@@ -6,3 +6,4 @@ const AcceptReservations = () => {
 };
 
 export default AcceptReservations
+

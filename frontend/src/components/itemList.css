@@ -44,4 +44,10 @@
       margin: 0;
       text-align: center;
     }
+    .btnOpinion {
+      display: flex;
+     justify-content: center;
+     align-items: center;
+     border: 3px line #222;
+    }
   

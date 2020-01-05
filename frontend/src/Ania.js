@@ -1,5 +1,5 @@
 import React from 'react';
-// import './AppForm.css';
+// import './components';
 import { TextField, InputAdornment, FormControl } from '@material-ui/core';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -77,18 +77,17 @@ class AppForm extends React.Component {
   };
 
   handleSubmit = event => {
-    console.log('juhu');
     event.preventDefault();
 
     fetch('http://localhost:4000/api/room-offers', {
-      mode: 'no-cors',
+      // mode: 'no-cors',
       method: 'post',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         roomLocation: this.state.location,
-        price: this.state.amount,
+        price: parseInt(this.state.amount),
         roomPhoto: this.state.photo,
         numberOfGuests: this.state.guests,
         numberOfBeds: this.state.beds,
@@ -98,10 +97,7 @@ class AppForm extends React.Component {
     })
       .then(res => res.json())
       .then(res => console.log(res));
-      
   };
-
-  componentDidMount() {}
 
   render() {
     return (
