@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './loginScreen.css';
 import logo from './test.jpg';
+
 class LoginPage extends Component {
   constructor() {
     super();
@@ -29,7 +30,12 @@ class LoginPage extends Component {
     evt.preventDefault();
   
     if(this.state.username.length > 0 && this.state.password.length > 0){
-      console.log(`${document.querySelector('.userNameInput').value} and ${document.querySelector('.pwinput').value}`)
+
+
+      console.log(`${document.querySelector('.userNameInputG').value} and ${document.querySelector('.pwinputG').value}`)
+    ///
+
+
     } 
 
     if (!this.state.username) {
@@ -75,19 +81,19 @@ class LoginPage extends Component {
           }
 
           <img src={logo} className="background" alt="Logo" />
-          <div className="Frame4"></div>
+          <div className="windowUI"></div>
 
 
 
-          <label className="UserName">User Name</label>
-          <input type="text" className="userNameInput" data-test="username" value={this.state.username} onChange={this.handleUserChange} />
+          <label className="UserNameG">User Name</label>
+          <input type="text" className="userNameInputG" data-test="username" value={this.state.username} onChange={this.handleUserChange} />
           <div className="Background"></div>
-          <label className="Password">Password</label>
-          <input type="password"className="pwinput" data-test="password" value={this.state.password} onChange={this.handlePassChange} />
+          <label className="PasswordG">Password</label>
+          <input type="password"className="pwinputG" data-test="password" value={this.state.password} onChange={this.handlePassChange} />
 
-          <input type="submit" className="signIn" value="Sign In" data-test="submit" />
+          <input type="submit" className="signInG" value="Sign In" data-test="submit" />
 
-          <input type="submit" className="signUp" value="Sign Up" data-test="submit" />
+          <input type="submit" className="signUpG" value="Sign Up" data-test="submit" />
 
           <a href="https://google.com" className="forgotPW">Forgot Password?</a>
         </form>

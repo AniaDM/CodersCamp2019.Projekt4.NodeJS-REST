@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import './register.css';
+import './Register.css';
 import logo from './test.jpg';
-class LoginPage extends Component {
+
+// import CreateUserCredentials from '../../../backend/src/main/authentication/application/CreateUserCredentials';
+
+class Register extends Component {
   constructor() {
     super();
     this.state = {
@@ -38,8 +41,9 @@ class LoginPage extends Component {
       return this.setState({ error: 'Passwords are noth the same' });
     } 
 
-    if(this.state.password.value > 0 && this.state.password.length > 0){
+    if(this.state.password.value > 0 ){
       console.log(`${document.querySelector('.userNameInput').value} and ${document.querySelector('.pwinput').value}`)
+  
     } 
 
     
@@ -68,6 +72,30 @@ class LoginPage extends Component {
     }
 
 
+        const res = fetch('http://localhost:4000/api/user-profiles/', {
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        body: {
+            
+            "username": this.state.username,
+            "email": this.state.email,
+            "firstName": this.state.firstname,
+            "lastName": this.state.secondname,
+            "password": this.state.password,
+            "repeatedPassword": this.state.repeatpw
+        },
+       })
+       .then((response) => response.json())
+       .then((responseJson) => {
+       return localStorage.setItem('responseJson', JSON.stringify(responseJson));
+       })
+       .catch((error) => {
+         console.error(error);
+       });
+
+
+
+    
     return this.setState({ error: '' });
   }
 
@@ -110,7 +138,7 @@ class LoginPage extends Component {
   }
 
 
-
+   
 
   render() {
   
@@ -127,7 +155,7 @@ class LoginPage extends Component {
           }
 
           <img src={logo} className="background" alt="Logo" />
-          <div className="Frame4"></div>
+          <div className="FrameUI"></div>
           <div className="Background"></div>
 
           <label className="Book">Book a room wherever you like</label>
@@ -165,4 +193,4 @@ class LoginPage extends Component {
   }
 }
 
-export default LoginPage;
+export default Register;
