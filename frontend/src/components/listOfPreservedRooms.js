@@ -26,51 +26,53 @@ class ListOfPreservedRooms extends React.Component {
   };
 
  
-  wysylka = event => {
-    console.log('juhu');
-    // event.preventDefault();
+  // wysylka = event => {
+  //   console.log('juhu');
+  //   // event.preventDefault();
 
-    for (let i=1; i<5; i++){
-      this.setState.roomOfferId = i;
-      this.setState.dateCheckIn = `${1+i}.08.2020`;
-      this.setState.dateCheckOut = `${10+i}.08.2020`;
-      this.setState.numberOfGuests = i; 
+  //   for (let i=1; i<5; i++){
+  //     this.setState.roomOfferId = i;
+  //     this.setState.dateCheckIn = `${1+i}.08.2020`;
+  //     this.setState.dateCheckOut = `${10+i}.08.2020`;
+  //     this.setState.numberOfGuests = i; 
 
-    fetch('http://localhost:4000/api/room-review/1', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        userId: 1,
-        email: 'test@test.pl',
-        location: 'Wroclaw',
-        roomOfferId: this.state.roomOfferId,
-        dateCheckIn: this.state.dateCheckIn,
-        numberOfGuests: this.state.numberOfGuests,
-        numberOfBeds: this.state.beds,
-        paymentMethod: 'card',
-        XXaccept: 'do wyboru'
-      })
-    })
-      .then(res => res.json())
-      .then(res => console.log(res));
-  }
-  };
+  //   fetch('http://localhost:4000/api/room-offers', {
+  //     method: 'post',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify({
+  //       userId: 1,
+  //       email: 'test@test.pl',
+  //       location: 'Wroclaw',
+  //       roomOfferId: this.state.roomOfferId,
+  //       dateCheckIn: this.state.dateCheckIn,
+  //       numberOfGuests: this.state.numberOfGuests,
+  //       numberOfBeds: this.state.beds,
+  //       paymentMethod: 'card',
+  //       XXaccept: 'do wyboru'
+  //     })
+  //   })
+  //     .then(res => res.json())
+  //     .then(res => console.log(res));
+  // }
+  // };
 
-  //  componentDidMount() {
-  //   fetch('api/Room-review')
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       this.setState({
-  //         username: ''
-  //       })
-  //     }
-  //     .catch(err => console.log(err))
-  // }}
+   componentDidMount()
+    {
+    fetch('api/Room-review')
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          username: ''
+        })
+      }      )
+      .catch(err => console.log(`blad ${err}`))
+    
+    }
    
 render() {
-  this.wysylka();
+  // this.wysylka();
 
   return (
     <Card className='card'>

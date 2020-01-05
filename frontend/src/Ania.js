@@ -81,6 +81,7 @@ class AppForm extends React.Component {
     event.preventDefault();
 
     fetch('http://localhost:4000/api/room-offers', {
+      mode: 'no-cors',
       method: 'post',
       headers: {
         'Content-Type': 'application/json'
