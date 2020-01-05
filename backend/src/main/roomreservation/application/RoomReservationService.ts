@@ -11,10 +11,10 @@ export class RoomReservationService {
     }
 
     async makeRoomReservation(command: CreateRoomReservation): Promise<CommandResult> {
-        const offers = await this.findRoomReservationByOfferId(command.offerId);
+        const reservations = await this.findRoomReservationByOfferId(command.offerId);
         const dateCheckIn = new Date(command.dateCheckIn);
         const dateCheckOut = new Date(command.dateCheckOut);
-        const alreadyExists = offers.find(it => {
+        const alreadyExists = reservations.find(it => {
             it.status === "approved" &&
             dateCheckIn <= new Date(it.dateCheckIn) && dateCheckOut > new Date(it.dateCheckIn) ||
             dateCheckIn > new Date(it.dateCheckIn) && dateCheckIn < new Date(it.dateCheckOut);
