@@ -3,7 +3,6 @@ import {RoomReservationRepository} from "../domain/RoomReservationRepository";
 import {isDefined, isNotDefined} from "../../utils";
 import {RoomReservation} from "../domain/RoomReservation";
 import {CreateRoomReservation} from "./CreateRoomReservation";
-import {UpdateRoomReservation} from "./UpdateRoomReservation";
 import {UpdateStatusRoomReservation} from './UpdateStatusRoomReservation'
 
 export class RoomReservationService {
