@@ -43,12 +43,6 @@ export class RoomOffersService {
       if(foundOffer.roomLocation !== command.roomLocation && command.roomLocation !== undefined) {
         foundOffer.roomLocation = command.roomLocation;
       }
-      if(command.dateCheckIn !== undefined && foundOffer.dateCheckIn !== new Date(command.dateCheckIn)) {
-      foundOffer.dateCheckIn = new Date(command.dateCheckIn);
-      }
-      if(command.dateCheckOut !== undefined && foundOffer.dateCheckOut !== new Date(command.dateCheckOut)) {
-      foundOffer.dateCheckOut = new Date(command.dateCheckOut);
-      }
       if(foundOffer.price !== command.price && command.price !== undefined) {
         foundOffer.price = command.price;
       }

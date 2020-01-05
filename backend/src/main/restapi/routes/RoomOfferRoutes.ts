@@ -9,16 +9,10 @@ import AddRoomOfferRequestBody from '../request/AddRoomOfferRequestBody';
 import UpdateRoomOfferRequestBody from '../request/UpdateRoomOfferRequestBody';
 import { currentUserMiddleware } from '../middleware/CurrentUserMiddleware';
 import { UserCredentials } from '../../authentication/domain/UserCredentials';
+import {UserCredentialsService} from "../../authentication/application/UserCredentialsService";
 
-export default (roomOffersService: RoomOffersService) => {
-  const cors = require('cors');
+export default (roomOffersService: RoomOffersService, userCredentialsService: UserCredentialsService) => {
   const router: express.Router = express.Router();
-
-  router.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  });
 
   router.get('/', async (req, res, next) => {
     const username = req.query.username;
@@ -39,7 +33,7 @@ export default (roomOffersService: RoomOffersService) => {
 
   router.post(
     '/',
-    [validationMiddleware(AddRoomOfferRequestBody), currentUserMiddleware],
+    [validationMiddleware(AddRoomOfferRequestBody), currentUserMiddleware(userCredentialsService)],
     async (req: any, res: any, next: any) => {
       const requestBody: AddRoomOfferRequestBody = req.body;
       const currentUser: UserCredentials = req.body.currentUser;
@@ -49,8 +43,6 @@ export default (roomOffersService: RoomOffersService) => {
         username: currentUser.username,
         isPublic: false,
         roomLocation: requestBody.roomLocation,
-        dateCheckIn: requestBody.dateCheckIn ? new Date(requestBody.dateCheckIn) : undefined,
-        dateCheckOut: requestBody.dateCheckOut ? new Date(requestBody.dateCheckOut) : undefined,
         price: requestBody.price,
         roomPhoto: requestBody.roomPhoto,
         paymentMethod: requestBody.paymentMethod,

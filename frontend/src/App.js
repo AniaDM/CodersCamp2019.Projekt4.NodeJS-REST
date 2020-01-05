@@ -1,24 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {BrowserRouter, Route} from 'react-router-dom';
+import Login from './components/Log'
+import Register from './components/Register'
+import RoomOffers from './components/RoomOffers'
+import MakeReservation from './components/MakeReservation'
+import GuestReservations from './components/GuestReservations'
+import AcceptReservations from './components/AcceptReservations'
+import SendOpinion from './components/SendOpinion'
+import UserProfile from './components/UserProfile'
+import AddOffer from './components/AddOffer'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+const App = () => {
+  return (<div>
+    <BrowserRouter>
+    <div>
+    <Route path="/" exact component={Login} />
+    <Route path="/register" exact component={Register} />
+    <Route path="/roomoffers" exact component={RoomOffers} />
+    <Route path="/makereservation" exact component={MakeReservation} />
+    <Route path="/questreservations" exact component={GuestReservations} />
+    <Route path="/acceptreservations" exact component={AcceptReservations} />
+    <Route path="/sendopinion" exact component={SendOpinion} />
+    <Route path="/userprofile" exact component={UserProfile} />
+    <Route path="/addoffer" exact component={AddOffer} />
+    </div>
+    </BrowserRouter>
     </div>
   );
 }

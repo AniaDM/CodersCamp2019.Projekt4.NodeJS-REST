@@ -4,7 +4,7 @@ import { UserCredentialsRepository } from '../domain/UserCredentialsRepository';
 import { isDefined } from "../../utils";
 import { UserCredentials } from '../domain/UserCredentials';
 import { DataStoredInToken } from '../infrastructure/DataStoredInToken';
-import * as config from 'config';
+import config from 'config';
 import * as jwt from 'jsonwebtoken';
 
 
