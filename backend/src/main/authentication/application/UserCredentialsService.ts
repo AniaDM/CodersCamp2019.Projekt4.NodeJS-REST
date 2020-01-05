@@ -5,7 +5,7 @@ import { isDefined } from "../../utils";
 import { UserCredentials } from '../domain/UserCredentials';
 import { DataStoredInToken } from '../infrastructure/DataStoredInToken';
 import config from 'config';
-import jwt from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 
 
 
@@ -28,6 +28,7 @@ export class UserCredentialsService {
     createToken(user: UserCredentials): string {
         const dataStoredInToken: DataStoredInToken = {
             _id: user._id,
+            username: user.username
         };
         return jwt.sign(dataStoredInToken, config.get('authentication.jsonWebToken.privateKey'));
 

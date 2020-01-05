@@ -8,7 +8,7 @@ import * as mongoose from "mongoose";
  */
 export class MongoRoomOfferRepository implements RoomOfferRepository {
 
-    findById(offerId: string): Promise<RoomOffer> | null {
+    findById(offerId: string): Promise<RoomOffer|null>  {
         return MongoRoomOffer.findById(offerId).then()
     }
 
@@ -26,8 +26,6 @@ export class MongoRoomOfferRepository implements RoomOfferRepository {
             username: roomOffer.username,
             isPublic: 0,
             roomLocation: roomOffer.roomLocation,
-            dateCheckIn: roomOffer.dateCheckIn,
-            dateCheckOut: roomOffer.dateCheckOut,
             price: roomOffer.price,
             roomPhoto: roomOffer.roomPhoto,
             paymentMethod: roomOffer.paymentMethod,
@@ -35,14 +33,14 @@ export class MongoRoomOfferRepository implements RoomOfferRepository {
             numberOfBeds: roomOffer.numberOfBeds,
             numberOfGuestsPerBeds: roomOffer.numberOfGuestsPerBeds,
             additionalServices: roomOffer.additionalServices,
+            title: roomOffer.title,
+            description: roomOffer.description
         }).save()
     }
 
     update(roomOffer: RoomOffer): Promise<RoomOffer> {
         return MongoRoomOffer.findByIdAndUpdate(roomOffer._id, {
             roomLocation: roomOffer.roomLocation,
-            dateCheckIn: roomOffer.dateCheckIn,
-            dateCheckOut: roomOffer.dateCheckOut,
             price: roomOffer.price,
             roomPhoto: roomOffer.roomPhoto,
             paymentMethod: roomOffer.paymentMethod,
@@ -50,6 +48,8 @@ export class MongoRoomOfferRepository implements RoomOfferRepository {
             numberOfBeds: roomOffer.numberOfBeds,
             numberOfGuestsPerBeds: roomOffer.numberOfGuestsPerBeds,
             additionalServices: roomOffer.additionalServices,
+            title: roomOffer.title,
+            description: roomOffer.description
         }).then()
     }
 
@@ -82,14 +82,6 @@ const roomOfferSchema = new mongoose.Schema({
         maxlength: 64,
         unique: false
     },
-    dateCheckIn: {
-        type: Date,
-        required: false
-    },
-    dateCheckOut: {
-        type: Date,
-        required: false
-    },
     price: {
         type: Number,
         required: false
@@ -116,6 +108,14 @@ const roomOfferSchema = new mongoose.Schema({
     },
     additionalServices: {
         type: Array,
+        required: false
+    },
+    title: {
+        type: String,
+        required: false
+    },
+    description: {
+        type: String,
         required: false
     }
 });

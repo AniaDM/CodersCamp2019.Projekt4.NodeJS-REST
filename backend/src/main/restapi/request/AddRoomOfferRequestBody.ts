@@ -1,48 +1,43 @@
 import {IsOptional, IsString, Length, IsDate, IsNumber, IsArray, Min, Max} from "class-validator";
 
 export default class AddRoomOfferRequestBody {
-
-    @IsString()
-    @Length(4, 64)
-    public username: string;
-
     @IsString()
     @Length(2, 64)
     public roomLocation: string;
-    
-    @IsString()
-    public dateCheckIn: string
-
-    @IsString()
-    public dateCheckOut: string
 
     @IsNumber()
-    public price: number
+    public price: number;
+
+    @IsOptional()
+    @IsString()
+    public roomPhoto?: string;
 
     @IsString()
-    public roomPhoto: string
-
-    @IsString()
-    public paymentMethod: string
+    @IsOptional()
+    public paymentMethod: string;
 
     @IsNumber()
-    public numberOfGuests: number
+    public numberOfGuests: number;
 
     @IsNumber()
-    public numberOfBeds: number
+    public numberOfBeds: number;
 
     @IsNumber()
-    public numberOfGuestsPerBeds: number
+    @IsOptional()
+    public numberOfGuestsPerBeds: number;
 
     @IsArray()
     @IsOptional()
-    additionalServices?: Array<string>
+    additionalServices?: Array<string>;
 
-    constructor(username: string, roomLocation: string, dateCheckIn: string, dateCheckOut: string, price: number, roomPhoto: string, paymentMethod: string, numberOfGuests: number, numberOfBeds: number, numberOfGuestsPerBeds: number, additionalServices: Array<string>) {
-        this.username = username;
+    @IsString()
+    public title: string;
+
+    @IsString()
+    public description: string;
+
+    constructor(roomLocation: string, price: number, paymentMethod: string, numberOfGuests: number, numberOfBeds: number, numberOfGuestsPerBeds: number, additionalServices: Array<string>, title: string, description: string, roomPhoto?: string,) {
         this.roomLocation = roomLocation;
-        this.dateCheckIn = dateCheckIn;
-        this.dateCheckOut = dateCheckOut;
         this.price = price;
         this.roomPhoto = roomPhoto;
         this.paymentMethod = paymentMethod;
@@ -50,5 +45,7 @@ export default class AddRoomOfferRequestBody {
         this.numberOfBeds = numberOfBeds;
         this.numberOfGuestsPerBeds = numberOfGuestsPerBeds;
         this.additionalServices = additionalServices;
+        this.title = title;
+        this.description = description;
     }
 }
