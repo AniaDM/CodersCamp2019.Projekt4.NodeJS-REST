@@ -81,7 +81,7 @@ box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
             left:73%;
             width: 3%;
             height: 6%;
-            border: black 3px solid;
+            border: rgb(184, 196, 26) 3px solid;
             z-index: 1;  
         border-radius: 50%;
             overflow: hidden;
@@ -90,12 +90,13 @@ box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
             .email{
                 position: absolute;
                 display: inline-block;
-                color: green;
-                left:80%;
+                color: rgb(208, 211, 13);
+                left:78%;
                 width: 10%;
                 z-index: 1;
                 cursor: pointer;
                 top:3%;
+                font-weight: bold;
                 }
                 .logOut{
                     position: absolute;
@@ -128,7 +129,7 @@ box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
                         z-index: 4;
                         font-size: 25px;
                         top: 35%;
-                        left:13%
+                        left:11%
                     }
 
                     .table{
@@ -146,5 +147,72 @@ box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
                                 font-size: 12px;
                                    }
                                
-
+                    .text{
+                        position: absolute;
+                        display: inline-block;
+                        font-weight: bold;
+                        color: rgb(84, 121, 221);
+                        left:13%;
+                        width: 40%;
+                        z-index: 1;
+                        cursor: pointer;
+                        top:42%;
+                        font-size: 25px;
+                    }
                  
+                    .addNewOffer{
+                        position: absolute;
+                        top: 43%;
+                        color:blue;
+                        font-size: 15px;
+                        border: blue 1px solid;
+                       left:79%;
+                    background-color: rgb(89, 198, 241);
+                        box-shadow: none;
+                        cursor: pointer;
+                        border-radius: 5%;
+                    }
+                 
+                    .seeYourRoomRequests{
+                        position: absolute;
+                        top: 43%;
+                        color:red;
+                        font-size: 15px;
+                       left:60%;
+                        background-color: rgb(255, 189, 189);
+                        border: red 1px solid;
+                        box-shadow: none;
+                        cursor: pointer;
+                        border-radius: 5%;
+                    }
+                    
+                .window1{
+                    position: absolute;
+                    width: 22%;
+                    height: 46%;
+                    border: 2px solid gray;
+                   
+                    left: 13%;
+                    top:50%;
+
+                }
+                    
+                .window2{
+                    position: absolute;
+                    width: 22%;
+                    height: 46%;
+                    border: 2px solid gray;
+                    left: 40%;
+                    top:50%;
+
+                }
+                    
+                .window3{
+                    position: absolute;
+                    width: 22%;
+                    height: 46%;
+                    border: 2px solid gray;
+                    left: 67%;
+                    top:50%;
+
+                }
