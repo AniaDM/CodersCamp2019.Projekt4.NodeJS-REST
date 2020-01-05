@@ -26,6 +26,7 @@ import * as RoomReviewRoutes from "./routes/RoomReviewRoutes";
 import {RoomReviewService} from "../roomreview/RoomReviewService";
 import {RoomOfferRepository} from "../roomoffers/RoomOfferRepository";
 import cors from 'cors';
+import {DevMode} from "../devmode/DevMode";
 
 export namespace ExpressServer {
 
@@ -70,6 +71,14 @@ export namespace ExpressServer {
                         router: RoomReservationRoutes.default(roomReservationService, roomOfferRepository, userCredentialsService)
                     }
                 ];
+
+                if (config.get<boolean>("devMode")) {
+                    new DevMode(userProfileService, userCredentialsService, roomOffersService)
+                        .populateDatabase()
+                        .then(() => {
+                            console.log("Database populated with fake data!");
+                        });
+                }
 
                 const app = express();
                 app.use(express.json());

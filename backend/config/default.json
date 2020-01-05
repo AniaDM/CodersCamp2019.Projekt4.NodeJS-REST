@@ -4,6 +4,7 @@
       "port": 4000
     }
   },
+  "devMode": true,
   "authentication": {
     "jsonWebToken": {
       "privateKey": "jwtPrivateKey"
