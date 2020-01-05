@@ -29,7 +29,7 @@ import cors from 'cors';
 
 export namespace ExpressServer {
 
-    export function start(port: number = config.get<number>("express.server.port")): Promise<Express> {
+    export function instance(): Promise<Express> {
         return RepositoriesRegistry.instance()
             .initializeDb()
             .then(repositoriesRegistry => {
@@ -76,7 +76,6 @@ export namespace ExpressServer {
                 routes.forEach(it => app.use(`/api${it.endpoint}`, it.router));
                 app.use(errorMiddleware);
                 app.use(cors());
-                app.listen(port, () => console.log(`Express server listening on port ${port}`));
                 return app;
             });
     }
