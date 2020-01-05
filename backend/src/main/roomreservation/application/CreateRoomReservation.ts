@@ -3,6 +3,8 @@ export type CreateRoomReservation  = {
     offerId: string,
     owner: string,
     userId: string,
+    name: string,
+    surname:string,
     dateCheckIn: string,
     dateCheckOut: string,
     paymentMethod: string,

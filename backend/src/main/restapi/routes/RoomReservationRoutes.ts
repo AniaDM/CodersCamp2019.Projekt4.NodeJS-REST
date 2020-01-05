@@ -7,7 +7,6 @@ import { ErrorCode } from "../../sharedkernel/domain/ErrorCode";
 import { isDefined, isNotDefined } from "../../utils";
 import { RoomReservationService } from '../../roomreservation/application/RoomReservationService';
 import RoomReservationRequestBody from '../request/RoomReservationRequestBody';
-import UpdateRoomReservationRequestBody from '../request/UpdateRoomReservationRequestBody';
 import AcceptRoomReservationRequestBody from '../request/AcceptRoomReservationRequestBody'
 import { RoomOfferRepository } from "../../roomoffers/RoomOfferRepository";
 
@@ -74,6 +73,8 @@ export default (roomReservationService: RoomReservationService, roomOfferReposit
                 offerId: requestBody.offerId,
                 owner: offer!.username,
                 userId: req.body.currentUser.id,
+                name: requestBody.name,
+                surname: requestBody.surname,
                 dateCheckIn: requestBody.dateCheckIn,
                 dateCheckOut: requestBody.dateCheckOut,
                 paymentMethod: requestBody.paymentMethod,

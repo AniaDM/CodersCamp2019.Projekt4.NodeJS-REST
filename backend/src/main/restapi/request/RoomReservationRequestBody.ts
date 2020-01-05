@@ -5,6 +5,12 @@ export default class RoomReservationRequestBody {
     @IsString()
     public offerId: string;
 
+    @IsString()
+    public name: string;
+
+    @IsString()
+    public surname: string;
+
     @IsDate()
     public dateCheckIn: string;
 
@@ -29,8 +35,10 @@ export default class RoomReservationRequestBody {
     public notice: string;
 
 
-    constructor(offerId: string, dateCheckIn: string, dateCheckOut: string, paymentMethod: string, status: string, numberOfGeusts: number, notice: string) {
+    constructor(offerId: string, name: string, surname: string, dateCheckIn: string, dateCheckOut: string, paymentMethod: string, status: string, numberOfGeusts: number, notice: string) {
         this.offerId = offerId;
+        this.name = name;
+        this.surname = surname;
         this.dateCheckIn = dateCheckIn;
         this.dateCheckOut = dateCheckOut;
         this.paymentMethod = paymentMethod;
