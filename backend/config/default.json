@@ -1,0 +1,34 @@
+{
+  "express": {
+    "server": {
+      "port": 4000
+    }
+  },
+  "authentication": {
+    "jsonWebToken": {
+      "privateKey": "jwtPrivateKey"
+    }
+  },
+  "database": {
+    "mode": "embedded_mongo",
+    "external_mongo": {
+      "uri": "needed only in `external_mongo` database mode"
+    },
+    "embedded_mongo": {
+      "port": 5000,
+      "dbName": "codersCampProjekt4",
+      "debug": true
+    }
+  },
+  "emailsender": {
+    "mode": "gmail",
+    "gmail": {
+      "user": "CodersCamp2020@gmail.com",
+      "password": "CC2019cc"
+    },
+    "onlylog": {
+      "text": "Email wasn't sent. Only printed in console."
+    }
+  },
+  "json": "test"
+}
