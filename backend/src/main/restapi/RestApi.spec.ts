@@ -6,6 +6,7 @@ import UserCredentialsRequestBody from "./request/UserCredentialsRequestBody";
 import {TOKEN_HEADER} from "./routes/UserCredentialsRoute";
 
 let server: Express;
+let token: string;
 
 describe("Feature: REST API", () => {
 
@@ -39,6 +40,7 @@ describe("Feature: REST API", () => {
                     ));
 
                 expect(response.status).toBe(200);
+                token = response.get(TOKEN_HEADER);
                 expect(response.get(TOKEN_HEADER)).toBeDefined();
             });
 
@@ -51,8 +53,20 @@ describe("Feature: REST API", () => {
 
                 expect(response.status).toBe(401);
                 expect(response.get(TOKEN_HEADER)).toBeUndefined();
+            });
+
+            describe('GET /user-profiles/me', () => {
+
+                it('should return current user', async () => {
+                    const response = await supertest(server).get("/api/user-profiles/me")
+                        .set(TOKEN_HEADER, token)
+                        .send();
+                    expect(response.status).toBe(200);
+                    expect(response.body.username).toEqual("username");
+                });
+
             })
-        })
+        });
 
 
     });

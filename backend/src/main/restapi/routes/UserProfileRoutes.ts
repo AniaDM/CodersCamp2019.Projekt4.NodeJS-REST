@@ -1,15 +1,17 @@
 import * as express from 'express';
 import RestApiException from "../exception/RestApiException";
-import { NextFunction } from "express";
+import {NextFunction} from "express";
 import RegisterUserRequestBody from "../request/RegisterUserRequestBody";
 import * as uuid from "uuid";
 import validationMiddleware from "../middleware/ValidationMiddleware";
-import { ErrorCode } from "../../sharedkernel/domain/ErrorCode";
-import { UserProfileService } from "../../userprofile/application/UserProfileService";
-import { isDefined, isNotDefined } from "../../utils";
+import {ErrorCode} from "../../sharedkernel/domain/ErrorCode";
+import {UserProfileService} from "../../userprofile/application/UserProfileService";
+import {isDefined, isNotDefined} from "../../utils";
 import UpdateUserProfileRequestBody from "../request/UpdateUserProfileRequestBody";
 import * as bcrypt from 'bcrypt';
 import {UserCredentialsService} from "../../authentication/application/UserCredentialsService";
+import {currentUserMiddleware} from "../middleware/CurrentUserMiddleware";
+import {UserCredentials} from "../../authentication/domain/UserCredentials";
 
 export default (userProfileService: UserProfileService, userCredentialsService: UserCredentialsService) => {
     const router: express.Router = express.Router();
@@ -20,6 +22,12 @@ export default (userProfileService: UserProfileService, userCredentialsService: 
         }
         const foundUser = await userProfileService.findUserProfileByUsername(username);
         res.send(foundUser)
+    });
+
+    router.get('/me', currentUserMiddleware(userCredentialsService), async (req, res, next) => {
+        const currentUser: UserCredentials = req.body.currentUser;
+        const foundUser = await userProfileService.findUserProfileByUsername(currentUser.username);
+        res.send(foundUser);
     });
 
     router.get('/:id', async (req, res, next) => {
@@ -60,15 +68,19 @@ export default (userProfileService: UserProfileService, userCredentialsService: 
                     );
 
                     credentialsResult.process(() => {
-                        const tokenData = userCredentialsService.createToken({ _id: newUserId, username: requestBody.username, password: '' });
-                        result.process(
-                            () => {
-                                res.setHeader('x-auth-token', tokenData);
-                                res.status(201).send({ id: newUserId })
-                            },
-                            failure => next(new RestApiException(400, failure.reason, ErrorCode.USER_ALREADY_EXISTS))
-                        );
-                    },
+                            const tokenData = userCredentialsService.createToken({
+                                _id: newUserId,
+                                username: requestBody.username,
+                                password: ''
+                            });
+                            result.process(
+                                () => {
+                                    res.setHeader('x-auth-token', tokenData);
+                                    res.status(201).send({id: newUserId})
+                                },
+                                failure => next(new RestApiException(400, failure.reason, ErrorCode.USER_ALREADY_EXISTS))
+                            );
+                        },
                         failure => next(new RestApiException(500, ErrorCode.UNKNOWN, ErrorCode.VALIDATION_ERROR))
                     )
                 }
