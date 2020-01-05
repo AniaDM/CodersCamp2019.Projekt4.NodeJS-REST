@@ -51,6 +51,15 @@ class userProfile extends Component {
   console.log('s')
   }
 
+  addNewOffer(evt) {
+    evt.preventDefault();
+  console.log('s')
+  }
+
+  seeYourRoomRequests(evt) {
+    evt.preventDefault();
+  console.log('s')
+  }
 
 
 
@@ -74,34 +83,42 @@ class userProfile extends Component {
            <div className="userLogo">
             {/* //img src */}
            </div>
-           <div className="email" onClick={this.email}>`{this.em}email`</div>
+           <div className="email" onClick={this.email}>{this.state.email}</div>
            <div className="logOut" onClick={this.logOut}>LOGOUT</div>    
            </div>
 
       <div className="body">
-
            <div className="mainLogo">  {/* //img src */} </div>
             <div className='userFirstandSecondname'>{this.state.firstname} {this.state.secondname}</div>
 
-          <div className='table'>
-          <table>
-            <tr>
-              <th>username</th>
-              <th>  email</th>
-            </tr>
-            <tr>
-              <td>{this.state.firstname} {this.state.secondname}</td>
-              <td>{this.state.email}</td>
-            </tr>
-          </table>
-          </div>
-    
-
+                     <div className='table'>
+                     <table>
+                      <tr>
+                        <th>username</th>
+                        <th>  email</th>
+                      </tr>
+                      <tr>
+                        <td>{this.state.firstname} {this.state.secondname}</td>
+                        <td>{this.state.email}</td>
+                      </tr>
+                      </table>
+                      </div>
+          <div className="text">Your offer following rooms as a host</div>
+          <button className="addNewOffer" value="Add new offer" onClick={this.addNewOffer}>ADD NEW OFFER</button>
+          <button className="seeYourRoomRequests" value="See Your Room Request" onClick={this.seeYourRoomRequests}>SEE YOUR ROOM REQUESTS</button>
            </div>
 
 
+      <div className="roomOffers"></div>
+         <div className="window1">
+           
+         </div>
+         <div className="window2">
 
-
+           </div>
+           <div className="window3">
+           
+           </div>
 
       </div>
 
