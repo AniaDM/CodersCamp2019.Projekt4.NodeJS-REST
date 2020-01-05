@@ -1,6 +1,7 @@
 import {RoomReservation} from "../../domain/RoomReservation";
 import * as mongoose from "mongoose";
 import { RoomReservationRepository } from "../../domain/RoomReservationRepository";
+import { string } from "joi";
 
 export class MongoRoomReservationRepository implements RoomReservationRepository {
 
@@ -19,12 +20,14 @@ export class MongoRoomReservationRepository implements RoomReservationRepository
     }
 
     save(roomReservation: RoomReservation): Promise<RoomReservation> {
-        const {_id, offerId, owner, userId, dateCheckIn, dateCheckOut, paymentMethod, status, numberOfGuests, notice} = roomReservation;
+        const {_id, offerId, owner, userId, name, surname, dateCheckIn, dateCheckOut, paymentMethod, status, numberOfGuests, notice} = roomReservation;
         return new MongoRoomReservation({
             _id: _id,
             offerId,
             owner,
             userId,
+            name,
+            surname,
             dateCheckIn,
             dateCheckOut,
             paymentMethod,
@@ -36,6 +39,8 @@ export class MongoRoomReservationRepository implements RoomReservationRepository
 
     update(roomReservation: RoomReservation): Promise<RoomReservation> {
         return MongoRoomReservation.findByIdAndUpdate(roomReservation._id, {
+            name: roomReservation.name,
+            surname: roomReservation.surname,
             dateCheckIn: roomReservation.dateCheckIn,
             dateCheckOut: roomReservation.dateCheckOut,
             paymentMethod: roomReservation.paymentMethod,
@@ -54,9 +59,17 @@ const RoomReservationSchema = new mongoose.Schema({
     offerId: String,
     owner: String,
     userId: String,
+    name: {
+        type: String,
+        required: true
+    },
+    surname: {
+        type: String,
+        required: true
+    },
     dateCheckIn: {
         type: Date,
-        required: true,
+        required: true
     },
     dateCheckOut: {
         type: Date,
