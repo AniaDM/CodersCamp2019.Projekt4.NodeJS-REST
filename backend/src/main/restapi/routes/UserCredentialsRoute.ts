@@ -6,6 +6,8 @@ import { ErrorCode } from "../../sharedkernel/domain/ErrorCode";
 import { UserCredentialsService } from "../../authentication/application/UserCredentialsService";
 import bcrypt from 'bcrypt';
 
+export const TOKEN_HEADER = 'x-auth-token';
+
 export default (userCredentialsService: UserCredentialsService) => {
     const router: express.Router = express.Router();
 
@@ -16,7 +18,7 @@ export default (userCredentialsService: UserCredentialsService) => {
             await bcrypt.compare(requestBody.password, result.password, (err, matched) => {
                 if (matched) {
                     const tokenData = userCredentialsService.createToken(result);
-                    res.setHeader('x-auth-token', tokenData);
+                    res.setHeader(TOKEN_HEADER, tokenData);
                     res.send(result);
                 } else {
                     next(new RestApiException(401, `Bad credentials!`, ErrorCode.WRONG_CREDENTIALS_EXCEPTION));
@@ -28,7 +30,7 @@ export default (userCredentialsService: UserCredentialsService) => {
         } else {
             next(new RestApiException(404, `User profile not found!`, ErrorCode.USER_PROFILE_NOT_FOUND));
         }
-    })
+    });
 
     router.post('/logout', validationMiddleware(UserCredentialsRequestBody), async (req, res, next) => {
         res.setHeader('Set-Cookie', ['Authorization=;Max-age=0']);

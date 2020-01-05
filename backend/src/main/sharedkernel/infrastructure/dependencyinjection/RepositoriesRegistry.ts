@@ -6,30 +6,29 @@ import {MongoUserProfileRepository} from "../../../userprofile/infrastructure/mo
 import {InMemoryUserCredentialsRepository} from '../../../authentication/infrastructure/inmemory/InMemoryUserCredentialsRepository';
 import {MongoUserCredentialsRepository} from '../../../authentication/infrastructure/mongodb/MongoCredentialsRepository';
 import {UserProfileRepository} from "../../../userprofile/domain/UserProfileRepository";
-
 import {InMemoryRoomOfferRepository} from "../../../roomoffers/infrastructure/InMemoryRoomOfferRepository";
 import {MongoRoomOfferRepository} from "../../../roomoffers/infrastructure/MongoRoomOfferRepository";
 import {RoomOfferRepository} from "../../../roomoffers/RoomOfferRepository";
-
-
 import {UserCredentialsRepository} from "../../../authentication/domain/UserCredentialsRepository";
 import config from "config";
+import {MongoRoomReservationRepository} from "../../../roomreservation/infrastructure/mongodb/MongoRoomReservationRepository";
+import {RoomReservationRepository} from "../../../roomreservation/domain/RoomReservationRepository";
 import {PhotoRepository} from "../../../photos/domain/PhotoRepository";
 import {MongoPhotoRepository} from "../../../photos/infrastructure/MongoPhotoRepository";
 import {RoomReviewRepository} from "../../../roomreview/RoomReviewRepository";
 import {MongoRoomReviewRepository} from "../../../roomreview/infrastructure/MongoRoomReviewRepository";
+import {InMemoryRoomReservationRepository} from "../../../roomreservation/infrastructure/inmemory/InMemoryRoomReservationRepository";
 
 
 export class RepositoriesRegistry {
     constructor(private mode: DatabaseMode) {
-        this.initializeDb();
     }
 
-    static init() {
+    static instance() {
         return this.forMode(databaseModeFrom(config.get<string>("database.mode")));
     }
 
-    static initWith(mode: DatabaseMode) {
+    static instanceFor(mode: DatabaseMode) {
         return this.forMode(mode);
     }
 
@@ -38,25 +37,25 @@ export class RepositoriesRegistry {
         return new RepositoriesRegistry(mode);
     }
 
-    private initializeDb() {
+    async initializeDb(): Promise<RepositoriesRegistry> {
         switch (this.mode) {
             case DatabaseMode.EXTERNAL_MONGODB: {
                 const connectionString = config.get<string>("database.external_mongo.uri");
-                mongoose.connect(connectionString)
-                    .then(() => console.log(`External MongoDb connected on: ${connectionString}`));
-                break;
+                return mongoose.connect(connectionString)
+                    .then(() => console.log(`External MongoDb connected on: ${connectionString}`))
+                    .then(() => this);
             }
             case DatabaseMode.IN_MEMORY_LISTS: {
                 console.log(`In memory repositories based on lists initialized`);
-                break;
+                return Promise.resolve(this);
             }
             case DatabaseMode.EMBEDDED_MONGODB: {
-                newDatabase()
+                return newDatabase()
                     .then(connectionString => {
                         mongoose.connect(connectionString)
                             .then(() => console.log(`Embedded MongoDb connected on: ${connectionString}`));
-                    });
-                break;
+                    })
+                    .then(() => this);
             }
         }
     }
@@ -96,5 +95,11 @@ export class RepositoriesRegistry {
         return this.mode === DatabaseMode.IN_MEMORY_LISTS
             ? new InMemoryRoomOfferRepository()
             : new MongoRoomOfferRepository()
+    }
+
+    get roomReservation(): RoomReservationRepository {
+        return this.mode === DatabaseMode.IN_MEMORY_LISTS
+            ? new InMemoryRoomReservationRepository()
+            : new MongoRoomReservationRepository()
     }
 }

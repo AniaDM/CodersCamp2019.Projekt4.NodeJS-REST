@@ -9,8 +9,9 @@ import AddRoomOfferRequestBody from '../request/AddRoomOfferRequestBody';
 import UpdateRoomOfferRequestBody from '../request/UpdateRoomOfferRequestBody';
 import {currentUserMiddleware} from "../middleware/CurrentUserMiddleware";
 import {UserCredentials} from "../../authentication/domain/UserCredentials";
+import {UserCredentialsService} from "../../authentication/application/UserCredentialsService";
 
-export default (roomOffersService: RoomOffersService) => {
+export default (roomOffersService: RoomOffersService, userCredentialsService: UserCredentialsService) => {
   const router: express.Router = express.Router();
 
   router.get('/', async (req, res, next) => {
@@ -25,7 +26,7 @@ export default (roomOffersService: RoomOffersService) => {
     res.send(offers);
   });
 
-  router.post('/', [validationMiddleware(AddRoomOfferRequestBody), currentUserMiddleware], async (req, res, next) => {
+  router.post('/', [validationMiddleware(AddRoomOfferRequestBody), currentUserMiddleware(userCredentialsService)], async (req, res, next) => {
       const requestBody: AddRoomOfferRequestBody = req.body;
       const currentUser: UserCredentials = req.body.currentUser;
       const id = uuid.v4();
