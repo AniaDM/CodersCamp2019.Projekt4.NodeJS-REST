@@ -73,9 +73,9 @@ export namespace ExpressServer {
 
                 const app = express();
                 app.use(express.json());
-                routes.forEach(it => app.use(`/api${it.endpoint}`, it.router));
-                app.use(errorMiddleware);
                 app.use(cors());
+                app.use(errorMiddleware);
+                routes.forEach(it => app.use(`/api${it.endpoint}`, it.router));
                 return app;
             });
     }
