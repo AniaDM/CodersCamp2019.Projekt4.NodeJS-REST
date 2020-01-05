@@ -10,10 +10,11 @@ import RoomReservationRequestBody from '../request/RoomReservationRequestBody';
 import UpdateRoomReservationRequestBody from '../request/UpdateRoomReservationRequestBody';
 import AcceptRoomReservationRequestBody from '../request/AcceptRoomReservationRequestBody'
 import { RoomOfferRepository } from "../../roomoffers/RoomOfferRepository";
+import {UserCredentialsService} from "../../authentication/application/UserCredentialsService";
 
-export default (roomReservationService: RoomReservationService, roomOfferRepository: RoomOfferRepository) => {
+export default (roomReservationService: RoomReservationService, roomOfferRepository: RoomOfferRepository, userCredentialsService: UserCredentialsService) => {
     const router: express.Router = express.Router();
-    router.get('/guest-reservations', currentUserMiddleware, async (req, res, next) => {
+    router.get('/guest-reservations', currentUserMiddleware(userCredentialsService), async (req, res, next) => {
         const userId = req.body.currentUser.id;
         if (isNotDefined(userId)) {
             next(new RestApiException(400, `Bad request!`, ErrorCode.BAD_REQUEST))
@@ -21,7 +22,7 @@ export default (roomReservationService: RoomReservationService, roomOfferReposit
         const foundReservations = await roomReservationService.findRoomReservationByUserId(userId);
         res.send(foundReservations)
     });
-    router.get('/host-reservations', currentUserMiddleware, async (req, res, next) => {
+    router.get('/host-reservations', currentUserMiddleware(userCredentialsService), async (req, res, next) => {
         const user = req.body.currentUser.username;
         if (isNotDefined(user)) {
             next(new RestApiException(400, `Bad request!`, ErrorCode.BAD_REQUEST))
@@ -30,7 +31,7 @@ export default (roomReservationService: RoomReservationService, roomOfferReposit
         res.send(foundReservations)
     });
 
-    router.get('/guest-reservations/:id', currentUserMiddleware, async (req, res, next) => {
+    router.get('/guest-reservations/:id', currentUserMiddleware(userCredentialsService), async (req, res, next) => {
         const userId = req.body.currentUser.id;
         const reservationId = req.params.id;
         const foundReservation = await roomReservationService.findRoomReservationById(reservationId);
@@ -45,7 +46,7 @@ export default (roomReservationService: RoomReservationService, roomOfferReposit
         }
     });
 
-    router.get('/host-reservations/:id', currentUserMiddleware, async (req, res, next) => {
+    router.get('/host-reservations/:id', currentUserMiddleware(userCredentialsService), async (req, res, next) => {
         const reservationId = req.params.id;
         const foundReservation = await roomReservationService.findRoomReservationById(reservationId);
         if(!foundReservation){
@@ -64,7 +65,7 @@ export default (roomReservationService: RoomReservationService, roomOfferReposit
         }
     });
 
-    router.post('/guest-reservations', currentUserMiddleware, validationMiddleware(RoomReservationRequestBody), async (req, res, next) => {
+    router.post('/guest-reservations', currentUserMiddleware(userCredentialsService), validationMiddleware(RoomReservationRequestBody), async (req, res, next) => {
         const requestBody: RoomReservationRequestBody = req.body;
         const offer = await roomOfferRepository.findById(requestBody.offerId);
         if (isNotDefined(offer)) {
@@ -93,7 +94,7 @@ export default (roomReservationService: RoomReservationService, roomOfferReposit
     );
 
 
-    router.patch('/:id/status', currentUserMiddleware, validationMiddleware(AcceptRoomReservationRequestBody), async (req, res, next) => {
+    router.patch('/:id/status', currentUserMiddleware(userCredentialsService), validationMiddleware(AcceptRoomReservationRequestBody), async (req, res, next) => {
         const requestBody: AcceptRoomReservationRequestBody = req.body;
         const id = req.params.id;
         const offer = await roomOfferRepository.findById(id);

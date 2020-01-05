@@ -1,4 +1,4 @@
-import express, {NextFunction, Request, Response} from 'express';
+import express, {Express, NextFunction, Request, Response} from 'express';
 import RestApiException from "./exception/RestApiException";
 import {RepositoriesRegistry} from "../sharedkernel/infrastructure/dependencyinjection/RepositoriesRegistry";
 import config from "config";
@@ -29,53 +29,56 @@ import cors from 'cors';
 
 export namespace ExpressServer {
 
-    const repositoriesRegistry = RepositoriesRegistry.init();
-    const roomOfferRepository: RoomOfferRepository = repositoriesRegistry.roomOffer;
-    const photoStorage = new PhotoStorage(repositoriesRegistry.photos);
-    const userProfileService = new UserProfileService(repositoriesRegistry.userProfile, photoStorage);
-    export const userCredentialsService = new UserCredentialsService(repositoriesRegistry.userCredentials);
-    const roomReservationService = new RoomReservationService(repositoriesRegistry.roomReservation);
-    const roomSearcher = new RoomSearcher(repositoriesRegistry.roomOffer);
-    const emailMode: EmailMode = emailModeFrom(config.get<string>("emailsender.mode"));
-    const emailSender: EmailSender = emailMode === EmailMode.GMAIL ? new GmailEmailSender() : new ConsoleLogEmailSender();
-    export const roomOffersService = new RoomOffersService(roomOfferRepository);
-    const roomReviewService = new RoomReviewService(repositoriesRegistry.roomOfferReviews);
+    export function start(port: number = config.get<number>("express.server.port")): Promise<Express> {
+        return RepositoriesRegistry.instance()
+            .initializeDb()
+            .then(repositoriesRegistry => {
+                const roomOfferRepository: RoomOfferRepository = repositoriesRegistry.roomOffer;
+                const photoStorage = new PhotoStorage(repositoriesRegistry.photos);
+                const userProfileService = new UserProfileService(repositoriesRegistry.userProfile, photoStorage);
+                const userCredentialsService = new UserCredentialsService(repositoriesRegistry.userCredentials);
+                const roomReservationService = new RoomReservationService(repositoriesRegistry.roomReservation);
+                const roomSearcher = new RoomSearcher(repositoriesRegistry.roomOffer);
+                const emailMode: EmailMode = emailModeFrom(config.get<string>("emailsender.mode"));
+                const emailSender: EmailSender = emailMode === EmailMode.GMAIL ? new GmailEmailSender() : new ConsoleLogEmailSender();
+                const roomOffersService = new RoomOffersService(roomOfferRepository);
+                const roomReviewService = new RoomReviewService(repositoriesRegistry.roomOfferReviews);
 
-    const routes: { endpoint: string, router: express.Router }[] = [
-        {
-            endpoint: UserProfileRoutes.ROUTE_URL,
-            router: UserProfileRoutes.default(userProfileService)
-        },
-        {
-            endpoint: RoomOfferRoutes.ROUTE_URL,
-            router: RoomOfferRoutes.default(roomOffersService)
-        },
-        {
-            endpoint: UserCredentialsRoutes.ROUTE_URL,
-            router: UserCredentialsRoutes.default(userCredentialsService)
-        },
-        {
-            endpoint: RoomSearchRoutes.ROUTE_URL,
-            router: RoomSearchRoutes.default(roomSearcher)
-        },
-        {
-            endpoint: RoomReviewRoutes.ROUTE_URL,
-            router: RoomReviewRoutes.get(roomReviewService)
-        },
-        {
-            endpoint: RoomReservationRoutes.ROUTE_URL,
-            router: RoomReservationRoutes.default(roomReservationService, roomOfferRepository)
-        }
-    ];
+                const routes: { endpoint: string, router: express.Router }[] = [
+                    {
+                        endpoint: UserProfileRoutes.ROUTE_URL,
+                        router: UserProfileRoutes.default(userProfileService, userCredentialsService)
+                    },
+                    {
+                        endpoint: RoomOfferRoutes.ROUTE_URL,
+                        router: RoomOfferRoutes.default(roomOffersService, userCredentialsService)
+                    },
+                    {
+                        endpoint: UserCredentialsRoutes.ROUTE_URL,
+                        router: UserCredentialsRoutes.default(userCredentialsService)
+                    },
+                    {
+                        endpoint: RoomSearchRoutes.ROUTE_URL,
+                        router: RoomSearchRoutes.default(roomSearcher)
+                    },
+                    {
+                        endpoint: RoomReviewRoutes.ROUTE_URL,
+                        router: RoomReviewRoutes.get(roomReviewService, userCredentialsService)
+                    },
+                    {
+                        endpoint: RoomReservationRoutes.ROUTE_URL,
+                        router: RoomReservationRoutes.default(roomReservationService, roomOfferRepository, userCredentialsService)
+                    }
+                ];
 
-    export function start(port: number = config.get<number>("express.server.port")) {
-        const app = express();
-        app.use(express.json());
-        routes.forEach(it => app.use(`/api${it.endpoint}`, it.router));
-        app.use(errorMiddleware);
-        app.use(cors());
-        app.listen(port, () => console.log(`Express server listening on port ${port}`));
-        return app;
+                const app = express();
+                app.use(express.json());
+                routes.forEach(it => app.use(`/api${it.endpoint}`, it.router));
+                app.use(errorMiddleware);
+                app.use(cors());
+                app.listen(port, () => console.log(`Express server listening on port ${port}`));
+                return app;
+            });
     }
 
     const DEFAULT_ERROR_MESSAGE = 'Something went wrong';

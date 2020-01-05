@@ -4,15 +4,14 @@ import { NextFunction } from "express";
 import RegisterUserRequestBody from "../request/RegisterUserRequestBody";
 import * as uuid from "uuid";
 import validationMiddleware from "../middleware/ValidationMiddleware";
-import { currentUserMiddleware } from "../middleware/CurrentUserMiddleware";
 import { ErrorCode } from "../../sharedkernel/domain/ErrorCode";
 import { UserProfileService } from "../../userprofile/application/UserProfileService";
 import { isDefined, isNotDefined } from "../../utils";
 import UpdateUserProfileRequestBody from "../request/UpdateUserProfileRequestBody";
 import * as bcrypt from 'bcrypt';
-import { ExpressServer } from '../ExpressServer';
+import {UserCredentialsService} from "../../authentication/application/UserCredentialsService";
 
-export default (userProfileService: UserProfileService) => {
+export default (userProfileService: UserProfileService, userCredentialsService: UserCredentialsService) => {
     const router: express.Router = express.Router();
     router.get('/', async (req, res, next) => {
         const username = req.query.username;
@@ -33,7 +32,6 @@ export default (userProfileService: UserProfileService) => {
         }
     });
 
-    //TODO: Invoke UserCredentialsService and save user data for authorization purposes
     router.post('/', validationMiddleware(RegisterUserRequestBody), async (req, res, next) => {
         const requestBody: RegisterUserRequestBody = req.body;
         if (requestBody.password !== requestBody.repeatedPassword) {
@@ -53,7 +51,7 @@ export default (userProfileService: UserProfileService) => {
                 if (error) {
                     next(new RestApiException(500, ErrorCode.UNKNOWN, ErrorCode.VALIDATION_ERROR));
                 } else {
-                    const credentialsResult = await ExpressServer.userCredentialsService.createCredentials(
+                    const credentialsResult = await userCredentialsService.createCredentials(
                         {
                             _id: newUserId,
                             username: requestBody.username,
@@ -62,7 +60,7 @@ export default (userProfileService: UserProfileService) => {
                     );
 
                     credentialsResult.process(() => {
-                        const tokenData = ExpressServer.userCredentialsService.createToken({ _id: newUserId, username: requestBody.username, password: '' });
+                        const tokenData = userCredentialsService.createToken({ _id: newUserId, username: requestBody.username, password: '' });
                         result.process(
                             () => {
                                 res.setHeader('x-auth-token', tokenData);
