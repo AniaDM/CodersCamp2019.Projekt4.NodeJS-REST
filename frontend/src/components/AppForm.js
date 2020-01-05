@@ -77,7 +77,6 @@ class AppForm extends React.Component {
   };
 
   handleSubmit = event => {
-    console.log('juhu');
     event.preventDefault();
 
     fetch('http://localhost:4000/api/room-offers', {
@@ -87,7 +86,7 @@ class AppForm extends React.Component {
       },
       body: JSON.stringify({
         roomLocation: this.state.location,
-        price: this.state.amount,
+        price: parseInt(this.state.amount),
         roomPhoto: this.state.photo,
         numberOfGuests: this.state.guests,
         numberOfBeds: this.state.beds,
@@ -98,8 +97,6 @@ class AppForm extends React.Component {
       .then(res => res.json())
       .then(res => console.log(res));
   };
-
-  componentDidMount() {}
 
   render() {
     return (

@@ -14,6 +14,12 @@ export default (roomOffersService: RoomOffersService) => {
   const cors = require('cors');
   const router: express.Router = express.Router();
 
+  router.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
+
   router.get('/', async (req, res, next) => {
     const username = req.query.username;
 
@@ -33,7 +39,6 @@ export default (roomOffersService: RoomOffersService) => {
 
   router.post(
     '/',
-    cors(),
     [validationMiddleware(AddRoomOfferRequestBody), currentUserMiddleware],
     async (req: any, res: any, next: any) => {
       const requestBody: AddRoomOfferRequestBody = req.body;
@@ -44,8 +49,8 @@ export default (roomOffersService: RoomOffersService) => {
         username: currentUser.username,
         isPublic: false,
         roomLocation: requestBody.roomLocation,
-        dateCheckIn: new Date(requestBody.dateCheckIn),
-        dateCheckOut: new Date(requestBody.dateCheckOut),
+        dateCheckIn: requestBody.dateCheckIn ? new Date(requestBody.dateCheckIn) : undefined,
+        dateCheckOut: requestBody.dateCheckOut ? new Date(requestBody.dateCheckOut) : undefined,
         price: requestBody.price,
         roomPhoto: requestBody.roomPhoto,
         paymentMethod: requestBody.paymentMethod,

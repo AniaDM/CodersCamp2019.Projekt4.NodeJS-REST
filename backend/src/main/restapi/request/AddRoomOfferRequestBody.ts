@@ -1,6 +1,9 @@
 import {IsOptional, IsString, Length, IsDate, IsNumber, IsArray, Min, Max} from "class-validator";
 
 export default class AddRoomOfferRequestBody {
+    @IsString()
+    @Length(2, 64)
+    public username: string;
 
     @IsString()
     @Length(2, 64)
@@ -44,7 +47,8 @@ export default class AddRoomOfferRequestBody {
     @IsString()
     public description: string
 
-    constructor(roomLocation: string, dateCheckIn: string, dateCheckOut: string, price: number, roomPhoto: string, paymentMethod: string, numberOfGuests: number, numberOfBeds: number, numberOfGuestsPerBeds: number, additionalServices: Array<string>,title: string, description: string) {
+    constructor(username: string, roomLocation: string, dateCheckIn: string, dateCheckOut: string, price: number, roomPhoto: string, paymentMethod: string, numberOfGuests: number, numberOfBeds: number, numberOfGuestsPerBeds: number, additionalServices: Array<string>,title: string, description: string) {
+        this.username = username;
         this.roomLocation = roomLocation;
         this.dateCheckIn = dateCheckIn;
         this.dateCheckOut = dateCheckOut;
