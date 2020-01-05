@@ -12,45 +12,96 @@ import DeleteIcon from '@material-ui/icons/Delete';
 /*test console*/
 class ListOfPreservedRooms extends React.Component {
 
-  componentDidMount() {
-    fetch('http://localhost:4000/api/room-offers')
-      .then(response => response.json())
-      // .then(data => console.log({ data }))
-      .catch(err => console.log(err))
-  }
+  state = {
+    userId: '',
+    username: '',
+    email: '',
+    roomOfferId: '',
+    location: '',
+    dateCheckIn: '',
+    dateCheckOut: '',
+    numberOfGuests: '',
+    paymentMethod: '',
+    XXaccept: '',
+  };
 
+ 
+  wysylka = event => {
+    console.log('juhu');
+    // event.preventDefault();
+
+    for (let i=1; i<5; i++){
+      this.setState.roomOfferId = i;
+      this.setState.dateCheckIn = `${1+i}.08.2020`;
+      this.setState.dateCheckOut = `${10+i}.08.2020`;
+      this.setState.numberOfGuests = i; 
+
+    fetch('http://localhost:4000/api/room-review/1', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        userId: 1,
+        email: 'test@test.pl',
+        location: 'Wroclaw',
+        roomOfferId: this.state.roomOfferId,
+        dateCheckIn: this.state.dateCheckIn,
+        numberOfGuests: this.state.numberOfGuests,
+        numberOfBeds: this.state.beds,
+        paymentMethod: 'card',
+        XXaccept: 'do wyboru'
+      })
+    })
+      .then(res => res.json())
+      .then(res => console.log(res));
+  }
+  };
+
+  //  componentDidMount() {
+  //   fetch('api/Room-review')
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       this.setState({
+  //         username: ''
+  //       })
+  //     }
+  //     .catch(err => console.log(err))
+  // }}
+   
 render() {
+  this.wysylka();
+
   return (
     <Card className='card'>
 
       <CardContent className='first'>
        
-        <Typography className='title'>
+        <Typography className='titleItems'>
           Where
         </Typography>
    
-        <Typography className='contentItems' component="h2">
+        <Typography className='contentItems'>
         Cosy Apartment close to City Center
         </Typography>
-        <Typography className='content, city' component="h2">
+        <Typography className='content, city'>
         <Place style={{transform: 'translate(0, 5px)'}} /> Wroclaw
         </Typography>
 
       </CardContent>
 
-
       <CardContent className='first'>
-        <Typography className='title'>
+        <Typography className='titleItems'>
         When
         </Typography>
-        <Typography className='contentItems'  component="h2">
+        <Typography className='contentItems'>
         From 2020-01-01 To 2020-01-05
         </Typography>
       </CardContent>
 
       <CardContent className='second'>
 
-        <Typography className='title' gutterBottom>
+        <Typography className='titleItems'>
             Who
         </Typography>
 
@@ -64,11 +115,11 @@ render() {
 
         <CardContent className='second'>
 
-        <Typography className='title' gutterBottom>
+        <Typography className='titleItems'>
             With who?
         </Typography>
 
-        <Typography className='contentItems' component="h2">
+        <Typography className='contentItems'>
             Alone
         </Typography>
 
@@ -76,17 +127,17 @@ render() {
 
         <CardContent className='second'>
 
-        <Typography className='title' gutterBottom>
+        <Typography className='titleItems'>
             Will pay by
         </Typography>
 
-        <Typography className='contentItems' component="h2">
+        <Typography className='contentItems'>
             Credit card
         </Typography>
 
     </CardContent>
 
-    <Typography className='title, accepted' component="h2">
+    <Typography className='accepted'>
     
         </Typography>
       <CardActions>

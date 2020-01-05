@@ -7,16 +7,17 @@
       margin: 2vh;
       color: black;
     }
-     .title {
+     .titleItems {
        display: flex;
        justify-content: center;
        align-content: center;
       color: #555555;
-      font-size: 26px;
-      font-weight: 700;
-      margin: 1vh;
+      font-size: 20px;
+      font-weight: bold;
+      margin: .5vh;
       height: 3vh;  
       text-align: center;  
+      
     }
     .pos {
       margin-bottom: 12px;
@@ -35,6 +36,7 @@
     .contentItems {
       font-size: 10px;
       margin: 0;
+      text-align: center;
     }
     .city {
       color: '#c8c8c8';

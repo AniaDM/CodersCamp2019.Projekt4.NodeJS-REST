@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import './itemList.css';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -7,128 +7,81 @@ import Typography from '@material-ui/core/Typography';
 import Place from '@material-ui/icons/Place';
 import PersonIcon from '@material-ui/icons/Person';
 
-const useStyles = makeStyles({
-  card: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    height: '15vh',
-    boxShadow: '2px 2px 2px 3px #808080',
-    margin: '2vh',
-    
-    color: 'black',
-  },
-   title: {
-     display: 'flex',
-     justifyContent: 'center',
-     alignContent: 'center',
-     color: 'black',
-     fontSize: 16,
-     fontWeight: "700",
-     margin: '1vh',
-      height: '3vh',    
-  },
-  pos: {
-    marginBottom: 12,
-    
-  },
-  first: {
-    width: '15vw',
-  },
-  second: {
-    width: '11vw',
-  },
-  accepted: {
-    display: 'flex',
-    alignItems: 'center',
-    fontWeight: "700",
-  },
-  content: {
-    fontSize: '14px',
-    margin: 0,
-  },
-  city: {
-    color: '#c8c8c8',
-    fontSize: '14px',
-    margin: '0',
-  }
-});
-
-const ListOfRoomReviews = props => {
-  const classes = useStyles();
-
+  class ListOfRoomReviews extends React.Component {
+    render() {
   return (
-    <Card className={classes.card}>
 
-      <CardContent className={classes.first}>
+    <Card className='card'>
+
+      <CardContent className='first'>
        
-        <Typography className={classes.title} color="textSecondary" gutterBottom>
+        <Typography className='title'>
           Where
         </Typography>
    
-        <Typography className={classes.content} variant="h5" component="h2">
+        <Typography className='content'>
         Cosy Apartment close to City Center
         </Typography>
-        <Typography className={classes.city} variant="h5" component="h2">
+        <Typography className='city'>
         <Place style={{transform: 'translate(0, 5px)'}} /> Wroclaw
         </Typography>
 
       </CardContent>
 
 
-      <CardContent className={classes.first}>
-        <Typography className={classes.title} color="textSecondary" gutterBottom>
+      <CardContent className='first'>
+        <Typography className='title'>
         When
         </Typography>
-        <Typography className={classes.content} variant="h5" component="h2">
+        <Typography className='content'>
         From 2020-01-01 To 2020-01-05
         </Typography>
       </CardContent>
 
-      <CardContent className={classes.second}>
+      <CardContent className='second'>
 
-        <Typography className={classes.title} color="textSecondary" gutterBottom>
+        <Typography className='title'>
             Who
         </Typography>
 
-        <Typography className={classes.content} variant="h5" component="h2">
+        <Typography className='content'>
         <PersonIcon color="primary" style={{transform: 'translate(-3px, 5px)'}} />Jan Kowalski
         </Typography>
 
         </CardContent>
 
-        <CardContent className={classes.second}>
+        <CardContent className='second'>
 
-        <Typography className={classes.title} color="textSecondary" gutterBottom>
+        <Typography className='title'>
           With who?
         </Typography>
 
-        <Typography className={classes.content} variant="h5" component="h2">
-        Alone
+        <Typography className='content'>
+          Alone
         </Typography>
 
         </CardContent>
 
-        <CardContent className={classes.second}>
+        <CardContent className='second'>
 
-        <Typography className={classes.title} color="textSecondary" gutterBottom>
+        <Typography className='title'>
         Will pay by
         </Typography>
 
-        <Typography className={classes.content} variant="h5" component="h2">
+        <Typography className='content'>
         Credit card
         </Typography>
 
     </CardContent>
 
-    <Typography className={classes.accepted} variant="h5" component="h2">
+    <Typography className='accepted' variant="h5" component="h2">
     ACCEPTED
         </Typography>
       <CardActions>
         
       </CardActions>
     </Card>
-  );
+  )};
 }
 
    
