@@ -23,5 +23,14 @@ export class RoomReviewService {
         return this.roomReviewRepository.findAllByRoomOfferId(roomOfferId);
     }
 
+    async getAverageRatingByRoomOfferId(roomOfferId: string): Promise<number | null> {
+        const reviews = await this.roomReviewRepository.findAllByRoomOfferId(roomOfferId);
+        if (reviews.length === 0) {
+            return null;
+        }
+        const ratingSum = reviews.map(it => it.rate).map(it => it as number).reduce((r1, r2) => r1 + r2);
+        return ratingSum / reviews.length;
+    }
+
 
 }
