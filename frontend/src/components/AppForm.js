@@ -1,12 +1,6 @@
 import React from 'react';
 import './AppForm.css';
-import { TextField, InputAdornment, FormControl } from '@material-ui/core';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import InputLabel from '@material-ui/core/InputLabel';
-import IconButton from '@material-ui/core/IconButton';
-import InputBase from '@material-ui/core/InputBase';
-import Button from '@material-ui/core/Button';
-import Fab from '@material-ui/core/Fab';
+import { TextField, InputAdornment, FormControl, OutlinedInput, InputLabel, IconButton, InputBase, Button, Fab} from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import SendIcon from '@material-ui/icons/Send';
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
@@ -61,7 +55,10 @@ class AppForm extends React.Component {
   };
 
   decreaseBeds = () => {
-    this.setState({ beds: this.state.beds - 1 });
+    if (this.state.beds > 0) {
+      this.setState({ beds: this.state.beds - 1 });
+    } else {
+    }
   };
 
   handleImgToBase64 = event => {
@@ -96,12 +93,14 @@ class AppForm extends React.Component {
     })
       .then(res => res.json())
       .then(res => console.log(res));
-  };
+  };  
+
+  
 
   render() {
     return (
       <div>
-        <div>Please decribe what do you offer</div>
+        <div id="header">Please decribe what do you offer</div>
         <form
           className="offer"
           noValidate
@@ -147,10 +146,11 @@ class AppForm extends React.Component {
             onChange={this.handleChange}
             defaultValue=" "
             multiline
-            rows="5"
+            rows="6"
             variant="outlined"
           />
-          <div>For how many guests?</div>
+          <div id="guests">
+          <div className="how-many-text">For how many guests?</div>
           <IconButton className="buttons" onClick={this.decreaseGuests}>
             <RemoveCircleOutlineIcon fontSize="large" />
           </IconButton>
@@ -161,7 +161,10 @@ class AppForm extends React.Component {
           <IconButton className="buttons" onClick={this.increaseGuests}>
             <AddCircleOutlineIcon fontSize="large" />
           </IconButton>
-          <div>With how many beds?</div>
+          </div>
+
+          <div id="beds">
+          <div className="how-many-text">With how many beds?</div>
           <IconButton className="buttons" onClick={this.decreaseBeds}>
             <RemoveCircleOutlineIcon fontSize="large" />
           </IconButton>
@@ -172,7 +175,9 @@ class AppForm extends React.Component {
           <IconButton className="buttons" onClick={this.increaseBeds}>
             <AddCircleOutlineIcon fontSize="large" />
           </IconButton>
+          </div>
 
+          <div id="add-photo">
           <Fab
             aria-label="add"
             onClick={this.handleFileSelect}
@@ -189,7 +194,9 @@ class AppForm extends React.Component {
             onChange={this.handleImgToBase64}
             style={{ display: 'none' }}
           ></InputBase>
-          <div>Add photo</div>
+
+          <div className="add-photo-text">Add photo</div>
+          </div>
 
           <Button
             variant="contained"
@@ -197,7 +204,7 @@ class AppForm extends React.Component {
             type="submit"
             endIcon={<SendIcon />}
           >
-            Send
+            SUBMIT ROOM OFFER
           </Button>
         </form>
       </div>
