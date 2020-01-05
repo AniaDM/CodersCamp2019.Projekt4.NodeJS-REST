@@ -6,11 +6,12 @@ import AddRoomReviewRequestBody from "../request/AddRoomReviewRequestBody";
 import {UserCredentials} from "../../authentication/domain/UserCredentials";
 import RestApiException from "../exception/RestApiException";
 import {ErrorCode} from "../../sharedkernel/domain/ErrorCode";
+import {UserCredentialsService} from "../../authentication/application/UserCredentialsService";
 
-export const get = (roomReviewService: RoomReviewService) => {
+export const get = (roomReviewService: RoomReviewService, userCredentialsService: UserCredentialsService) => {
     const router: express.Router = express.Router();
 
-    router.post('', [validationMiddleware(AddRoomReviewRequestBody), currentUserMiddleware], async (req, res, next) => {
+    router.post('', [validationMiddleware(AddRoomReviewRequestBody), currentUserMiddleware(userCredentialsService)], async (req, res, next) => {
         const requestBody: AddRoomReviewRequestBody = req.body;
         const currentUser: UserCredentials = req.body.currentUser;
         const result = await roomReviewService.addReview({userId: currentUser._id, ...requestBody});

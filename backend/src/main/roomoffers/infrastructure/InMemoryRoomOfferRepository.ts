@@ -24,8 +24,8 @@ export class InMemoryRoomOfferRepository implements RoomOfferRepository {
 
     findByUsername(username: string): Promise<RoomOffer[]> {
         return Promise.resolve(this.offers.filter(it => it.username === username));
-      }
-    
+    }
+
 
     save(roomOffer: RoomOffer): Promise<RoomOffer> {
         return Promise.resolve(this.offers[0]);
@@ -39,8 +39,8 @@ export class InMemoryRoomOfferRepository implements RoomOfferRepository {
         return Promise.resolve(this.offers[0]);
     }
 
-    findById(offerId: string): Promise<RoomOffer>|null {
-        return null;
+    findById(offerId: string): Promise<RoomOffer | null> {
+        return Promise.resolve(this.offers.filter(it => it._id === offerId)[0]);
     }
 
     getAll(): Promise<RoomOffer[]> {
