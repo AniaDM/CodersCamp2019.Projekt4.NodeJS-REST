@@ -4,15 +4,15 @@ export class RoomOffer {
         public username: string,
         public isPublic: boolean,
         public roomLocation: string,
-        public dateCheckIn: Date,
-        public dateCheckOut: Date,
         public price: number,
-        public roomPhoto: string,
-        public paymentMethod: string,
         public numberOfGuests: number,
         public numberOfBeds: number,
-        public numberOfGuestsPerBeds: number,
-        public additionalServices?: Array<string>
+        public title: string,
+        public description: string,
+        public numberOfGuestsPerBeds?: number,
+        public additionalServices?: Array<string>,
+        public paymentMethod?: string,
+        public roomPhoto?: string,
     ) {
     }
 }

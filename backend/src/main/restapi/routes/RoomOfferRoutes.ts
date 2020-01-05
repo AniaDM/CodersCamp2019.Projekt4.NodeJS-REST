@@ -7,8 +7,8 @@ import * as uuid from 'uuid';
 import validationMiddleware from '../middleware/ValidationMiddleware';
 import AddRoomOfferRequestBody from '../request/AddRoomOfferRequestBody';
 import UpdateRoomOfferRequestBody from '../request/UpdateRoomOfferRequestBody';
-import {currentUserMiddleware} from "../middleware/CurrentUserMiddleware";
-import {UserCredentials} from "../../authentication/domain/UserCredentials";
+import { currentUserMiddleware } from '../middleware/CurrentUserMiddleware';
+import { UserCredentials } from '../../authentication/domain/UserCredentials';
 import {UserCredentialsService} from "../../authentication/application/UserCredentialsService";
 
 export default (roomOffersService: RoomOffersService, userCredentialsService: UserCredentialsService) => {
@@ -18,15 +18,23 @@ export default (roomOffersService: RoomOffersService, userCredentialsService: Us
     const username = req.query.username;
 
     if (isNotDefined(username)) {
-      next(new RestApiException(400, `Query param username have to be defined!`, ErrorCode.BAD_REQUEST));
+      next(
+        new RestApiException(
+          400,
+          `Query param username have to be defined!`,
+          ErrorCode.BAD_REQUEST
+        )
+      );
     }
 
     const offers = await roomOffersService.findRoomOfferByUsername(username);
-
     res.send(offers);
   });
 
-  router.post('/', [validationMiddleware(AddRoomOfferRequestBody), currentUserMiddleware(userCredentialsService)], async (req, res, next) => {
+  router.post(
+    '/',
+    [validationMiddleware(AddRoomOfferRequestBody), currentUserMiddleware(userCredentialsService)],
+    async (req: any, res: any, next: any) => {
       const requestBody: AddRoomOfferRequestBody = req.body;
       const currentUser: UserCredentials = req.body.currentUser;
       const id = uuid.v4();
@@ -35,23 +43,34 @@ export default (roomOffersService: RoomOffersService, userCredentialsService: Us
         username: currentUser.username,
         isPublic: false,
         roomLocation: requestBody.roomLocation,
-        dateCheckIn: new Date(requestBody.dateCheckIn),
-        dateCheckOut: new Date(requestBody.dateCheckOut),
         price: requestBody.price,
         roomPhoto: requestBody.roomPhoto,
         paymentMethod: requestBody.paymentMethod,
         numberOfGuests: requestBody.numberOfGuests,
         numberOfBeds: requestBody.numberOfBeds,
         numberOfGuestsPerBeds: requestBody.numberOfGuestsPerBeds,
-        additionalServices: requestBody.additionalServices
+        additionalServices: requestBody.additionalServices,
+        title: requestBody.title,
+        description: requestBody.description
       });
       result.process(
         () => res.status(201).send({ id: id }),
-        failure =>next(new RestApiException(400, failure.reason, ErrorCode.UNABLE_TO_SAVE_OFFER))
+        failure =>
+          next(
+            new RestApiException(
+              400,
+              failure.reason,
+              ErrorCode.UNABLE_TO_SAVE_OFFER
+            )
+          )
       );
-    });
+    }
+  );
 
-  router.put('/:id', validationMiddleware(UpdateRoomOfferRequestBody), async (req, res, next) => {
+  router.put(
+    '/:id',
+    validationMiddleware(UpdateRoomOfferRequestBody),
+    async (req, res, next) => {
       const id = req.params.id;
       const requestBody: UpdateRoomOfferRequestBody = req.body;
       const result = await roomOffersService.updateOffer({
@@ -65,24 +84,41 @@ export default (roomOffersService: RoomOffersService, userCredentialsService: Us
         numberOfGuests: requestBody.numberOfGuests,
         numberOfBeds: requestBody.numberOfBeds,
         numberOfGuestsPerBeds: requestBody.numberOfGuestsPerBeds,
-        additionalServices: requestBody.additionalServices
+        additionalServices: requestBody.additionalServices,
+        title: requestBody.title,
+        description: requestBody.description
       });
       result.process(
         () => res.status(200).end(),
-        failure =>next(new RestApiException(404, failure.reason, ErrorCode.USER_PROFILE_NOT_FOUND))
+        failure =>
+          next(
+            new RestApiException(
+              404,
+              failure.reason,
+              ErrorCode.USER_PROFILE_NOT_FOUND
+            )
+          )
       );
-    });
+    }
+  );
 
   router.put('/:id/publication', async (req, res, next) => {
     const id = req.params.id;
-    const isPublic = req.params.isPublic as unknown as boolean;
-      const result = await roomOffersService.changeOfferPublication({
+    const isPublic = (req.params.isPublic as unknown) as boolean;
+    const result = await roomOffersService.changeOfferPublication({
       _id: id,
       isPublic
     });
     result.process(
       () => res.status(200).end(),
-      failure =>next(new RestApiException(404, failure.reason, ErrorCode.USER_PROFILE_NOT_FOUND))
+      failure =>
+        next(
+          new RestApiException(
+            404,
+            failure.reason,
+            ErrorCode.USER_PROFILE_NOT_FOUND
+          )
+        )
     );
   });
 

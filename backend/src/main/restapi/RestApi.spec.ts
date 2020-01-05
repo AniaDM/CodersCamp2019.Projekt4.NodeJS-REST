@@ -4,6 +4,7 @@ import RegisterUserRequestBody from "./request/RegisterUserRequestBody";
 import {Express} from "express";
 import UserCredentialsRequestBody from "./request/UserCredentialsRequestBody";
 import {TOKEN_HEADER} from "./routes/UserCredentialsRoute";
+import AddRoomOfferRequestBody from "./request/AddRoomOfferRequestBody";
 
 let server: Express;
 let token: string;
@@ -64,6 +65,28 @@ describe("Feature: REST API", () => {
                     expect(response.status).toBe(200);
                     expect(response.body.username).toEqual("username");
                 });
+
+            });
+
+            describe('POST /api/room-offers', () => {
+
+                it('should create new offer', async () => {
+                    const response = await supertest(server).post("/api/room-offers")
+                        .set(TOKEN_HEADER, token)
+                        .send(new AddRoomOfferRequestBody(
+                            "Wrocław",
+                            123,
+                            "CARD",
+                            1,
+                            1,
+                            1,
+                            [],
+                            "Title",
+                            "Desc"
+                        ));
+                    expect(response.status).toBe(201);
+                    expect(response.body.id).toBeDefined();
+                })
 
             })
         });
