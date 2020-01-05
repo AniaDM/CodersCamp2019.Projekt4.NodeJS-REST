@@ -10,8 +10,6 @@ export class InMemoryRoomOfferRepository implements RoomOfferRepository {
             username: "host",
             isPublic: false,
             roomLocation: "Wrocław",
-            dateCheckIn: new Date(),
-            dateCheckOut: new Date(),
             price: 25.25,
             roomPhoto: '',
             additionalServices: [],

@@ -43,8 +43,6 @@ export default (roomOffersService: RoomOffersService, userCredentialsService: Us
         username: currentUser.username,
         isPublic: false,
         roomLocation: requestBody.roomLocation,
-        dateCheckIn: requestBody.dateCheckIn ? new Date(requestBody.dateCheckIn) : undefined,
-        dateCheckOut: requestBody.dateCheckOut ? new Date(requestBody.dateCheckOut) : undefined,
         price: requestBody.price,
         roomPhoto: requestBody.roomPhoto,
         paymentMethod: requestBody.paymentMethod,

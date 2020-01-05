@@ -3,10 +3,7 @@ export type AddRoomOffer  = {
     username: string,
     isPublic: boolean,
     roomLocation: string,
-    dateCheckIn?: Date,
-    dateCheckOut?: Date,
     price: number,
-    roomPhoto: string,
     paymentMethod?: string,
     numberOfGuests: number,
     numberOfBeds: number,
@@ -14,4 +11,5 @@ export type AddRoomOffer  = {
     additionalServices?: Array<string>,
     title: string,
     description: string,
+    roomPhoto?: string,
 }

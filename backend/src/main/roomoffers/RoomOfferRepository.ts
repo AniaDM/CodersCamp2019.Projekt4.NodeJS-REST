@@ -5,16 +5,14 @@ export class RoomOffer {
         public isPublic: boolean,
         public roomLocation: string,
         public price: number,
-        public roomPhoto: string,
         public numberOfGuests: number,
         public numberOfBeds: number,
         public title: string,
         public description: string,
         public numberOfGuestsPerBeds?: number,
         public additionalServices?: Array<string>,
-        public dateCheckIn?: Date,
-        public dateCheckOut?: Date,
         public paymentMethod?: string,
+        public roomPhoto?: string,
     ) {
     }
 }
@@ -28,7 +26,7 @@ export interface RoomOfferRepository {
 
     findByUsername(username: string): Promise<RoomOffer[]>;
 
-    findById(offerId: string): Promise<RoomOffer>|null;
+    findById(offerId: string): Promise<RoomOffer | null>;
 
     getAll(): Promise<RoomOffer[]>;
 }
