@@ -111,13 +111,66 @@ class userProfile extends Component {
 
       <div className="roomOffers"></div>
          <div className="window1">
-           
+
+            <div className="inwindow1userimg">
+            {/* {//img src*/ }
+            br  USER 
+            br  IMG
+            </div>
+
+            <div className="inwindow1title">title</div>
+            <div className="inwindow1location">roomLocation</div>
+            <div className="inwindow1roomimage">
+            {/* {//img src*/ }
+           imgsrc
+            </div>
+            <div className="inwindow1description">description</div>
+            <div className="inwindow1guestnumber">Number of guests: numberofGuests</div>
+            <div className="inwindow1price">Price: price </div>
+            <div className="inwindow1avaiblereservation">Avaible to make reservation: </div>
          </div>
+ 
+ 
          <div className="window2">
 
+         <div className="inwindow1userimg">
+            {/* {//img src*/ }
+            br  USER 
+            br  IMG
+            </div>
+
+            <div className="inwindow1title">title</div>
+            <div className="inwindow1location">roomLocation</div>
+            <div className="inwindow1roomimage">
+            {/* {//img src*/ }
+           imgsrc
+            </div>
+            <div className="inwindow1description">description</div>
+            <div className="inwindow1guestnumber">Number of guests: numberofGuests</div>
+            <div className="inwindow1price">Price: price </div>
+            <div className="inwindow1avaiblereservation">Avaible to make reservation: </div>
            </div>
+
+
+           
            <div className="window3">
            
+           <div className="inwindow1userimg">
+            {/* {//img src*/ }
+            br  USER 
+            br  IMG
+            </div>
+
+            <div className="inwindow1title">title</div>
+            <div className="inwindow1location">roomLocation</div>
+            <div className="inwindow1roomimage">
+            {/* {//img src*/ }
+           imgsrc
+            </div>
+            <div className="inwindow1description">description</div>
+            <div className="inwindow1guestnumber">Number of guests: numberofGuests</div>
+            <div className="inwindow1price">Price: price </div>
+            <div className="inwindow1avaiblereservation">Avaible to make reservation: </div>
            </div>
 
       </div>
