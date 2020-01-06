@@ -1,17 +1,23 @@
 import React from 'react';
 import ListOfPreservedRooms from './components/listOfPreservedRooms';
-// import ListOfRoomReviews from './components/listOfRoomReviews';
+import ListOfRoomReviews from './components/listOfRoomReviews';
 
-import AppForm from './Ania';
+// import AppForm from './components/AppForm';
 
 const App = () => {
   return (
   <div>
- 
-<ListOfPreservedRooms />
-{/* <ListOfRoomReviews /> */}
-<AppForm />
-    </div>
+        {/* <ListOfPreservedRooms /> 
+        <ListOfPreservedRooms />
+        <ListOfPreservedRooms />*/}
+        {/* <ListOfPreservedRooms />  */}
+        <ListOfRoomReviews />
+        <ListOfRoomReviews />
+        <ListOfRoomReviews />
+        <ListOfPreservedRooms /> 
+        {/* <ListOfRoomReviews /> */}
+        {/* <AppForm /> */}
+  </div>
 
  );
 }

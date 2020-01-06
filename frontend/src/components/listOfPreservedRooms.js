@@ -9,50 +9,41 @@ import Place from '@material-ui/icons/Place';
 import PersonIcon from '@material-ui/icons/Person';
 import SendIcon from '@material-ui/icons/Send';
 import DeleteIcon from '@material-ui/icons/Delete';
-/*test console*/
+
 class ListOfPreservedRooms extends React.Component {
   constructor(props){
     super(props)
   
   this.state = {
-    userId: '1',
+    userId: 1,
+    roomOfferId: 1,
     username: 'test',
     email: 'kowalski@gmail.com',
-    roomOfferId: '',
     location: 'Wroclaw',
     dateCheckIn: '01-01-2020',
     dateCheckOut: '02-01-2020',
-    numberOfGuests: '1',
-    paymentMethod: '',
+    numberOfGuests: 1,
+    paymentMethod: 'cash',
     accept: 'acceptButton',
     changeOffer: ['acceptButton', 'refuseButton', 'accepted', 'refuse'],
+    index: 1,
   };
   this.wysylka = this.wysylka.bind(this);
+  this.handleClickBtn = this.handleClickBtn.bind(this);
+  this.handleClickAccept = this.handleClickAccept.bind(this);
+  this.handleClickRefuse = this.handleClickRefuse.bind(this);
+  this.componentDidMount = this.componentDidMount.bind(this);
 }
-
-
+ 
   wysylka = event => {
-      //taka baza do zapełnienia
-      for (let i=1; i<5; i++){
-      this.setState.roomOfferId = i;
-      this.setState.dateCheckIn = `${1+i}.08.2020`;
-      this.setState.dateCheckOut = `${10+i}.08.2020`;
-      this.setState.numberOfGuests = i; 
-//Chcesz tutaj co dodac? jakoś baze zrobić żeby nie była pusta
-// Ania jeszcze pisała, żeby zaciągnąć najnowasza wersję naszego projektu
-//jak ja zacząłem robić to usunąlem plik App.js teraz się boję bo mam packet-json
+     
+      this.setState.index++;
+      this.setState.roomOfferId = this.index;
+      this.setState.numberOfGuests = this.index; 
+      console.log(`Index = ${this.state.index}, roomOfferId = ${this.state.roomOfferId}`)
 
-//Ale co chcesz dodac? Opinie? Czy pokoje?
-//tutaj są pokoje do akceptacji
-//To cos niepokolei, bo musisz miec:
-//1. uzytkownika na razie mam na stałe 1
-//2. pokoj - oomOfferId: 
-//3. rezerwacje do ackeptacji i tutaj miałem pytanie ale coś tam robię
-
-//Tutaj probujesz dodac opinie, dlatego request jest zły room-reviews
-// robiłem na pliku Ani i też miałem takie problemy - czekaj
     fetch('http://localhost:4000/api/room-reviews/', {
-      // mode: 'no-cors',
+   
       method: 'post',
       headers: {
         'Content-Type': 'application/json'
@@ -66,47 +57,71 @@ class ListOfPreservedRooms extends React.Component {
         numberOfGuests: this.state.numberOfGuests,
         numberOfBeds: this.state.beds,
         paymentMethod: 'card',
-        accept: 'do wyboru'
+        accept: 'acceptButton'
       })
     })
       .then(res => res.json())
       .then(res => console.log(res));
-  }
+  
   };
 
+
    componentDidMount()
-    {  // kod jej wysłąłem i mówiła, ze nie widzi co źle  Dobra, to daj mi chwilke
-  //A gadales z Ania? Bo ona zrobila dodawanie przeciez
+    {  
+
     fetch(`http://localhost:4000/api/room-reviews?userId=${this.state.userID}`)
       .then(response => response.json())
       .then(data => {
            
         this.setState({
           username: data.username || 'test1',
-          userId: data.userId,
-          email: data.email,
-          roomOfferId: data.roomOfferId,
-          location: data.location,
-          dateCheckIn: data.dateCheckIn,
-          dateCheckOut: data.dateCheckOut,
-          numberOfGuests: data.numberOfGuests,
-          paymentMethod: data.paymentMethod,
-          accept: data.accept,
-
+          userId: data.userId || '1',
+          email: data.email || 'test@dobrze.uk',
+          roomOfferId: data.roomOfferId || '3',
+          location: data.location || 'Berlin',
+          dateCheckIn: data.dateCheckIn || '05-05-2020',
+          dateCheckOut: data.dateCheckOut || '15-05-2020',
+          numberOfGuests: data.numberOfGuests || '3',
+          paymentMethod: data.paymentMethod || 'cache',
+          accept: data.accept || 'refuseButton',
         })
 
       })
       .catch(err => console.log(`blad ${err}`))
     }
    
+    handleClickBtn = () => {
+
+      fetch('http://localhost:4000/api/room-reviews/', {
+   
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          userId: 1,
+          email: 'test@test.pl',
+          location: 'Wroclaw',
+          roomOfferId: this.state.roomOfferId,
+          dateCheckIn: this.state.dateCheckIn,
+          numberOfGuests: this.state.numberOfGuests,
+          numberOfBeds: this.state.beds,
+          paymentMethod: 'card',
+          accept: this.state.accept,
+        })
+      })
+    }
+
+
     handleClickAccept = () => {
       this.setState({accept: 'accepted'});
-      console.log(this.state.accept);
+      this.handleClickBtn();
     };
 
     handleClickRefuse = () => {
       this.setState({accept: 'refuse'});
       console.log(this.state.accept);
+      this.handleClickBtn();
     }
 
 render() {
@@ -119,14 +134,14 @@ render() {
       <CardContent className='first'>
        
         <Typography className='titleItems'>
-          Where
+          Where  
         </Typography>
    
         <Typography className='contentItems'>
         Cosy Apartment close to City Center
         </Typography>
         <Typography className='content, city'>
-        <Place style={{transform: 'translate(0, 5px)'}} /> Wroclaw
+        <Place style={{transform: 'translate(0, 5px)'}} /> {this.state.location}
         </Typography>
 
       </CardContent>
@@ -179,20 +194,17 @@ render() {
     <Typography className='accepted'>
     
         </Typography>
-      <CardActions className = 'button' >
+      <CardActions style={{textAlign: 'center', fontWeight: 'bold'}}>
                 
               {(this.state.accept === 'acceptButton' || this.state.accept === 'refuseButton') ?(<Button onClick={this.handleClickAccept} type = 'submit' variant="contained" color="primary">
-                    ACCEPT <SendIcon style={{transform: 'translate(3px, 0)'}} /></Button>) : <Typography className='titleItems'> </Typography>}
+                    ACCEPT <SendIcon style={{transform: 'translate(3px, 0)'}} /></Button>) : <Typography className='titleItems'>{this.state.accept} </Typography>}
                 
-                
-                {(this.state.accept === 'refuseButton' || this.state.accept === 'acceptButton')?(<Button onClick={this.handleClickRefuse} type = 'submit'  variant="contained" color="secondary">
-                    REFUSE <DeleteIcon /></Button>) : <Typography className='titleItems'>REFUSED</Typography>}
-
+              {(this.state.accept === 'refuseButton')?(<Button onClick={this.handleClickRefuse} type = 'submit'  variant="contained" color="secondary">
+                    REFUSE <DeleteIcon /></Button>) : ''}
       </CardActions>
     </Card>
   );
-}}//pookaz prosze jak to sie dzieje
-//Pokaz teraz bo widze, ze Ciebie chyba nie bylo a potem mnie :P 
+}}
 
  
 export default ListOfPreservedRooms;

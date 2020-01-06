@@ -10,32 +10,31 @@ import PersonIcon from '@material-ui/icons/Person';
 import Button from '@material-ui/core/Button';
 
   class ListOfRoomReviews extends React.Component {
+constructor(props){
+  super(props)
 
-    state = {
-      userId: '',
-      username: '',
-      email: '',
-      roomOfferId: '',
-      location: '',
-      dateCheckIn: '',
-      dateCheckOut: '',
-      numberOfGuests: '',
-      paymentMethod: '',
-      XXaccept: '',
+    this.state = {
+      userId: 1,
+      username: '2www',
+      email: '1@1.pl',
+      roomOfferId: 3,
+      location: 'Wrocław',
+      dateCheckIn: '01-01-2020',
+      dateCheckOut: '10-01-2020',
+      numberOfGuests: 3,
+      paymentMethod: 'cash',
+      accept: 'ACCEPTED'
+    }
+    this.acceptedbtn = this.acceptedbtn.bind(this);
+    this.wysylka = this.wysylka.bind(this);
     };
   
     wysylka = event => {
-      console.log('juhu');
-      // event.preventDefault();
+    
+       event.preventDefault();
   
-      for (let i=1; i<5; i++){
-        this.setState.roomOfferId = i;
-        this.setState.dateCheckIn = `${1+i}.08.2020`;
-        this.setState.dateCheckOut = `${10+i}.08.2020`;
-        this.setState.numberOfGuests = i; 
-  
-      fetch('http://localhost:4000/api/room-review', {
-        // mode: 'no-cors',
+ 
+      fetch('http://localhost:4000/api/room-reservations', {
         method: 'post',
         headers: {
           'Content-Type': 'application/json'
@@ -44,37 +43,48 @@ import Button from '@material-ui/core/Button';
           userId: 1,
           email: 'test@test.pl',
           location: 'Wroclaw',
-          roomOfferId: this.state.roomOfferId,
+          roomOfferId: this.state.roomOfferId || 33,
           dateCheckIn: this.state.dateCheckIn,
-          numberOfGuests: this.state.numberOfGuests,
-          numberOfBeds: this.state.beds,
+          numberOfGuests: this.state.numberOfGuests || 11,
+          numberOfBeds: this.state.beds || 44,
           paymentMethod: 'card',
-          XXaccept: 'do wyboru'
+          accept: 'ACCEPTED',
+          
         })
       })
         .then(res => res.json())
         .then(res => console.log(res));
-    }
+    
     };
   
      componentDidMount()
       {
-    
-      fetch('api/Room-review/1')
+
+      fetch('http://localhost:4000/api/room-reservations/1')
         .then(response => response.json())
         .then(data => {
               console.log(data)
   
-          // this.setState({
-          //   username: ''
-          // })
+          this.setState({
+            username: data.username || 'test1',
+            userId: data.userId || '1',
+            email: data.email || 'test@dobrze.uk',
+            roomOfferId: data.roomOfferId || '3',
+            location: data.location || 'Berlin',
+            dateCheckIn: data.dateCheckIn || '05-05-2020',
+            dateCheckOut: data.dateCheckOut || '15-05-2020',
+            numberOfGuests: data.numberOfGuests || '3',
+            paymentMethod: data.paymentMethod || 'cache',
+            accept: data.accept || 'ACCEPTED',
+          })
   
         })
         .catch(err => console.log(`blad ${err}`))
-      
       }
      
-
+      acceptedbtn = () => {
+      console.log(this.state.accept)
+      }
 
 
     render() {
@@ -84,8 +94,8 @@ import Button from '@material-ui/core/Button';
 
       <CardContent className='first'>
        
-        <Typography className='title'>
-          Where
+        <Typography className='titleItems'>
+          Where  
         </Typography>
    
         <Typography className='content'>
@@ -99,55 +109,58 @@ import Button from '@material-ui/core/Button';
 
 
       <CardContent className='first'>
-        <Typography className='title'>
+        <Typography className='titleItems'>
         When
         </Typography>
-        <Typography className='content'>
-        From 2020-01-01 To 2020-01-05
+        <Typography className='contentItems'>
+        From {this.state.dateCheckIn} To {this.state.dateCheckOut}
         </Typography>
       </CardContent>
 
       <CardContent className='second'>
 
-        <Typography className='title'>
+        <Typography className='titleItems'>
             Who
         </Typography>
 
-        <Typography className='content'>
-        <PersonIcon color="primary" style={{transform: 'translate(-3px, 5px)'}} />Jan Kowalski
+        <Typography className='contentItems'>
+        <PersonIcon color="primary" style={{transform: 'translate(-3px, 5px)'}} />
+        {this.state.username}
         </Typography>
 
         </CardContent>
 
         <CardContent className='second'>
 
-        <Typography className='title'>
+        <Typography className='titleItems'>
           With who?
         </Typography>
 
-        <Typography className='content'>
-          Alone
+        <Typography className='contentItems'>
+        {this.state.numberOfGuests}
         </Typography>
 
         </CardContent>
 
         <CardContent className='second'>
 
-        <Typography className='title'>
+        <Typography className='titleItems'>
         Will pay by
         </Typography>
 
-        <Typography className='content'>
-        Credit card
+        <Typography className='contentItems'>
+        {this.state.paymentMethod}
         </Typography>
 
     </CardContent>
 
     <Typography className='accepted' variant="h5" component="h2">
-    ACCEPTED
+     
+    {this.state.accept} 
+    {/* PENDING..., ACCEPTED, REFUSED,  */}
         </Typography>
         <Typography className ='btnOpinion' >
-        <Button variant="contained" color="primary">
+        <Button onClick = {this.acceptedbtn}  variant="contained" color="primary">
         RATE
       </Button>
       </Typography>
