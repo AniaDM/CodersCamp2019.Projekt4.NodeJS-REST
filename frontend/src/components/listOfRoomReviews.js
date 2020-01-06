@@ -85,7 +85,7 @@ constructor(props){
             dateCheckIn: data.dateCheckIn || '05-05-2020',
             dateCheckOut: data.dateCheckOut || '15-05-2020',
             numberOfGuests: data.numberOfGuests || '3',
-            paymentMethod: data.paymentMethod || 'cache',
+            paymentMethod: data.paymentMethod || 'cash',
             status: data.accept || 'ACCEPTED',
           })
   

@@ -1,8 +1,15 @@
 import React from 'react';
 import Menu from './Menu';
+import ListOfRoomReviews from './listOfRoomReviews';
 
 const UserProfile = () => {
-    return <div><Menu />Strona z profilem zalogowanego użytkowanika</div>
+    return (  <div>
+        <ListOfRoomReviews />
+        <ListOfRoomReviews />
+        <ListOfRoomReviews />
+        <ListOfRoomReviews />
+        </div>
+    )
 };
 
 export default UserProfile
