@@ -82,7 +82,7 @@ export default (roomReservationService: RoomReservationService, roomOfferReposit
                 dateCheckIn: requestBody.dateCheckIn,
                 dateCheckOut: requestBody.dateCheckOut,
                 paymentMethod: requestBody.paymentMethod,
-                status: requestBody.status,
+                status: "PENDING",
                 numberOfGuests: requestBody.numberOfGeusts,
                 notice: requestBody.notice
             }
