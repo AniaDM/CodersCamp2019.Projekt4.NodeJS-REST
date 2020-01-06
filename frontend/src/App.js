@@ -3,7 +3,7 @@ import ListOfPreservedRooms from './components/listOfPreservedRooms';
 import ListOfRoomReviews from './components/listOfRoomReviews';
 // import ScrollableTabsButtonForce from './menu'
 
-// import AppForm from './components/AppForm';
+import AppForm from './components/AppForm';
 
 const App = () => {
   return (
@@ -15,10 +15,10 @@ const App = () => {
          <ListOfRoomReviews />
         <ListOfRoomReviews />
         <ListOfRoomReviews />
-        {/* <ListOfPreservedRooms />  
+        <ListOfPreservedRooms />  
          <ListOfRoomReviews /> 
         <AppForm /> 
-         <ScrollableTabsButtonForce /> */}
+      
   </div>
 
  );
