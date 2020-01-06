@@ -8,22 +8,25 @@ import Place from '@material-ui/icons/Place';
 import PersonIcon from '@material-ui/icons/Person';
 // import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import AppForm from './AppForm'
 
   class ListOfRoomReviews extends React.Component {
 constructor(props){
   super(props)
 
     this.state = {
+      offerId: 3,
       userId: 1,
-      username: '2www',
+      owner: '',
+      name: 'Adam',
+      surname: 'Kowal',
       email: '1@1.pl',
-      roomOfferId: 3,
       location: 'Wrocław',
       dateCheckIn: '01-01-2020',
       dateCheckOut: '10-01-2020',
       numberOfGuests: 3,
       paymentMethod: 'cash',
-      accept: 'ACCEPTED'
+      status: 'ACCEPTED'
     }
     this.acceptedbtn = this.acceptedbtn.bind(this);
     this.wysylka = this.wysylka.bind(this);
@@ -32,27 +35,32 @@ constructor(props){
     wysylka = event => {
     
        event.preventDefault();
-  
- 
-      fetch('http://localhost:4000/api/room-reservations', {
+
+       fetch('http://localhost:4000/api/room-reservations', {
         method: 'post',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
+          offerId: 1,
           userId: 1,
+          owner: '',
+          name: 'Adam',
+          surname: 'Kowal',
           email: 'test@test.pl',
           location: 'Wroclaw',
-          roomOfferId: this.state.roomOfferId || 33,
           dateCheckIn: this.state.dateCheckIn,
+          dateCheckOut: this.state.dateCheckOut,
           numberOfGuests: this.state.numberOfGuests || 11,
           numberOfBeds: this.state.beds || 44,
           paymentMethod: 'card',
-          accept: 'ACCEPTED',
+          status: 'ACCEPTED',
           
         })
       })
-        .then(res => res.json())
+        .then(res => res.json())                 
+
+
         .then(res => console.log(res));
     
     };
@@ -66,16 +74,19 @@ constructor(props){
               console.log(data)
   
           this.setState({
-            username: data.username || 'test1',
+            offerId: data.offerId || 23,
+            owner: data.owner || '',
+            name: data.name || 'Tomasz',
+            surname: data.surname || 'Kowalski',
             userId: data.userId || '1',
             email: data.email || 'test@dobrze.uk',
-            roomOfferId: data.roomOfferId || '3',
+         
             location: data.location || 'Berlin',
             dateCheckIn: data.dateCheckIn || '05-05-2020',
             dateCheckOut: data.dateCheckOut || '15-05-2020',
             numberOfGuests: data.numberOfGuests || '3',
             paymentMethod: data.paymentMethod || 'cache',
-            accept: data.accept || 'ACCEPTED',
+            status: data.accept || 'ACCEPTED',
           })
   
         })
@@ -83,9 +94,8 @@ constructor(props){
       }
      
       acceptedbtn = () => {
-      console.log(this.state.accept)
+      // wysłanie na stronę dodającą opinie
       }
-
 
     render() {
   return (
@@ -106,7 +116,6 @@ constructor(props){
         </Typography>
 
       </CardContent>
-
 
       <CardContent className='first'>
         <Typography className='titleItems'>
@@ -155,18 +164,18 @@ constructor(props){
     </CardContent>
 
     <Typography className='accepted' variant="h5" component="h2">
-     
-    {this.state.accept} 
-    {/* PENDING..., ACCEPTED, REFUSED,  */}
+    {this.state.status} 
+        {/* PENDING..., ACCEPTED, REFUSED,  */}
         </Typography>
         <Typography className ='btnOpinion' >
+        
         <Button onClick = {this.acceptedbtn}  variant="contained" color="primary">
         RATE
+        {/* potrzebne menu, żeby zmienić w meny stronę */}
       </Button>
+      
       </Typography>
-      <CardActions>
-        
-      </CardActions>
+
     </Card>
   )};
 }

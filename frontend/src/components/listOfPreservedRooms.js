@@ -25,7 +25,7 @@ class ListOfPreservedRooms extends React.Component {
     numberOfGuests: 1,
     paymentMethod: 'cash',
     accept: 'acceptButton',
-    changeOffer: ['acceptButton', 'refuseButton', 'accepted', 'refuse'],
+    changeOffer: ['acceptButton', 'refuseButton', 'ACCEPTED', 'REFUSE'],
     index: 1,
   };
   this.wysylka = this.wysylka.bind(this);
@@ -40,7 +40,7 @@ class ListOfPreservedRooms extends React.Component {
       this.setState.index++;
       this.setState.roomOfferId = this.index;
       this.setState.numberOfGuests = this.index; 
-      console.log(`Index = ${this.state.index}, roomOfferId = ${this.state.roomOfferId}`)
+     
 
     fetch('http://localhost:4000/api/room-reviews/', {
    
@@ -114,12 +114,12 @@ class ListOfPreservedRooms extends React.Component {
 
 
     handleClickAccept = () => {
-      this.setState({accept: 'accepted'});
+      this.setState({accept: 'ACCEPTED'});
       this.handleClickBtn();
     };
 
     handleClickRefuse = () => {
-      this.setState({accept: 'refuse'});
+      this.setState({accept: 'REFUSE'});
       console.log(this.state.accept);
       this.handleClickBtn();
     }
@@ -197,7 +197,7 @@ render() {
       <CardActions style={{textAlign: 'center', fontWeight: 'bold'}}>
                 
               {(this.state.accept === 'acceptButton' || this.state.accept === 'refuseButton') ?(<Button onClick={this.handleClickAccept} type = 'submit' variant="contained" color="primary">
-                    ACCEPT <SendIcon style={{transform: 'translate(3px, 0)'}} /></Button>) : <Typography className='titleItems'>{this.state.accept} </Typography>}
+                    ACCEPT <SendIcon style={{transform: 'translate(3px, 0)'}} /></Button>) : <Typography  className='accepted' variant="h5" component="h2" >{this.state.accept} </Typography>}
                 
               {(this.state.accept === 'refuseButton')?(<Button onClick={this.handleClickRefuse} type = 'submit'  variant="contained" color="secondary">
                     REFUSE <DeleteIcon /></Button>) : ''}

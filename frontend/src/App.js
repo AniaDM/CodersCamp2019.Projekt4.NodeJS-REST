@@ -1,6 +1,7 @@
 import React from 'react';
 import ListOfPreservedRooms from './components/listOfPreservedRooms';
 import ListOfRoomReviews from './components/listOfRoomReviews';
+// import ScrollableTabsButtonForce from './menu'
 
 // import AppForm from './components/AppForm';
 
@@ -9,19 +10,18 @@ const App = () => {
   <div>
         {/* <ListOfPreservedRooms /> 
         <ListOfPreservedRooms />
-        <ListOfPreservedRooms />*/}
-        {/* <ListOfPreservedRooms />  */}
+        <ListOfPreservedRooms /> */}
+         <ListOfPreservedRooms />  
+         <ListOfRoomReviews />
         <ListOfRoomReviews />
         <ListOfRoomReviews />
-        <ListOfRoomReviews />
-        <ListOfPreservedRooms /> 
-        {/* <ListOfRoomReviews /> */}
-        {/* <AppForm /> */}
+        {/* <ListOfPreservedRooms />  
+         <ListOfRoomReviews /> 
+        <AppForm /> 
+         <ScrollableTabsButtonForce /> */}
   </div>
 
  );
 }
 
 export default App;
-
-//na jej kodzie Co tutaj? 
