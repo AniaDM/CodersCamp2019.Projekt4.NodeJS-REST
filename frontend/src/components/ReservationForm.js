@@ -98,7 +98,7 @@ class ReservationForm extends React.Component {
     ];
     return (
       <div>
-         <Typography variant="h6" color="initial" component="p">Selected room</Typography>
+         <Typography variant="h6" color="initial" component="p">Please fill it out in order to make reservation</Typography>
          <Card className="card" variant="outlined">
         <form
           className="offer"

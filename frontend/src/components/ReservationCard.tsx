@@ -20,8 +20,8 @@ const useStyles = makeStyles((theme: Theme) =>
       maxHeight: 487
     },
     media: {
-      height: 0,
-      paddingTop: '56.25%'
+      height: 225,
+      width: 402
     },
     avatar: {
       backgroundColor: lightGreen[500],
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function RecipeReviewCard() {
   const classes = useStyles();
-  const [value] = React.useState<number | null>(3.5);
+  const [value] = React.useState<number | null>(3);
 
   return (
     <div>
@@ -44,7 +44,7 @@ export default function RecipeReviewCard() {
      subheader={
        <div>
        <Typography variant="subtitle1"><PlaceIcon />Wrocław</Typography>
-       <Rating value={value} precision={0.5} size="small" readOnly />
+       <Rating value={value}  size="small" readOnly />
        </div>
      }
       />
