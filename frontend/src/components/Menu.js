@@ -11,7 +11,7 @@ import PersonPinIcon from '@material-ui/icons/PersonPin';
 import HelpIcon from '@material-ui/icons/Help';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import {Link} from 'react-router-dom';
+import {Link, BrowserRouter} from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 
 function TabPanel(props) {
@@ -72,12 +72,14 @@ export default function Menu() {
           textColor="primary"
           aria-label="scrollable force tabs example"
         >
+          <BrowserRouter>
           <Link to="/roomoffers"><Tab label="Room Offers" icon={<SearchIcon />} {...a11yProps(0)} /></Link>
           <Link to="/questreservations"><Tab label="My Reservations" icon={<FavoriteIcon />} {...a11yProps(1)} /></Link>
           <Link to="/acceptreservations"><Tab label="Room Requests" icon={<HelpIcon />} {...a11yProps(2)} /></Link>
           <Link to="/userprofile"><Tab label="Profile" icon={<PersonPinIcon />} {...a11yProps(3)} /></Link>
           {/* avatar i mail powinny być pobierane na podst id zalogowanego uzytkowanika */}
           {/* proszę o pomoc, jak mądrze ostylowac ten mail i avatar */}
+          </BrowserRouter>
           <Avatar>H</Avatar>
           <div>username@gmail.com</div>
           <Tab label="Logout" icon={<ExitToAppIcon />} />
