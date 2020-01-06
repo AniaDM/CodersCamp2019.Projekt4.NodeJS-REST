@@ -9,6 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import Avatar from '@material-ui/core/Avatar';
 import { lightGreen } from '@material-ui/core/colors';
 import Rating from '@material-ui/lab/Rating';
+import axios from 'axios';
 
 const reviews = [
     {
@@ -120,18 +121,19 @@ export default function DotsMobileStepper() {
   const classes = useStyles();
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
+  
     const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiIwZGJkY2Y4Mi1jMDdlLTQ1NmUtODIwNC1jYzdmZDU4MTM3NzgiLCJ1c2VybmFtZSI6ImFiY2Q0IiwiaWF0IjoxNTc4MjU1ODk2fQ.brFE6ITH8xNL2sWEEdDVBro4j-Rw3RhKESO29sVDnYk"
-    const response =fetch( 'http://localhost:4000/api/user-profiles/50309575-4f0f-499d-aa24-7b6e35f6ab68', {
-      method: 'GET', 
-      mode:'cors',
-      headers: {
-         Authentication: 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiIzZjcwMjFlMC1lMWQ3LTQ2ZDctOGE2Mi00YTQ4ZGFhYmQ3ZjIiLCJpYXQiOjE1NzcwNTE5OTB9.esyuU6De-2Wrnka9KLDBAe5ybQjATacQW6cdsRbjluw'
+    axios.defaults.headers.common['Authorization'] = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiIwZGJkY2Y4Mi1jMDdlLTQ1NmUtODIwNC1jYzdmZDU4MTM3NzgiLCJ1c2VybmFtZSI6ImFiY2Q0IiwiaWF0IjoxNTc4MjU1ODk2fQ.brFE6ITH8xNL2sWEEdDVBro4j-Rw3RhKESO29sVDnYk';
+    axios.defaults.headers.common['Access-Control-Allow-Origin']= 'http://localhost:4000/api/room-reviews/';
+    const response =axios.get('http://localhost:4000/api/room-reviews/', {
+      params: {
+        'roomOfferId': '1b7cac19-597a-43b4-95c3-264a287819bd'
         }
       })
       .then(res => res.json())
-      .then(user  => console.log(user))
-      .catch((error)=>console.error(error))
-    
+      .then(json  => console.log(json))
+      .catch((error)=>console.error(error))//pokaz gdzie jest blad//widzisz dwa ekrany? A nie ,jeden :P  Ten
+    //gdzie jest ten conosle log z tego? 
   
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1);
