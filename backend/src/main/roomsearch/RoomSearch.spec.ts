@@ -1,40 +1,40 @@
-import { RoomOffer } from './RoomOffer'
-import { RoomSearcher, OfferFilter } from './RoomSearcher'
-import { RoomOfferRepository } from './RoomOfferRepository';
+import {RoomOffer} from './RoomOffer'
+import {RoomSearcher, OfferFilter} from './RoomSearcher'
+import {RoomOfferRepository} from './RoomOfferRepository';
 
 
 describe('Feature: Room Offer', () => {
 
     const Offer1 = {
-        offerId: 'asgjhbd',
+        _id: 'asgjhbd',
         roomLocation: 'Kraków',
         price: 85,
         numberOfGuests: 4,
         averageRating: 5
     };
     const Offer2 = {
-        offerId: 'atfyghbsd',
+        _id: 'atfyghbsd',
         roomLocation: 'Wrocław',
         price: 21,
         numberOfGuests: 4,
         averageRating: 5
     };
     const Offer3 = {
-        offerId: 'asjhvbn',
+        _id: 'asjhvbn',
         roomLocation: 'Wrocław',
         price: 23,
         numberOfGuests: 3,
         averageRating: 3
     };
     const Offer4 = {
-        offerId: 'asddtryuhij',
+        _id: 'asddtryuhij',
         roomLocation: 'Gdańsk',
         price: 35,
         numberOfGuests: 2,
         averageRating: 4
     };
     const Offer5 = {
-        offerId: 'asyguhd',
+        _id: 'asyguhd',
         roomLocation: 'Gdańsk',
         price: 23,
         numberOfGuests: 1,
@@ -54,7 +54,7 @@ describe('Feature: Room Offer', () => {
             getAll(): Promise<RoomOffer[]> {
                 return Promise.resolve(roomOffers);
             }
-        }
+        };
 
         const roomSearcher = new RoomSearcher(inMemoryRoomOfferRepository);
 
@@ -153,27 +153,27 @@ describe('Feature: Room Offer', () => {
 
             describe(`When find offers by location ${testCase.filter.location}`, () => {
                 it(`Then only offers from location ${testCase.filter.location} should be found`, () => {
-                    return expect(roomSearcher.searchOffersBy(testCase.filter)).resolves.toStrictEqual(testCase.expectedResult)
+                    return expect(roomSearcher.searchOffersBy(testCase.filter)).resolves.toEqual(expect.arrayContaining(testCase.expectedResult))
                 })
-            }),
+            });
             describe(`When find offers by max price ${testCase.filter.maxPrice}`, () => {
                 it(`Then only offers which price is lower than  ${testCase.filter.maxPrice} should be found`, () => {
-                    return expect(roomSearcher.searchOffersBy(testCase.filter)).resolves.toStrictEqual(testCase.expectedResult)
+                    return expect(roomSearcher.searchOffersBy(testCase.filter)).resolves.toEqual(expect.arrayContaining(testCase.expectedResult))
                 })
-            }),
+            });
             describe(`When find offers by min price ${testCase.filter.minPrice}`, () => {
                 it(`Then only offers which price is higher than  ${testCase.filter.minPrice} should be found`, () => {
-                    return expect(roomSearcher.searchOffersBy(testCase.filter)).resolves.toStrictEqual(testCase.expectedResult)
+                    return expect(roomSearcher.searchOffersBy(testCase.filter)).resolves.toEqual(expect.arrayContaining(testCase.expectedResult))
                 })
-            }),
+            });
             describe(`When find offers by number of guests: ${testCase.filter.numberOfGuests}`, () => {
                 it(`Then only offers which number of guests is higher than  ${testCase.filter.numberOfGuests} should be found`, () => {
-                        return expect(roomSearcher.searchOffersBy(testCase.filter)).resolves.toStrictEqual(testCase.expectedResult)
+                    return expect(roomSearcher.searchOffersBy(testCase.filter)).resolves.toEqual(expect.arrayContaining(testCase.expectedResult))
                 })
-            }),
+            });
             describe(`When find offers by min average rating: ${testCase.filter.minAverageRating}`, () => {
                 it(`Then only offers which min average rating is higher than  ${testCase.filter.minAverageRating} should be found`, () => {
-                        return expect(roomSearcher.searchOffersBy(testCase.filter)).resolves.toStrictEqual(testCase.expectedResult)
+                    return expect(roomSearcher.searchOffersBy(testCase.filter)).resolves.toEqual(expect.arrayContaining(testCase.expectedResult))
                 })
             })
         });
@@ -183,4 +183,4 @@ describe('Feature: Room Offer', () => {
             expectedResult: RoomOffer[]
         }
     })
-})
+});
