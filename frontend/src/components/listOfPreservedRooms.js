@@ -9,6 +9,7 @@ import Place from '@material-ui/icons/Place';
 import PersonIcon from '@material-ui/icons/Person';
 import SendIcon from '@material-ui/icons/Send';
 import DeleteIcon from '@material-ui/icons/Delete';
+import axios from 'axios';
 
 class ListOfPreservedRooms extends React.Component {
   constructor(props){
@@ -19,7 +20,7 @@ class ListOfPreservedRooms extends React.Component {
     roomOfferId: 1,
     username: 'test',
     email: 'kowalski@gmail.com',
-    location: 'Wroclaw',
+    roomLocation: 'Wroclaw',
     dateCheckIn: '01-01-2020',
     dateCheckOut: '02-01-2020',
     numberOfGuests: 1,
@@ -27,91 +28,74 @@ class ListOfPreservedRooms extends React.Component {
     accept: 'acceptButton',
     changeOffer: ['acceptButton', 'refuseButton', 'ACCEPTED', 'REFUSE'],
     index: 1,
+
+    price: 100,
+    roomPhoto: 67,
+    numberOfBeds: 3,
+    title: "temat",
+    description: 52,
   };
-  this.wysylka = this.wysylka.bind(this);
+  // this.wysylka = this.wysylka.bind(this);
   this.handleClickBtn = this.handleClickBtn.bind(this);
   this.handleClickAccept = this.handleClickAccept.bind(this);
   this.handleClickRefuse = this.handleClickRefuse.bind(this);
   this.componentDidMount = this.componentDidMount.bind(this);
 }
  
-  wysylka = event => {
+  // wysylka = event => {
      
-      this.setState.index++;
-      this.setState.roomOfferId = this.index;
-      this.setState.numberOfGuests = this.index; 
+    
+  //     // const user = [this.state.email, this.state.dateCheckIn ]
      
+  //     // axios.post(`http://localhost:4000/api/room-reviews`, { user })
+  //     // .then(res => {
+  //     //   console.log('axsios wysyłka')
+  //     //   console.log(res);
+  //     //   console.log(res.data);
+  //     // })
 
-    fetch('http://localhost:4000/api/room-reviews/', {
-   
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        userId: 1,
-        email: 'test@test.pl',
-        location: 'Wroclaw',
-        roomOfferId: this.state.roomOfferId,
-        dateCheckIn: this.state.dateCheckIn,
-        numberOfGuests: this.state.numberOfGuests,
-        numberOfBeds: this.state.beds,
-        paymentMethod: 'card',
-        accept: 'acceptButton'
-      })
-    })
-      .then(res => res.json())
-      .then(res => console.log(res));
-  
-  };
-
+// }
 
    componentDidMount()
     {  
-
-    fetch(`http://localhost:4000/api/room-reviews?userId=${this.state.userID}`)
-      .then(response => response.json())
-      .then(data => {
-           
-        this.setState({
-          username: data.username || 'test1',
-          userId: data.userId || '1',
-          email: data.email || 'test@dobrze.uk',
-          roomOfferId: data.roomOfferId || '3',
-          location: data.location || 'Berlin',
-          dateCheckIn: data.dateCheckIn || '05-05-2020',
-          dateCheckOut: data.dateCheckOut || '15-05-2020',
-          numberOfGuests: data.numberOfGuests || '3',
-          paymentMethod: data.paymentMethod || 'cache',
-          accept: data.accept || 'refuseButton',
-        })
-
+       axios.head(`http://localhost:4000/api/room-reviews`)
+      .then(res => {
+        const persons = res.data;
+        this.setState({ persons });
+        console.log('componentDM')
+        console.log(persons);
       })
-      .catch(err => console.log(`blad ${err}`))
+
     }
    
     handleClickBtn = () => {
 
-      fetch('http://localhost:4000/api/room-reviews/', {
-   
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          userId: 1,
-          email: 'test@test.pl',
-          location: 'Wroclaw',
-          roomOfferId: this.state.roomOfferId,
-          dateCheckIn: this.state.dateCheckIn,
-          numberOfGuests: this.state.numberOfGuests,
-          numberOfBeds: this.state.beds,
-          paymentMethod: 'card',
-          accept: this.state.accept,
-        })
-      })
-    }
+const user = {     title: this.state.title,
+  description: this.state.description,
+  roomLocation: this.state.roomLocation,
+  roomOfferId: this.state.roomOfferId,
+  username: this.state.username,
+  numberOfGuests: this.state.numberOfGuests,
+  numberOfBeds: this.state.paymentMethod,
+}
 
+axios.post(`http://localhost:4000/api/room-reviews`, { user })
+.then(res => {
+  const persons = res.data;
+  this.setState({ persons });
+  console.log('componentDM')
+  console.log(persons);
+})
+
+
+axios.head(`http://localhost:4000/api/room-reviews`)
+.then(res => {
+  const persons = res.data;
+  this.setState({ persons });
+  console.log('componentDM')
+  console.log(persons);
+})
+    }
 
     handleClickAccept = () => {
       this.setState({accept: 'ACCEPTED'});
@@ -126,7 +110,7 @@ class ListOfPreservedRooms extends React.Component {
 
 render() {
                          
-            this.wysylka();   //dla testu
+            // this.wysylka();   //dla testu
                           
   return (
     <Card className='card'>
@@ -199,7 +183,7 @@ render() {
               {(this.state.accept === 'acceptButton' || this.state.accept === 'refuseButton') ?(<Button onClick={this.handleClickAccept} type = 'submit' variant="contained" color="primary">
                     ACCEPT <SendIcon style={{transform: 'translate(3px, 0)'}} /></Button>) : <Typography  className='accepted' variant="h5" component="h2" >{this.state.accept} </Typography>}
                 
-              {(this.state.accept === 'refuseButton')?(<Button onClick={this.handleClickRefuse} type = 'submit'  variant="contained" color="secondary">
+              {(this.state.accept === 'refuseButton' || this.state.accept === 'acceptButton')?(<Button onClick={this.handleClickRefuse} type = 'submit'  variant="contained" color="secondary">
                     REFUSE <DeleteIcon /></Button>) : ''}
       </CardActions>
     </Card>

@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/nowakprojects/CodersCamp2019.Projekt4.NodeJS-RestAPI#readme",
   "dependencies": {
+    "axios": "^0.19.1",
     "bcrypt": "^3.0.7",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.11.0",
