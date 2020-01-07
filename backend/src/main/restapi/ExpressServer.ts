@@ -26,6 +26,7 @@ import * as RoomReviewRoutes from "./routes/RoomReviewRoutes";
 import {RoomReviewService} from "../roomreview/RoomReviewService";
 import {RoomOfferRepository} from "../roomoffers/RoomOfferRepository";
 import cors from 'cors';
+import {DevMode} from "../devmode/DevMode";
 
 export namespace ExpressServer {
 
@@ -71,11 +72,19 @@ export namespace ExpressServer {
                     }
                 ];
 
+                if (config.get<boolean>("devMode")) {
+                    new DevMode(userProfileService, userCredentialsService, roomOffersService, roomReservationService)
+                        .populateDatabase()
+                        .then(() => {
+                            console.log("Database populated with fake data!");
+                        });
+                }
+
                 const app = express();
                 app.use(express.json());
-                routes.forEach(it => app.use(`/api${it.endpoint}`, it.router));
-                app.use(errorMiddleware);
                 app.use(cors());
+                app.use(errorMiddleware);
+                routes.forEach(it => app.use(`/api${it.endpoint}`, it.router));
                 return app;
             });
     }
