@@ -16,122 +16,106 @@ class ListOfPreservedRooms extends React.Component {
     super(props)
   
   this.state = {
+        _idRoomOffer: 1,
         offerId: 1,
+        userName: "Pan Kto",
+        userId: 1,
         name: 'Pio',
-        surname: 'Bożek',
-        dateCheckIn: '25-10-2020',
-        dateCheckOut: '27-10-2020',
+        surname: 'Booo',
+        dateCheckIn: '01-01-2020',
+        dateCheckOut: '05-01-2020',
         paymentMethod: 'card',
         status: 'acceptButton',
-        numberOfGuests: 1,
-        notice: ',',
-
-        roomLocation: 'Cosy Apartment close to City Center',
-        userId: 1,
-        owner: '',
-        email: '1@1.pl',
-        location: 'Wrocław',
+        notice: 'test test',
+        numberOfGuests: 3,
+        roomLocation: 'Wrocław',
+        title: 'Cosy Apartment close to City Center',
+        colorStatus: 'black',
   };
-  // this.wysylka = this.wysylka.bind(this);
+
   this.handleClickBtn = this.handleClickBtn.bind(this);
   this.handleClickAccept = this.handleClickAccept.bind(this);
   this.handleClickRefuse = this.handleClickRefuse.bind(this);
   this.componentDidMount = this.componentDidMount.bind(this);
 }
- 
-  // wysylka = event => {
-  //     // const user = [this.state.email, this.state.dateCheckIn ]
-  //     // axios.post(`http://localhost:4000/api/room-reviews`, { user })
-  //     // .then(res => {
-  //     //   console.log('axsios wysyłka')
-  //     //   console.log(res);
-  //     //   console.log(res.data);
-  //     // })
-// }
-rrrr(){
-fetch('http://localhost:4000/api/room-reviews', {
-  method: 'post',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({
-    offerId: 1,
-    userId: 1,
-    name: 'Adam',
-    surname: 'Kowal',
-    email: 'test@test.pl',
-    location: 'Wroclaw',
-    paymentMethod: 'card',
-    status: 'ACCEPTED',
-    
-  })
-})
-  .then(res => res.json())                 
-
-
-  .then(res => console.log(res));
-}
 
    componentDidMount()
     {  
-       axios.get(`http://localhost:4000/api/room-reviews`)
+      axios.get(`http://localhost:4000/api/room-offers/:${this.state._idRoomOffer}`)
       .then(res => {
         const persons = res.data;
         console.log(persons);
-        this.setState({ persons });
-        console.log('componentDM')
-        console.log(persons);
+          this.setState({
+            _id: persons._id,
+          offerId: persons.offerId || 23,
+          title: persons.title || 'Cosy Apartment close to City Center',
+          roomlocation: persons.location || 'Berlin',
+          userName: persons.userName || "Pan Kto",
+        })
       })
 
+       axios.get(`http://localhost:4000/api/room-reservation/:${this.state.userId}`)
+      .then(res => {
+        const persons = res.data;
+        console.log(persons);
+        this.setState({
+          _id: persons._id || 10,
+        offerId: persons.offerId || 23,
+        name: persons.name || 'Pio',
+        surname: persons.surname || 'Booo',
+        dateCheckIn: persons.dateCheckIn || '01-01-2020',
+        dateCheckOut: persons.dateCheckOut || '05-01-2020',
+        paymentMethod: persons.paymentMethod || 'card',
+        status: persons.status || 'acceptButton',
+        notice: persons.notice || 'test test',
+        numberOfGuests: persons.numberOfGuests || 3,
+      })
+      })
     }
-   
+  
+
   async  handleClickBtn() {
-      const user = JSON.stringify({ roomLocation: this.state.location,
-        offerId: this.state.offerId,
-        name: this.state.name,
-        surname: this.state.surname,
-        dateCheckIn: this.state.dateCheckIn,
-        dateCheckOut: this.state.dateCheckOut,
-        paymentMethod: this.state.paymentMethod,
-        status: this.state.status,
-        numberOfGeusts: this.state.numberOfGeusts,
-        notice: '',
-})
+      const user = JSON.stringify( 
+        {
+          status: this.state.status,
 
-// https://10.0.2.2:3000/v1/test
+        }
+)
 
-await axios.post(`http://localhost:4000/api/room-reviews`, { user })
+await axios.patch(`http://localhost:4000/api/room-reservation/:/:${this.state.offerId}/status`, { user })
  .then(res => {
   const persons = res.data;
   this.setState({ persons });
   console.log('componentDM')
   console.log(persons);
+  
 })
 
 
-axios.get(`http://localhost:4000/api/room-reviews`)
-.then(res => {
+await axios.patch(`http://localhost:4000/api/host-reservation/:/:${this.state.offerId}/status`, { user })
+ .then(res => {
   const persons = res.data;
   this.setState({ persons });
   console.log('componentDM')
   console.log(persons);
+ 
 })
+
     }
 
     handleClickAccept = () => {
       this.setState({status: 'ACCEPTED'});
+      this.setState.colorStatus = 'green';
       this.handleClickBtn();
     };
 
     handleClickRefuse = () => {
       this.setState({status: 'REFUSE'});
-      console.log(this.state.accept);
+      this.setState.colorStatus = 'red';
       this.handleClickBtn();
     }
 
 render() {
-                         
-            // this.wysylka();   //dla testu
                           
   return (
     <Card className='card'>
@@ -143,10 +127,10 @@ render() {
         </Typography>
    
         <Typography className='contentItems'>
-        {this.state.roomLocation}
+              {this.state.title}
         </Typography>
         <Typography className='content, city'>
-        <Place style={{transform: 'translate(0, 5px)'}} /> {this.state.location}
+        <Place style={{transform: 'translate(0, 5px)'}} /> {this.state.roomLocation}
         </Typography>
 
       </CardContent>
@@ -201,16 +185,17 @@ render() {
         </Typography>
       <CardActions style={{textAlign: 'center', fontWeight: 'bold'}}>
                 
-              {(this.state.status === 'acceptButton' || this.state.status === 'refuseButton') ? (<Button onClick={this.handleClickAccept} type = 'submit' variant="contained" color="primary">
-                    ACCEPT <SendIcon style={{transform: 'translate(3px, 0)'}} /></Button>) : <Typography 
+              {(this.state.status === 'acceptButton' || this.state.status === 'refuseButton') ? (<Button onClick={this.handleClickAccept}  type = 'submit' variant="contained" color="primary">
+                    ACCEPT <SendIcon style={{transform: 'translate(3px, 0)'}} /></Button>) : <Typography style={{color: this.state.colorStatus}}
               className='accepted' variant="h5" component="h2" >{this.state.status}</Typography>}
                 
-              {(this.state.status === 'refuseButton' || this.state.status === 'acceptButton') ? (<Button onClick={this.handleClickRefuse} type = 'submit'  variant="contained" color="secondary">
+              {(this.state.status === 'refuseButton' || this.state.status === 'acceptButton') ? (<Button onClick={this.handleClickRefuse}  type = 'submit'  variant="contained" color="secondary">
                     REFUSE <DeleteIcon /></Button>) : ''}
       </CardActions>
     </Card>
   );
 }}
+
 
  
 export default ListOfPreservedRooms;

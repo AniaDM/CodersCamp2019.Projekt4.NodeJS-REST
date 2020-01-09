@@ -1,12 +1,12 @@
 import React from 'react';
 import ListOfPreservedRooms from './components/listOfPreservedRooms';
-import AppForm from './Ania';
+// import AppForm from './Ania';
 
 
 const App = () => {
   return (
   <div>
-  <AppForm />
+  {/* <AppForm /> */}
 <ListOfPreservedRooms />
     </div>
  

@@ -1,100 +1,82 @@
 import React from 'react';
 import './itemList.css';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Place from '@material-ui/icons/Place';
 import PersonIcon from '@material-ui/icons/Person';
-// import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import AppForm from './AppForm'
+import SendOpinion from './SendOpinion';
+import {
+  BrowserRouter as Router,
+  Route,
+} from "react-router-dom";
+import axios from 'axios';
+import AcceptReservations from './AcceptReservations'
+
 
   class ListOfRoomReviews extends React.Component {
 constructor(props){
   super(props)
 
     this.state = {
+      _idRoomOffer: 12,
       offerId: 3,
       userId: 1,
       owner: '',
       name: 'Adam',
       surname: 'Kowal',
-      email: '1@1.pl',
-      location: 'Wrocław',
+      roomLocation: 'Wrocław',
       dateCheckIn: '01-01-2020',
       dateCheckOut: '10-01-2020',
-      numberOfGuests: 3,
+      numberOfGuests: 5,
       paymentMethod: 'cash',
-      status: 'ACCEPTED'
+      title: 'Cosy Apartment close to City Center',
+      status: 'PENDING...'
     }
     this.acceptedbtn = this.acceptedbtn.bind(this);
-    this.wysylka = this.wysylka.bind(this);
-    };
-  
-    wysylka = event => {
-    
-       event.preventDefault();
 
-       fetch('http://localhost:4000/api/room-reservations', {
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          offerId: 1,
-          userId: 1,
-          owner: '',
-          name: 'Adam',
-          surname: 'Kowal',
-          email: 'test@test.pl',
-          location: 'Wroclaw',
-          dateCheckIn: this.state.dateCheckIn,
-          dateCheckOut: this.state.dateCheckOut,
-          numberOfGuests: this.state.numberOfGuests || 11,
-          numberOfBeds: this.state.beds || 44,
-          paymentMethod: 'card',
-          status: 'ACCEPTED',
-          
-        })
-      })
-        .then(res => res.json())                 
-
-
-        .then(res => console.log(res));
-    
     };
   
      componentDidMount()
       {
-
-      fetch('http://localhost:4000/api/room-reservations/1')
-        .then(response => response.json())
-        .then(data => {
-              console.log(data)
-  
-          this.setState({
-            offerId: data.offerId || 23,
-            owner: data.owner || '',
-            name: data.name || 'Tomasz',
-            surname: data.surname || 'Kowalski',
-            userId: data.userId || '1',
-            email: data.email || 'test@dobrze.uk',
-         
-            location: data.location || 'Berlin',
-            dateCheckIn: data.dateCheckIn || '05-05-2020',
-            dateCheckOut: data.dateCheckOut || '15-05-2020',
-            numberOfGuests: data.numberOfGuests || '3',
-            paymentMethod: data.paymentMethod || 'cash',
-            status: data.accept || 'ACCEPTED',
+        axios.get(`http://localhost:4000/api/room-offers/:${this.state._idRoomOffer}`)
+        .then(res => {
+          const persons = res.data;
+          console.log(persons);
+            this.setState({
+            _id: persons._id,
+            offerId: persons.offerId || 23,
+            title: persons.title || 'Cosy Apartment close to City Center',
+            roomLocation: persons.location || 'Berlin',
+            userName: persons.userName || "Pan Kto",
           })
-  
         })
-        .catch(err => console.log(`blad ${err}`))
+  
+         axios.get(`http://localhost:4000/api/room-reservation/:${this.state.userId}`)
+        .then(res => {
+          const persons = res.data;
+          console.log(persons);
+          this.setState({
+            _id: persons._id || 10,
+          offerId: persons.offerId || 23,
+          name: persons.name || 'Pio',
+          surname: persons.surname || 'Booo',
+          dateCheckIn: persons.dateCheckIn || '01-01-2020',
+          dateCheckOut: persons.dateCheckOut || '05-01-2020',
+          paymentMethod: persons.paymentMethod || 'card',
+          status: persons.status || 'acceptButton',
+          notice: persons.notice || 'test test',
+          numberOfGuests: persons.numberOfGuests || 3,
+        })
+        })
+     
       }
      
       acceptedbtn = () => {
-      // wysłanie na stronę dodającą opinie
+          return (
+<Route path="/" exact component={AcceptReservations} />
+          )
       }
 
     render() {
@@ -109,10 +91,10 @@ constructor(props){
         </Typography>
    
         <Typography className='content'>
-        Cosy Apartment close to City Center
+        {this.state.title}
         </Typography>
         <Typography className='city'>
-        <Place style={{transform: 'translate(0, 5px)'}} /> Wroclaw
+        <Place style={{transform: 'translate(0, 5px)'}} />{this.state.roomLocation}
         </Typography>
 
       </CardContent>
@@ -134,7 +116,7 @@ constructor(props){
 
         <Typography className='contentItems'>
         <PersonIcon color="primary" style={{transform: 'translate(-3px, 5px)'}} />
-        {this.state.username}
+        {this.state.name} {this.state.surname}
         </Typography>
 
         </CardContent>
@@ -146,7 +128,7 @@ constructor(props){
         </Typography>
 
         <Typography className='contentItems'>
-        {this.state.numberOfGuests}
+        {this.state.numberOfGuests > 1 ? this.state.numberOfGuests : 'Alone'}
         </Typography>
 
         </CardContent>
@@ -166,12 +148,16 @@ constructor(props){
     <Typography className='accepted' variant="h5" component="h2">
     {this.state.status} 
         {/* PENDING..., ACCEPTED, REFUSED,  */}
+        {/* <Route path = '/' exact component={SendOpinion} /> */}
         </Typography>
         <Typography className ='btnOpinion' >
         
         <Button onClick = {this.acceptedbtn}  variant="contained" color="primary">
-        RATE
+                <Router>
+        {/* <Route path="/sendopinion" exact component={SendOpinion} /> */}
         {/* potrzebne menu, żeby zmienić w meny stronę */}
+        RATE
+        </Router>
       </Button>
       
       </Typography>

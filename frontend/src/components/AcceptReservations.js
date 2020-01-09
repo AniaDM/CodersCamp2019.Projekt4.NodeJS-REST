@@ -1,14 +1,22 @@
 import React from 'react';
-import Menu from './Menu';
+// import Menu from './Menu';
 import ListOfPreservedRooms from './listOfPreservedRooms';
 
-const AcceptReservations = () => {
+ class AcceptReservations extends React.Component {
+    
+ state = {
+    userId: '',
+    
+ }
+
+    render() {
     return (<div>
-        <ListOfPreservedRooms />
+        <ListOfPreservedRooms userId = {this.state.roomLocation}/>
         <ListOfPreservedRooms />
         <ListOfPreservedRooms />
         <ListOfPreservedRooms />
     </div>)
+    }
 };
 
 export default AcceptReservations
