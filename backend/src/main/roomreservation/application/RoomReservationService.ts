@@ -15,9 +15,9 @@ export class RoomReservationService {
         const dateCheckIn = new Date(command.dateCheckIn);
         const dateCheckOut = new Date(command.dateCheckOut);
         const alreadyExists = reservations.find(it => {
-            it.status === "approved" &&
+            it.status === "approved" &&(
             dateCheckIn <= new Date(it.dateCheckIn) && dateCheckOut > new Date(it.dateCheckIn) ||
-            dateCheckIn > new Date(it.dateCheckIn) && dateCheckIn < new Date(it.dateCheckOut);
+            dateCheckIn > new Date(it.dateCheckIn) && dateCheckIn < new Date(it.dateCheckOut));
         });
         if (alreadyExists) {
             return Promise.reject(CommandResult.failureDueTo('Room is already booked!'));
