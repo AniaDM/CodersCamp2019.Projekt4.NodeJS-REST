@@ -5,9 +5,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import AppForm from './components/AppForm';
 import 'typeface-roboto';
-
 ReactDOM.render(<App />, document.getElementById('root'));
-
 ReactDOM.render(<AppForm />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
