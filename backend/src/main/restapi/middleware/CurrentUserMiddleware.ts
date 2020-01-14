@@ -1,10 +1,12 @@
 import {Response, NextFunction, Request} from 'express';
 import {ErrorCode} from "../../sharedkernel/domain/ErrorCode";
 import RestApiException from "../exception/RestApiException";
+import config from "config";
+import {DevMode} from "../../devmode/DevMode";
 
 
 export function currentUserMiddleware(userCredentialsService) {
-    return async (req: Request, res: Response, next: NextFunction) => {
+    const jwtMiddleware = async (req: Request, res: Response, next: NextFunction) => {
         const token = req.header('x-auth-token');
         if (token) {
             try {
@@ -22,5 +24,9 @@ export function currentUserMiddleware(userCredentialsService) {
         } else {
             next(new RestApiException(500, 'No token', ErrorCode.VALIDATION_ERROR));
         }
-    }
+    };
+    const devModeMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+        req.body.currentUser = await userCredentialsService.findUserCredentialsById(DevMode.CurrentUser.id)
+    };
+    return config.get<boolean>("devMode") ? devModeMiddleware : jwtMiddleware;
 }

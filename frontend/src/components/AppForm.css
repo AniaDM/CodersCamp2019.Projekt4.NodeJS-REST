@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
+
+body {
+    margin: 30px;
+    font-family: 'Roboto', sans-serif;
+}
+
+* {
+    padding: 5px;
+    
+}
+
+.offer {
+    display: grid;
+    position: relative;
+    grid-gap: 10px;
+    justify-items: center;
+    align-items: stretch;
+    justify-content: flex-start;
+    align-content: stretch;
+}
