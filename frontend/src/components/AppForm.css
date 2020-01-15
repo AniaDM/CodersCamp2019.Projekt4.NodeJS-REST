@@ -3,19 +3,90 @@
 body {
     margin: 30px;
     font-family: 'Roboto', sans-serif;
+    background-color: #E5E5E5;
 }
 
-* {
-    padding: 5px;
-    
+#header {
+    font-size: 1.5em;
+    padding-bottom: 15px;
 }
 
 .offer {
-    display: grid;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2), 0px 3px 4px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.14);
+    display: flex;
     position: relative;
-    grid-gap: 10px;
-    justify-items: center;
-    align-items: stretch;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
     justify-content: flex-start;
-    align-content: stretch;
+    align-content: space-around;
+    padding: 15px;
+    height: 450px;
 }
+
+.offer .MuiFormControl-root {
+    width: 250px;
+    margin-bottom: 30px;
+}
+
+.offer .MuiInputBase-input {
+    width: 50px;
+    text-align: center;
+}
+
+
+.offer .MuiFormLabel-root {
+    color: #2196F3;
+}
+.offer .MuiOutlinedInput-notchedOutline {
+    border-color: #2196F3;
+}
+
+.offer .buttons {
+    color: #2196F3;
+}
+
+.submit{
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    width: 300px;
+    
+}
+
+.offer .MuiFab-root {
+    background-color: #2196F3;
+}
+
+.MuiFab-root span {
+    color: white;
+}
+
+.offer .MuiButton-root {
+    background-color: #2196F3;
+}
+
+.submit span {
+    color: white;
+}
+
+.add-photo-text {
+    display: inline-block;
+    padding: 0 20px;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.how-many-text {
+    display: inline-block;
+    padding-right: 20px;
+}
+
+#guests {
+    margin-bottom: 30px;
+}
+
+#add-photo {
+    margin: 80px auto;
+}
+
