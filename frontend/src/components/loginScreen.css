@@ -1,0 +1,89 @@
+.background {  
+    
+    width: 100%;
+    height: 100%;
+    position: absolute; 
+    z-index: -2;
+    }
+
+    .windowUI{
+position: absolute;
+width: 30%;
+height: 60%;
+left: 35%;
+top: 20%;
+z-index: -1;
+background: #FFFFFF;
+border: 1px solid #FFFFFF;
+box-sizing: border-box;
+box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+border-radius: 8px;
+    }
+
+    .userNameInputG{
+       
+position: absolute;
+
+width: 20%;
+height: 5%;
+left: 40%;
+top: 29%;
+z-index: 1;
+font-size: 30px;
+    }
+
+    .UserNameG{
+        color: blueviolet;
+        position: absolute;
+        top:26%;
+        left:40%;
+        
+
+    }
+
+    .PasswordG{
+        color: blueviolet;
+        position: absolute;
+        top:38%;
+        left:40%;
+    }
+
+    .pwinputG{
+        color: blueviolet;
+        position: absolute;
+        top:41%;
+        left:40%;
+        width: 20%;
+        height: 5%;
+        font-size: 30px;
+    }
+
+    .forgotPWG{
+        text-decoration: none;
+        color: black;
+        position: absolute;
+        top:74%;
+        left:45%;
+        font-weight: bold;
+    }
+
+    .signInG{
+    position: absolute;
+    height: 5%;
+    left: 42%;
+    top: 55%;
+    width: 15%;
+    background-color: rgb(216, 212, 212);
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2), 0px 3px 4px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.14);
+        }
+
+        .signUpG{
+            position: absolute;
+            position: absolute;
+            height: 5%;
+            left: 42%;
+            top: 62%;
+            width: 15%;
+            background-color: rgb(216, 212, 212);
+            box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2), 0px 3px 4px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.14);
+                }
