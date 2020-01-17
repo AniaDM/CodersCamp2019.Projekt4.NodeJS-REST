@@ -27,7 +27,6 @@ class AddOffer extends React.Component {
       amount: 10000,
       description: '',
       guests: 0,
-      beds: 0,
       photo: ''
     };
 

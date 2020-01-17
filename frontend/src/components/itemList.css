@@ -1,0 +1,57 @@
+    .card {               
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      height: 15vh;
+      box-shadow: 2px 2px 2px 3px #808080;
+      margin: 2vh;
+      color: black;
+    }
+     .titleItems {
+       display: flex;
+       justify-content: center;
+       align-content: center;
+      color: #555555;
+      font-size: 20px;
+      font-weight: bold;
+      margin: .5vh;
+      height: 3vh;  
+      text-align: center;  
+      
+    }
+    .pos {
+      margin-bottom: 12px;
+    }
+    .first {
+      width: 14vw;
+    }
+    .second {
+      width: 11vw,
+    }
+    .accepted {
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+    }
+    .contentItems {
+      font-size: 10px;
+      margin: 0;
+      text-align: center;
+    }
+    .city {
+      color: '#c8c8c8';
+      font-size: 14px;
+      margin: 0;
+      text-align: center;
+    }
+    .btnOpinion {
+      display: flex;
+     justify-content: center;
+     align-items: center;
+     border: 3px line #222;
+    }
+    .titleAccept {
+      font-size: 24px;
+      font-size: 700;
+    }
+  

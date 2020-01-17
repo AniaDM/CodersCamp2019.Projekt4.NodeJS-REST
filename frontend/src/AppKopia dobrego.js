@@ -15,7 +15,7 @@ const App = () => {
     <BrowserRouter>
     <div>
     <Route path="/" exact component={Login} />
-   
+    <Route path="/register" exact component={Register} />
     <Route path="/roomoffers" exact component={RoomOffers} />
     <Route path="/makereservation" exact component={MakeReservation} />
     <Route path="/questreservations" exact component={GuestReservations} />
@@ -23,7 +23,6 @@ const App = () => {
     <Route path="/sendopinion" exact component={SendOpinion} />
     <Route path="/userprofile" exact component={UserProfile} />
     <Route path="/addoffer" exact component={AddOffer} />
-    <Route path="/register" exact component={Register} />
     </div>
     </BrowserRouter>
     </div>
