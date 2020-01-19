@@ -1,9 +1,19 @@
-import React, { Component } from 'react';
-import './userProfile.css';
-
+import React  from 'react';
+import Menu from './Menu';
+import ListOfRoomReviews from './listOfRoomReviews';
 import businessLogo from './businessLogo.png';
 
-class userProfile extends Component {
+const UserProfile = () => {
+    return (  <div>
+        <ListOfRoomReviews />
+        <ListOfRoomReviews />
+        <ListOfRoomReviews />
+        <ListOfRoomReviews />
+        </div>
+    )
+};
+
+class userProfile extends React.Component {
   constructor() {
     super();
     this.state = {

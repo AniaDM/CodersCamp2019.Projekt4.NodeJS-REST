@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './Register.css';
+import './register.css';
 import logo from './test.jpg';
 
 // import CreateUserCredentials from '../../../backend/src/main/authentication/application/CreateUserCredentials';

@@ -11,10 +11,10 @@ export default class RoomReservationRequestBody {
     @IsString()
     public surname: string;
 
-    @IsDate()
+    @IsString()
     public dateCheckIn: string;
 
-    @IsDate()
+    @IsString()
     public dateCheckOut: string;
 
     @IsString()
