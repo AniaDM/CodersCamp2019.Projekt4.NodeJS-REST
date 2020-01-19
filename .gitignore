@@ -67,3 +67,6 @@ backend/package-lock.json
 dist
 
 **/package-lock.json
+frontend/src/AppMoj.js
+package-lock.json
+package-lock.json
